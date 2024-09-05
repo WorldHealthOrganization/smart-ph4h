@@ -21,8 +21,8 @@ Note: The profile expects atleast one SMART Consent entry to be present."
 * entry contains
     consent 1..*
 * entry[consent].resource only Consent
-* entry[consent].resource obeys containsSmartConsent
-* entry[composition].resource obeys containsSmartConsent-cmp
+* obeys containsSmartConsent
+* obeys containsSmartConsent-cmp
 /*
 * entry[consent] ^slicing.discriminator[0].type = #profile
 * entry[consent] ^slicing.discriminator[0].path = "resource"

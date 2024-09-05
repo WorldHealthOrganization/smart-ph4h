@@ -1,4 +1,4 @@
 Invariant: containsSmartConsent
-Description: "At least one consent must be SmartConsent"
+Description: "At least one entry in the Bundle must be SmartConsent"
 Severity: #error
-Expression: "where(conformsTo('http://smart.who.int/ph4h/StructureDefinition/SmartConsent')).exists()"
+Expression: "Bundle.entry.resource.ofType(Consent).where(conformsTo('http://smart.who.int/ph4h/StructureDefinition/SmartConsent')).exists()"
