@@ -388,7 +388,7 @@ Usage: #inline
 
 
 Instance: c7781f44-6df8-4a8b-9e06-0b34263a47c7
-InstanceOf: SmartConsent
+InstanceOf: Consent
 Usage: #inline
 * status = #active
 * scope = $consentscope#patient-privacy
