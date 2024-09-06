@@ -1,13 +1,13 @@
 Instance: ExampleConsent
-InstanceOf: SmartConsent
+InstanceOf: Consent
 Title: "Example SMART Consent"
 Description: "Example SMART Consent"
 Usage: #example
 * id = "c7781f44-6df8-4a8b-9e06-0b34263a47c6"
 * status = #active
 * scope = $consentscope#patient-privacy
-* provision.purpose.code = #COC
-* provision.purpose.system = "http://terminology.hl7.org/CodeSystem/v3-ActReason"
+//* provision.purpose.code = #COC
+//* provision.purpose.system = "http://terminology.hl7.org/CodeSystem/v3-ActReason"
 * provision.type = #permit
 * patient.display = "patient1"
 * dateTime = "2016-05-11"
