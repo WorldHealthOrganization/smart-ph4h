@@ -388,13 +388,12 @@ Usage: #inline
 
 
 Instance: c7781f44-6df8-4a8b-9e06-0b34263a47c7
-InstanceOf: Consent
+InstanceOf: SmartConsent
 Usage: #inline
 * status = #active
 * scope = $consentscope#patient-privacy
-* meta.profile = "http://smart.who.int/ph4h/StructureDefinition/SmartConsent"
-//* provision.purpose.code = #COC
-//* provision.purpose.system = "http://terminology.hl7.org/CodeSystem/v3-ActReason"
+* provision.purpose.code = #COC
+* provision.purpose.system = "http://terminology.hl7.org/CodeSystem/v3-ActReason"
 * provision.type = #permit
 * patient.display = "patient1"
 * dateTime = "2016-05-11"
