@@ -36,7 +36,13 @@ These use cases, while varying in their level of applicability, collectively ref
 
 For this purpose, the following taxonomy has been defined to group the use cases and to classify them:
 
-
+# PH4H Usecase Taxonomy
+| Use Case Group | Specific usecases |
+|---|---|
+| Digital Vaccine Certification | COVID-19 (or global emergent vaccine required for travel/work) <br> IHR: Yellow Fever/Polio <br> Routine Child Immunizations <br> Routine Adult Immunizations |
+| Digital Certification of Health Documents | Prescriptions <br> Lab Results <br> Medical Certificates <br> Birth Certificates <br> Death Certificate |
+| International Patient Summary |Migrant <br> Tourist <br> Student|
+|---|---|
 This framework is published under a Creative Commons - IGO [license](LICENSE.md).
  
 ## Changes and feedback
