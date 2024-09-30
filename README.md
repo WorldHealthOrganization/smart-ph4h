@@ -31,6 +31,12 @@ Unlike a physical route, a PH4H transcends borders, allowing universal access wi
 anyone behind. The initiative, which will be officially launched at the end of 2024, is supported by the Government of Japan's
 Fund for Quality Infrastructure, Disaster Resilience and Health. We look forward to more partners joining us on this transformative journey.
 
+Within the PH4H trust framework, participating countries agree on a range of use cases, underpinned by a pre-established governance mechanism subject to ongoing discussion within this initiative. 
+These use cases, while varying in their level of applicability, collectively reflect the needs and priorities of the participating nations.
+
+For this purpose, the following taxonomy has been defined to group the use cases and to classify them:
+
+
 This framework is published under a Creative Commons - IGO [license](LICENSE.md).
  
 ## Changes and feedback
