@@ -42,7 +42,12 @@ For this purpose, the following taxonomy has been defined to group the use cases
 | Digital Vaccine Certification | COVID-19 (or global emergent vaccine required for travel/work) <br> IHR: Yellow Fever/Polio <br> Routine Child Immunizations <br> Routine Adult Immunizations |
 | Digital Certification of Health Documents | Prescriptions <br> Lab Results <br> Medical Certificates <br> Birth Certificates <br> Death Certificate |
 | International Patient Summary |Migrant <br> Tourist <br> Student|
-|---|---|
+| Digital Certification of Professional or Education Credentials |Health Care Worker credentials (e.g. professional registration) <br> Education credentials|
+| Cross-border Telehealth |Provider-to-provider (e-consult/2nd opinion) <br> Remote digital diagnostic interpretation (imaging, etc) <br> Patient-to-provider|
+| Public Health |Surveillance <br> Research | 
+| Digital Certification of Supply Chain Integrity of Medications and Supplies | Medication supply chain validation | 
+| Digital Health Knowledge Exchange | Knowledge hub |  
+
 This framework is published under a Creative Commons - IGO [license](LICENSE.md).
  
 ## Changes and feedback
