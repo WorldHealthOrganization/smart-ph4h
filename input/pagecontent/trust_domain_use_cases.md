@@ -3,20 +3,14 @@
 
 The PH4H team is currently working to develop the following use cases:
 
-* Vaccination certificate:
-  * Yellow Fever
-  * COVID
-  * Routine for minors
-  * Routine for adults
-* Medical documents
-  * Medical prescription
-  * Proof of birth
-  * Medical Cause of Death
-  * Laboratory
-* Clinical summary
-  * Student
-  * Tourist
-  * Migrant
-* Health professional
-  * Medical credential
-  * Professional degree
+| Use Case Group | Specific usecases |
+|---|---|
+| Digital Vaccine Certification | COVID-19 (or global emergent vaccine required for travel/work) <br> IHR: Yellow Fever/Polio <br> Routine Child Immunizations <br> Routine Adult Immunizations |
+| Digital Certification of Health Documents | Prescriptions <br> Lab Results <br> Medical Certificates <br> Birth Certificates <br> Death Certificate |
+| International Patient Summary |Migrant <br> Tourist <br> Student|
+| Digital Certification of Professional or Education Credentials |Health Care Worker credentials (e.g. professional registration) <br> Education credentials|
+| Cross-border Telehealth |Provider-to-provider (e-consult/2nd opinion) <br> Remote digital diagnostic interpretation (imaging, etc) <br> Patient-to-provider|
+| Public Health |Surveillance <br> Research | 
+| Digital Certification of Supply Chain Integrity of Medications and Supplies | Medication supply chain validation | 
+| Digital Health Knowledge Exchange | Knowledge hub |  
+
