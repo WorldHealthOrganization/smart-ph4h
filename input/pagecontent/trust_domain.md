@@ -8,4 +8,4 @@ The PH4H team is currently working to develop the following <a href="trust_domai
 <a href="trust_domain_specifications.md">This section</a> provides guidelines, guidance, and recommendations for specifying the use cases that are being defined and prioritized in the initiative.
 
 ### Policy
-This section details the policies, regulations, and agreements that have been recorded for the PH4H initiative.
+This section details the <a href="trust_domain_policy.md">policies</a>, regulations, and agreements that have been recorded for the PH4H initiative.
