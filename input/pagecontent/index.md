@@ -39,7 +39,7 @@ Supporting guidance, recommendations, resources, and standards are included in t
 ### About this implementation guide
 
 This implementation guide is broken into the following levels of [knowledge representation](https://hl7.org/fhir/uv/cpg/documentation-approach-06-01-levels-of-knowledge-representation.html):
-- <a href="input/pagecontent/trust_domain.md">Home</a> - contains references to the guidance, guidelines, <a href="trust_domain_policy.md">policies</a> and recommendations underpinning this implementation guide.
+- <a href="trust_domain.md">Home</a> - contains references to the guidance, guidelines, <a href="trust_domain_policy.md">policies</a> and recommendations underpinning this implementation guide.
 - <a href="business-requirements.html">Business Requirements</a> - contains the requirements for this implementation guide including the definition of key concepts, use cases, and a data dictionary.      
 - <a href="data-models-and-exchange.html">Data Models and Exchange</a> - contains the data models and data exchange protocols with actors and transactions defined.
 - <a href="deployment.html">Deployment Guidance </a> - contains relevant technical specifications and guidance, testing resources, reference implementation materials, and supporting guidance for adaptation to local contexts.
