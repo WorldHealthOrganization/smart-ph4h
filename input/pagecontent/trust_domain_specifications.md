@@ -16,7 +16,7 @@ For each use case, PH4H is defining the following:
 
 ### Indicators, Evaluation, and Monitoring
 
-PH4H has already defined an indicator related to cross-border data exchange within the **Strategic Line of Action 2: Strengthen data management and information technologies** of the <a ref="https://www.paho.org/en/documents/ce17415-plan-action-strengthening-information-systems-health-2024-2030">**PLAN OF ACTION FOR STRENGTHENING INFORMATION SYSTEMS FOR HEALTH 2024–2030**</a>, as approved by the 174th Session of the Executive Committee PAHO.
+PH4H has already defined an indicator related to cross-border data exchange within the **Strategic Line of Action 2: Strengthen data management and information technologies** of the <a href="https://www.paho.org/en/documents/ce17415-plan-action-strengthening-information-systems-health-2024-2030">**PLAN OF ACTION FOR STRENGTHENING INFORMATION SYSTEMS FOR HEALTH 2024–2030**</a>, as approved by the 174th Session of the Executive Committee PAHO.
 
 | Indicator | Baseline (2023) | Target (2030) |
 |---|---|---|
