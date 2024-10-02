@@ -33,7 +33,7 @@ Fund for Quality Infrastructure, Disaster Resilience and Health. We look forward
 
 Within the <a href="input/pagecontent/index.md">PH4H trust framework</a>, participating countries agree on a range of use cases, underpinned by a pre-established governance mechanism subject to ongoing discussion. 
 These use cases, while varying in their level of applicability, collectively reflect the needs and priorities of the participating nations. 
-A preliminary set of use cases is presented below for consideration and discussion among participating countries, with the aim of reaching a consensus.
+A preliminary set of use cases is presented below for consideration and discussion among participating countries, with the aim of reaching consensus.
 For this purpose, the following taxonomy has been defined to group the use cases and to classify them.
 
 # PH4H Usecase Taxonomy
@@ -47,6 +47,12 @@ For this purpose, the following taxonomy has been defined to group the use cases
 | Public Health |Surveillance <br> Research | 
 | Digital Certification of Supply Chain Integrity of Medications and Supplies | Medication supply chain validation | 
 | Digital Health Knowledge Exchange | Knowledge hub |  
+
+[PH4H Github Site Index](https://github.com/WorldHealthOrganization/smart-ph4h/blob/main/input/pagecontent/index.md)
+
+[The Pan-American Highway for Digital Health Flyer](https://github.com/user-attachments/files/17232390/The.Pan-American.Highway.for.Digital.Health.1-page.pdf)
+
+[PH4H Newsletter Subscription](https://github.com/user-attachments/files/17232393/PH4H.Newsletter.Subscription.pdf)
 
 This framework is published under a Creative Commons - IGO [license](LICENSE.md).
  
