@@ -2,7 +2,8 @@
 ### PH4H Use Cases
 
 The PH4H team is currently working to develop the following use cases: 
-As each use case develops, a specific implementation guide will be created (see links in table below for currently available documentation)
+
+Please note, that as each use case develops, a specific implementation guide will be created (see links in table below for currently available documentation)
 
 | Use Case Group | Specific usecases |
 |---|---|
