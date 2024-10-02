@@ -5,6 +5,7 @@
 * Participation by each country and use of the PH4H trust domain is completely voluntary and free of charge.
 * The PH4H initiative falls under the policies approved by countries during the PAHO Ministers of Health Session, which are outlined in the **Plan of Action for Strengthening Information Systems for Health 2024-2030** ([https://www.paho.org/en/documents/ce17415-plan-action-strengthening-information-systems-health-2024-2030](https://www.paho.org/en/documents/ce17415-plan-action-strengthening-information-systems-health-2024-2030)).
 * This plan of action fully aligns with recommendations made by Member States of the Pan American Health Organization (PAHO) at the Regional Event on Digital Transformation in the Health Sector held in Panama City in November 2022. It also reflects the recent consultation with PAHO Member States at RELACSIS 4.0: Information Systems & Digital Health in the Americas, a regional meeting held in São Paulo, Brazil, in November 2023. The plan responds to PAHO's call to action for the digital transformation of the health sector in the Region, including the implementation of the Pan-American Highway for Digital Health, an initiative led by PAHO and the Inter-American Development Bank (IDB).
+* the <a href="https://www.iadb.org/en/project/RG-T4546">IDB Regional Technical Cooperation RG-T4546</a>, supported by the Government of Japan, will support critical work required to operate the PH4H, including frameworks for policy and governance 
 
 ### Responsibilities and Limitations
 
