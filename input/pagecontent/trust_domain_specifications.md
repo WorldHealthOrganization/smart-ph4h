@@ -1,5 +1,3 @@
-## PH4H Technical Specifications
-
 ### Overview
 The PH4H initiative is working to define a comprehensive set of technical specifications for each proposed use case. These specifications aim to ensure interoperability, data quality, and user experience across different health information systems.
 

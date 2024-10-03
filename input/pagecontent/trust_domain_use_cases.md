@@ -1,11 +1,9 @@
 
-### PH4H Use Cases
-
 The PH4H team is currently working to develop the following use cases: 
 
 Please note, that as each use case develops, a specific implementation guide will be created (see links in table below for currently available documentation)
 
-| Use Case Group | Specific usecases |
+| Use Case Group | Specific use cases |
 |---|---|
 | <a href="https://worldhealthorganization.github.io/smart-icvp/StructureDefinition-DVCIPS.html"> Digital Vaccine Certification</a> | COVID-19 (or global emergent vaccine required for travel/work) <br> IHR: Yellow Fever/Polio <br> Routine Child Immunizations <br> Routine Adult Immunizations |
 | Digital Certification of Health Documents | Prescriptions <br> Lab Results <br> Medical Certificates <br> Birth Certificates <br> Death Certificate |

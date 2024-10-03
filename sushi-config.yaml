@@ -82,11 +82,11 @@ pages:
     trust_domain.md:
       title: Trust Domains
     trust_domain_policy.md:
-      title: Trust Domain Policy
+      title: PH4H Trust Domain Policy
     trust_domain_specifications.md:
-      title: Trust Domain Specifications
+      title: PH4H Technical Specifications
     trust_domain_use_cases.md:
-      title: Trust DOmain Use Cases
+      title: PH4H Use Cases
     downloads.md: 
       title: Downloads
   indices.md:

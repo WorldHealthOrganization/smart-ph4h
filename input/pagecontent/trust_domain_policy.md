@@ -1,5 +1,3 @@
-## PH4H Trust Domain Policy
-
 ### Participation and Governance
 
 * Participation by each country and use of the PH4H trust domain is completely voluntary and free of charge.
