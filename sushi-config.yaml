@@ -81,6 +81,12 @@ pages:
       title: Reference Implementations
     trust_domain.md:
       title: Trust Domains
+    trust_domain_policy.md:
+      title: Trust Domain Policy
+    trust_domain_specifications.md:
+      title: Trust Domain Specifications
+    trust_domain_use_cases.md:
+      title: Trust DOmain Use Cases
     downloads.md: 
       title: Downloads
   indices.md:
