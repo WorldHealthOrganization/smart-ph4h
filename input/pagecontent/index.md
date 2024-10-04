@@ -25,7 +25,7 @@ efficient public health policies and improved regional economies. As a result, c
 prepared for future pandemics and other health threats. Multiple cross-border use cases that can be
 implemented within the PH4H will be included in this repository, countries can decide which specific use case they want. 
 
-A Governance Working Group is currently being formed to steward the development and implementation of health services under the PH4H (see [PH4H Policy](https://github.com/WorldHealthOrganization/smart-ph4h/blob/main/input/pagecontent/trust_domain_policy.md)). Unlike a physical route, a PH4H transcends borders, allowing universal access without leaving
+A Governance Working Group is currently being formed to steward the development and implementation of health services under the PH4H (see [PH4H Policy](https://worldhealthorganization.github.io/smart-ph4h/trust_domain_policy.html)). Unlike a physical route, a PH4H transcends borders, allowing universal access without leaving
 anyone behind. The initiative, which will be officially launched at the end of 2024, is supported by the Government of Japan's
 Fund for Quality Infrastructure, Disaster Resilience and Health. We look forward to more partners joining us on this transformative journey.
 
