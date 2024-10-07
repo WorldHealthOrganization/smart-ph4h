@@ -1,0 +1,30 @@
+[
+  {
+    "id" : "smart.who.int.ph4h",
+    "type" : "ImplementationGuide",
+    "url" : "http://smart.who.int/ph4h/ImplementationGuide/smart.who.int.ph4h",
+    "version" : "0.1.0",
+    "name" : "PH4H"
+  },
+  {
+    "id" : "SmartConsent",
+    "type" : "StructureDefinition",
+    "url" : "http://smart.who.int/ph4h/StructureDefinition/SmartConsent",
+    "version" : "0.1.0",
+    "name" : "SmartConsent"
+  },
+  {
+    "id" : "SmartIPS",
+    "type" : "StructureDefinition",
+    "url" : "http://smart.who.int/ph4h/StructureDefinition/SmartIPS",
+    "version" : "0.1.0",
+    "name" : "SmartIPS"
+  },
+  {
+    "id" : "SmartIPSComposition",
+    "type" : "StructureDefinition",
+    "url" : "http://smart.who.int/ph4h/StructureDefinition/SmartIPSComposition",
+    "version" : "0.1.0",
+    "name" : "SmartIPSComposition"
+  }
+]

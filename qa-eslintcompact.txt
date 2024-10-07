@@ -1,0 +1,29 @@
+PH4H
+=========================================
+
+Generic: line 0, col 0, Error - The link 'trust_domain.md' for "Home" cannot be resolved (NOTFOUND)
+Generic: line 0, col 0, Error - The link 'trust_domain_policy.md' for "policies" cannot be resolved (NOTFOUND)
+Generic: line 0, col 0, Warning - The HTML fragment 'ip-statements.xhtml' is not included anywhere in the produced implementation guide (NOTFOUND)
+Generic: line 0, col 0, Warning - An HTML fragment from the set [cross-version-analysis.xhtml, cross-version-analysis-inline.xhtml] is not included anywhere in the produced implementation guide (NOTFOUND)
+Generic: line 0, col 0, Warning - An HTML fragment from the set [dependency-table.xhtml, dependency-table-short.xhtml] is not included anywhere in the produced implementation guide (NOTFOUND)
+Generic: line 0, col 0, Warning - The HTML fragment 'globals-table.xhtml' is not included anywhere in the produced implementation guide (NOTFOUND)
+/github/workspace/fsh-generated/resources/Bundle-ExampleIPS.json: line 528, col 18, Info - Reference to draft CodeSystem http://terminology.hl7.org/CodeSystem/dose-rate-type|1.0.0 (BUSINESSRULE)
+/github/workspace/fsh-generated/resources/Bundle-ExampleIPS.json: line 528, col 18, Info - Reference to draft CodeSystem http://terminology.hl7.org/CodeSystem/dose-rate-type|1.0.0 (BUSINESSRULE)
+/github/workspace/fsh-generated/resources/Bundle-ExampleIPS.json: line 590, col 10, Warning - A definition for CodeSystem 'urn:oid:2.16.840.1.113883.2.4.4.1' could not be found, so the code cannot be validated (NOTFOUND)
+/github/workspace/fsh-generated/resources/Bundle-ExampleIPS.json: line 590, col 10, Warning - A definition for CodeSystem 'urn:oid:2.16.840.1.113883.2.4.4.7' could not be found, so the code cannot be validated (NOTFOUND)
+/github/workspace/fsh-generated/resources/Bundle-ExampleIPS.json: line 682, col 12, Info - This element does not match any known slice defined in the profile http://hl7.org/fhir/uv/ips/StructureDefinition/AllergyIntolerance-uv-ips|1.1.0 (this may not be a problem, but you should check that it's not intended to match a slice) (INFORMATIONAL)
+/github/workspace/fsh-generated/resources/Bundle-ExampleIPS.json: line 801, col 12, Info - Reference to draft CodeSystem http://terminology.hl7.org/CodeSystem/organization-type|2.0.0 (BUSINESSRULE)
+/github/workspace/fsh-generated/resources/Bundle-ExampleIPS.json: line 1, col 2, Info - Can't find 'DocumentReference/ex-documentreference' in the bundle (Bundle.entry[19].resource.source[x]) (NOTFOUND)
+/github/workspace/fsh-generated/resources/Condition-c4597aa2-688a-401b-a658-70acc6de28c5.json: line 37, col 4, Info - None of the codings provided are in the value set 'Condition/Diagnosis Severity' (http://hl7.org/fhir/ValueSet/condition-severity|4.0.1), and a coding is recommended to come from this value set (codes = http://loinc.org#LA6750-9) (CODEINVALID)
+/github/workspace/fsh-generated/resources/Condition-c64139e7-f02d-409c-bf34-75e8bf23bc89.json: line 37, col 4, Info - None of the codings provided are in the value set 'Condition/Diagnosis Severity' (http://hl7.org/fhir/ValueSet/condition-severity|4.0.1), and a coding is recommended to come from this value set (codes = http://loinc.org#LA6751-7) (CODEINVALID)
+/github/workspace/fsh-generated/resources/Medication-976d0804-cae0-45ae-afe3-a19f3ceba6bb.json: line 4, col 4, Warning - A definition for CodeSystem 'urn:oid:2.16.840.1.113883.2.4.4.1' could not be found, so the code cannot be validated (NOTFOUND)
+/github/workspace/fsh-generated/resources/Medication-976d0804-cae0-45ae-afe3-a19f3ceba6bb.json: line 4, col 4, Warning - A definition for CodeSystem 'urn:oid:2.16.840.1.113883.2.4.4.7' could not be found, so the code cannot be validated (NOTFOUND)
+/github/workspace/fsh-generated/resources/MedicationStatement-c220e36c-eb67-4fc4-9ba1-2fabc52acec5.json: line 39, col 12, Info - Reference to draft CodeSystem http://terminology.hl7.org/CodeSystem/dose-rate-type|1.0.0 (BUSINESSRULE)
+/github/workspace/fsh-generated/resources/Organization-45a5c5b1-4ec1-4d60-b4b2-ff5a84a41fd6.json: line 6, col 6, Info - Reference to draft CodeSystem http://terminology.hl7.org/CodeSystem/organization-type|2.0.0 (BUSINESSRULE)
+/github/workspace/fsh-generated/resources/StructureDefinition-SmartConsent.json: line 1, col 32024, Info - Reference to draft CodeSystem http://terminology.hl7.org/CodeSystem/consentscope|2.0.0 (BUSINESSRULE)
+/github/workspace/fsh-generated/resources/StructureDefinition-SmartConsent.json: line 0, col 0, Warning - The definition for the element 'Consent.provision.code' binds to the value set 'http://hl7.org/fhir/ValueSet/consent-content-code' which is experimental, but this structure is not labeled as experimental (BUSINESSRULE)
+/github/workspace/fsh-generated/resources/StructureDefinition-SmartConsent.json: line 0, col 0, Warning - The definition for the element 'Consent.provision.provision.code' binds to the value set 'http://hl7.org/fhir/ValueSet/consent-content-code' which is experimental, but this structure is not labeled as experimental (BUSINESSRULE)
+/github/workspace/fsh-generated/resources/StructureDefinition-SmartIPSComposition.json: line 1, col 27455, Info - The extension http://hl7.org/fhir/StructureDefinition/composition-clinicaldocument-versionNumber|5.1.0 is deprecated (BUSINESSRULE)
+
+err = 0, warn = 10, info = 11
+IG Publisher Version: 1.6.28
