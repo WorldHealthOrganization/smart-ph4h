@@ -29,6 +29,24 @@ A Governance Working Group is currently being formed to steward the development 
 anyone behind. The initiative, which will be officially launched at the end of 2024, is supported by the Government of Japan's
 Fund for Quality Infrastructure, Disaster Resilience and Health. We look forward to more partners joining us on this transformative journey.
 
+# PH4H Usecase Taxonomy
+| Use Case Group | Specific usecases |
+|---|---|
+| Digital Vaccine Certification | COVID-19 (or global emergent vaccine required for travel/work) <br> IHR: Yellow Fever/Polio <br> Routine Child Immunizations <br> Routine Adult Immunizations |
+| Digital Certification of Health Documents | Prescriptions <br> Lab Results <br> Medical Certificates <br> Birth Certificates <br> Death Certificate |
+| International Patient Summary |Migrant <br> Tourist <br> Student|
+| Digital Certification of Professional or Education Credentials |Health Care Worker credentials (e.g. professional registration) <br> Education credentials|
+| Cross-border Telehealth |Provider-to-provider (e-consult/2nd opinion) <br> Remote digital diagnostic interpretation (imaging, etc) <br> Patient-to-provider|
+| Public Health |Surveillance <br> Research | 
+| Digital Certification of Supply Chain Integrity of Medications and Supplies | Medication supply chain validation | 
+| Digital Health Knowledge Exchange | Knowledge hub |  
+
+[PH4H Github Site Index](https://github.com/WorldHealthOrganization/smart-ph4h/blob/main/input/pagecontent/index.md)
+
+[The Pan-American Highway for Digital Health Flyer](https://github.com/user-attachments/files/17232390/The.Pan-American.Highway.for.Digital.Health.1-page.pdf)
+
+[PH4H Newsletter Subscription](https://github.com/user-attachments/files/17232393/PH4H.Newsletter.Subscription.pdf)
+
 ### About this Implementation Guide
 This implementation guide includes a machine-readable representation of WHO guidelines for PH4H, as documented in the WHO Digital Adaptation Kit for PH4H (link forthcoming) and explicitly encodes computer-interoperable logic, including data models, terminologies, and logic expressions, in a computable language to support implementation of PH4H use cases by WHO Member States.
 
