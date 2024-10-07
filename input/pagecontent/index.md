@@ -41,8 +41,6 @@ Fund for Quality Infrastructure, Disaster Resilience and Health. We look forward
 | Digital Certification of Supply Chain Integrity of Medications and Supplies | Medication supply chain validation | 
 | Digital Health Knowledge Exchange | Knowledge hub |  
 
-[PH4H Github Site Index](https://github.com/WorldHealthOrganization/smart-ph4h/blob/main/input/pagecontent/index.md)
-
 [The Pan-American Highway for Digital Health Flyer](https://github.com/user-attachments/files/17232390/The.Pan-American.Highway.for.Digital.Health.1-page.pdf)
 
 [PH4H Newsletter Subscription](https://github.com/user-attachments/files/17232393/PH4H.Newsletter.Subscription.pdf)
