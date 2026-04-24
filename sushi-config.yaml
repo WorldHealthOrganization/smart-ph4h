@@ -265,7 +265,8 @@ menu:
 dependencies:
   smart.who.int.base: current
   hl7.fhir.uv.sdc: 3.0.0
-  hl7.fhir.uv.ips: 1.1.0  
+  hl7.fhir.uv.ips: 1.1.0
   ihe.iti.pcf: 1.1.0
   hl7.fhir.uv.cpg: current
+  ihe.pharm.meow: current
 #  hl7.fhir.us.cqfmeasures: current
