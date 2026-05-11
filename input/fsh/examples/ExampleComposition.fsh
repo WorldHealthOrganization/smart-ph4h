@@ -157,7 +157,7 @@ Description: "Example copied from FHIR-IPS used for Composition"
 Usage: #example
 * identifier.system = "urn:oid:1.2.3.999"
 * identifier.value = "b75f92cb-61d4-469a-9387-df5ef70d25f0"
-* status = #active
+* status = #recorded
 * medication.reference = Reference(urn:uuid:976d0804-cae0-45ae-afe3-a19f3ceba6bc)
 * subject = Reference(urn:uuid:2b90dd2b-2dab-4c75-9bb9-a355e07401e8)
 * effectivePeriod.start = "2015-03"
