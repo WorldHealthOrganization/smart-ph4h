@@ -1,0 +1,83 @@
+// StructureMap draft: map MedicationOverviewMin to IHE MEOW MedicationOverviewLM
+// Source : PH4H Logical Model MedicationOverviewMin (with 0..* MedicationTreatmentLineMin)
+// Target : IHE Pharmacy MEOW MedicationOverviewLM (1 patient, 0..* medicationTreatmentLine)
+
+map "MedicationOverviewMinToMedicationOverviewLM" = "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewLM"
+
+uses "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin" as source
+uses "http://smart.who.int/ph4h/StructureDefinition/MedicationTreatmentLineMin" as source
+uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewLM" as target
+uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/PatientLM" as target
+uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationTreatmentLineLM" as target
+
+group MedicationOverviewMinToMedicationOverviewLM(source src : MedicationOverviewMin, target tgt : MedicationOverviewLM)
+{
+  // 1 patient built from the demographic fields of MedicationOverviewMin
+  src -> tgt.patient as patient then MedicationOverviewMinToPatientLM(src, patient) "patient";
+
+  // 0..* medication treatment lines — one per source.m
+  src.m as line -> tgt.medicationTreatmentLine as tline then MedicationTreatmentLineMinToMedicationTreatmentLineLM(line, tline) "treatmentLine";
+}
+
+group MedicationOverviewMinToPatientLM(source src : MedicationOverviewMin, target tgt : PatientLM)
+{
+  // Name -> single HumanName.text
+  src.n as n -> tgt.name as hn then {
+    n -> hn.text = n "nameText";
+  } "name";
+
+  // Date of birth
+  src.dob -> tgt.dateOfBirth "dateOfBirth";
+
+  // Sex -> gender CodeableConcept.coding[0].code
+  src.s as s -> tgt.gender as g then {
+    s -> g.coding as c then {
+      s -> c.system = 'http://hl7.org/fhir/administrative-gender',
+           c.code  = s "genderCoding";
+    } "genderCoding";
+  } "gender";
+
+  // National identifier -> Identifier.value (with type coding when present)
+  src.id as id -> tgt.identifier as ident then {
+    id -> ident.value = id "identifierValue";
+  } "identifier";
+
+  src.dt as dt where src.id.exists() -> tgt.identifier as ident then {
+    dt -> ident.type as t then {
+      dt -> t.coding as c then {
+        dt -> c.code = dt "identifierTypeCode";
+      } "identifierTypeCoding";
+    } "identifierType";
+  } "identifierType";
+}
+
+group MedicationTreatmentLineMinToMedicationTreatmentLineLM(source src : MedicationTreatmentLineMin, target tgt : MedicationTreatmentLineLM)
+{
+  // Medication active ingredient
+  src.m as m -> tgt.medicationCodeableConcept as cc then {
+    m -> cc.coding as c then {
+      m -> c.code    = m,
+           c.display = m "medicationCoding";
+    } "medicationCoding";
+  } "medication";
+
+  // Effective period
+  src.es -> tgt.effectivePeriod.low  "effectiveStart";
+  src.ee -> tgt.effectivePeriod.high "effectiveEnd";
+
+  // Date asserted
+  src.da -> tgt.recordingMetadata.recordedTime "dateAsserted";
+
+  // Dosage as free-text comment
+  src.d -> tgt.comment.commentText "dosage";
+
+  // Reason
+  src.r -> tgt.indicationText "reason";
+
+  // Adherence status
+  src.a as a -> tgt.treatmentStatus as ts then {
+    a -> ts.coding as c then {
+      a -> c.code = a "treatmentStatusCoding";
+    } "treatmentStatusCoding";
+  } "adherenceStatus";
+}

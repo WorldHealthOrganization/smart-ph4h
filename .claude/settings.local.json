@@ -3,7 +3,10 @@
     "allow": [
       "WebFetch(domain:worldhealthorganization.github.io)",
       "WebFetch(domain:github.com)",
-      "WebFetch(domain:raw.githubusercontent.com)"
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:profiles.ihe.net)",
+      "WebSearch",
+      "WebFetch(domain:build.fhir.org)"
     ]
   }
 }
