@@ -76,25 +76,25 @@ Usage: #example
 * active = true
 * name.family = "DeLarosa"
 * name.given = "Martha"
-* telecom.system = #phone
-* telecom.value = "+31788700800"
-* telecom.use = #home
+* telecom[0].system = #phone
+* telecom[0].value = "+31788700800"
+* telecom[0].use = #home
 * gender = #female
 * birthDate = "1972-05-01"
-* address.line = "Laan Van Europa 1600"
-* address.city = "Dordrecht"
-* address.postalCode = "3317 DB"
-* address.country = "NL"
-* contact.relationship = $v3-RoleCode#MTH
-* contact.name.family = "Mum"
-* contact.name.given = "Martha"
-* contact.telecom.system = #phone
-* contact.telecom.value = "+33-555-20036"
-* contact.telecom.use = #home
-* contact.address.line = "Promenade des Anglais 111"
-* contact.address.city = "Lyon"
-* contact.address.postalCode = "69001"
-* contact.address.country = "FR"
+* address[0].line = "Laan Van Europa 1600"
+* address[0].city = "Dordrecht"
+* address[0].postalCode = "3317 DB"
+* address[0].country = "NL"
+* contact[0].relationship[0] = $v3-RoleCode#MTH
+* contact[0].name.family = "Mum"
+* contact[0].name.given = "Martha"
+* contact[0].telecom[0].system = #phone
+* contact[0].telecom[0].value = "+33-555-20036"
+* contact[0].telecom[0].use = #home
+* contact[0].address[0].line = "Promenade des Anglais 111"
+* contact[0].address[0].city = "Lyon"
+* contact[0].address[0].postalCode = "69001"
+* contact[0].address[0].country = "FR"
 
 Instance: 1c616b24-3895-48c4-9a02-9a64110351ee
 InstanceOf: Practitioner
@@ -119,14 +119,14 @@ Usage: #example
 * identifier.value = "564738757"
 * active = true
 * name = "Anorg Aniza Tion BV / The best custodian ever"
-* telecom.system = #phone
-* telecom.value = "+31-51-34343400"
-* telecom.use = #work
-* address.use = #work
-* address.line = "Houttuinen 27"
-* address.city = "Dordrecht"
-* address.postalCode = "3311 CE"
-* address.country = "NL"
+* contact[0].telecom[0].system = #phone
+* contact[0].telecom[0].value = "+31-51-34343400"
+* contact[0].telecom[0].use = #work
+* contact[0].address.use = #work
+* contact[0].address.line = "Houttuinen 27"
+* contact[0].address.city = "Dordrecht"
+* contact[0].address.postalCode = "3311 CE"
+* contact[0].address.country = "NL"
 
 Instance: c64139e7-f02d-409c-bf34-75e8bf23bc89
 InstanceOf: Condition
@@ -158,7 +158,7 @@ Usage: #example
 * identifier.system = "urn:oid:1.2.3.999"
 * identifier.value = "b75f92cb-61d4-469a-9387-df5ef70d25f0"
 * status = #active
-* medicationReference = Reference(urn:uuid:976d0804-cae0-45ae-afe3-a19f3ceba6bc)
+* medication.reference = Reference(urn:uuid:976d0804-cae0-45ae-afe3-a19f3ceba6bc)
 * subject = Reference(urn:uuid:2b90dd2b-2dab-4c75-9bb9-a355e07401e8)
 * effectivePeriod.start = "2015-03"
 * dosage.timing.repeat.count = 1
@@ -175,7 +175,7 @@ Usage: #example
 * identifier.system = "urn:oid:1.2.3.999"
 * identifier.value = "9e312d6b-c6b6-439a-a730-6efaa5dcf8bc"
 * status = #active
-* medicationReference = Reference(urn:uuid:8adc0999-9468-4ac9-9557-680fa133d626)
+* medication.reference = Reference(urn:uuid:8adc0999-9468-4ac9-9557-680fa133d626)
 * subject = Reference(urn:uuid:2b90dd2b-2dab-4c75-9bb9-a355e07401e8)
 * effectivePeriod.start = "2016-01"
 * dosage.route = $standardterms#20053000 "Oral use"
