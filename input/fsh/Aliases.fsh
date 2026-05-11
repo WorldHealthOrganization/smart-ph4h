@@ -11,3 +11,4 @@ Alias: $measure-population = http://terminology.hl7.org/CodeSystem/measure-popul
 Alias: $action-type = http://terminology.hl7.org/CodeSystem/action-type
 Alias: $countryVS = http://hl7.org/fhir/ValueSet/iso3166-1-3
 Alias: $nationalIdentifierTypeVS = http://hl7.org/fhir/ValueSet/v2-0203
+Alias: $adherenceStatusVS = http://hl7.org/fhir/ValueSet/medication-statement-adherence

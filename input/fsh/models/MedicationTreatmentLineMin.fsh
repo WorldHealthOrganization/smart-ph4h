@@ -12,3 +12,4 @@ Description: "Minimal medication treatment line payload for use within a QR code
 * d 0..1 string "Dosage" "Dosage instructions as free text."
 * r 0..1 string "Reason" "Reason why the product has been prescribed."
 * a 0..1 code "Adherence Status" "Status of patient adherence to the medication treatment line"
+* a from $adherenceStatusVS (extensible)

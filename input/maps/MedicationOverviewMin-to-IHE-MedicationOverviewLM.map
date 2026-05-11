@@ -1,83 +1,56 @@
-// StructureMap draft: map MedicationOverviewMin to IHE MEOW MedicationOverviewLM
+// StructureMap: map MedicationOverviewMin to IHE MEOW MedicationOverviewLM
 // Source : PH4H Logical Model MedicationOverviewMin (with 0..* MedicationTreatmentLineMin)
-// Target : IHE Pharmacy MEOW MedicationOverviewLM (1 patient, 0..* medicationTreatmentLine)
+// Target : IHE Pharmacy MEOW MedicationOverviewLM (1 PatientLM, 0..* MedicationTreatmentLineLM)
+// FHIR version: R5 (5.0.0)
 
 map "MedicationOverviewMinToMedicationOverviewLM" = "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewLM"
 
-uses "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin" as source
-uses "http://smart.who.int/ph4h/StructureDefinition/MedicationTreatmentLineMin" as source
-uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewLM" as target
-uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/PatientLM" as target
-uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationTreatmentLineLM" as target
+uses "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin"              alias MedicationOverviewMin       as source
+uses "http://smart.who.int/ph4h/StructureDefinition/MedicationTreatmentLineMin"         alias MedicationTreatmentLineMin  as source
+uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewLM"      alias MedicationOverviewLM        as target
+uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/PatientLM"                 alias PatientLM                   as target
+uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationTreatmentLineLM" alias MedicationTreatmentLineLM   as target
 
-group MedicationOverviewMinToMedicationOverviewLM(source src : MedicationOverviewMin, target tgt : MedicationOverviewLM)
-{
-  // 1 patient built from the demographic fields of MedicationOverviewMin
-  src -> tgt.patient as patient then MedicationOverviewMinToPatientLM(src, patient) "patient";
 
-  // 0..* medication treatment lines — one per source.m
-  src.m as line -> tgt.medicationTreatmentLine as tline then MedicationTreatmentLineMinToMedicationTreatmentLineLM(line, tline) "treatmentLine";
+// ---------------------------------------------------------------------------
+// Top-level group: 1 patient + 0..* medication treatment lines
+// ---------------------------------------------------------------------------
+group MedicationOverviewMinToMedicationOverviewLM(source src : MedicationOverviewMin, target tgt : MedicationOverviewLM) {
+  src       -> tgt.patient                as patient then MedicationOverviewMinToPatientLM(src, patient)                              "patient";
+  src.m as line -> tgt.medicationTreatmentLine as tline   then MedicationTreatmentLineMinToMedicationTreatmentLineLM(line, tline)     "treatmentLine";
 }
 
-group MedicationOverviewMinToPatientLM(source src : MedicationOverviewMin, target tgt : PatientLM)
-{
-  // Name -> single HumanName.text
-  src.n as n -> tgt.name as hn then {
-    n -> hn.text = n "nameText";
-  } "name";
 
-  // Date of birth
-  src.dob -> tgt.dateOfBirth "dateOfBirth";
-
-  // Sex -> gender CodeableConcept.coding[0].code
-  src.s as s -> tgt.gender as g then {
-    s -> g.coding as c then {
-      s -> c.system = 'http://hl7.org/fhir/administrative-gender',
-           c.code  = s "genderCoding";
-    } "genderCoding";
-  } "gender";
-
-  // National identifier -> Identifier.value (with type coding when present)
-  src.id as id -> tgt.identifier as ident then {
-    id -> ident.value = id "identifierValue";
-  } "identifier";
-
-  src.dt as dt where src.id.exists() -> tgt.identifier as ident then {
-    dt -> ident.type as t then {
-      dt -> t.coding as c then {
-        dt -> c.code = dt "identifierTypeCode";
-      } "identifierTypeCoding";
-    } "identifierType";
-  } "identifierType";
+// ---------------------------------------------------------------------------
+// MedicationOverviewMin demographic fields -> PatientLM
+// ---------------------------------------------------------------------------
+group MedicationOverviewMinToPatientLM(source src : MedicationOverviewMin, target tgt : PatientLM) {
+  src.n   as n   -> tgt.name as hn, hn.text = n                                        "name";
+  src.dob as dob -> tgt.dateOfBirth = dob                                              "dateOfBirth";
+  src.s   as s   -> tgt.gender as g, g.coding as gc,
+                    gc.system = 'http://hl7.org/fhir/administrative-gender',
+                    gc.code   = s                                                      "gender";
+  src.id  as id  -> tgt.identifier as ident then {
+                      id           -> ident.value = id                                 "identifierValue";
+                      src.dt as dt -> ident.type as t, t.coding as tc, tc.code = dt    "identifierType";
+                    }                                                                  "identifier";
 }
 
-group MedicationTreatmentLineMinToMedicationTreatmentLineLM(source src : MedicationTreatmentLineMin, target tgt : MedicationTreatmentLineLM)
-{
-  // Medication active ingredient
-  src.m as m -> tgt.medicationCodeableConcept as cc then {
-    m -> cc.coding as c then {
-      m -> c.code    = m,
-           c.display = m "medicationCoding";
-    } "medicationCoding";
-  } "medication";
 
-  // Effective period
-  src.es -> tgt.effectivePeriod.low  "effectiveStart";
-  src.ee -> tgt.effectivePeriod.high "effectiveEnd";
+// ---------------------------------------------------------------------------
+// One MedicationTreatmentLineMin -> one MedicationTreatmentLineLM
+// ---------------------------------------------------------------------------
+group MedicationTreatmentLineMinToMedicationTreatmentLineLM(source src : MedicationTreatmentLineMin, target tgt : MedicationTreatmentLineLM) {
+  src.m as med -> tgt.medicationCodeableConcept as cc, cc.coding as c,
+                  c.code = med, c.display = med                                        "medication";
 
-  // Date asserted
-  src.da -> tgt.recordingMetadata.recordedTime "dateAsserted";
+  src -> tgt.effectivePeriod as ep then {
+    src.es as es -> ep.low  = es                                                       "effLow";
+    src.ee as ee -> ep.high = ee                                                       "effHigh";
+  }                                                                                    "effectivePeriod";
 
-  // Dosage as free-text comment
-  src.d -> tgt.comment.commentText "dosage";
-
-  // Reason
-  src.r -> tgt.indicationText "reason";
-
-  // Adherence status
-  src.a as a -> tgt.treatmentStatus as ts then {
-    a -> ts.coding as c then {
-      a -> c.code = a "treatmentStatusCoding";
-    } "treatmentStatusCoding";
-  } "adherenceStatus";
+  src.da as da -> tgt.recordingMetadata as rm, rm.recordedTime = da                    "dateAsserted";
+  src.d  as d  -> tgt.comment as cmt, cmt.commentText = d                              "dosage";
+  src.r  as r  -> tgt.indicationText = r                                               "reason";
+  src.a  as a  -> tgt.treatmentStatus as ts, ts.coding as tsc, tsc.code = a            "adherence";
 }
