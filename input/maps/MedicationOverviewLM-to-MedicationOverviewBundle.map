@@ -1,0 +1,201 @@
+// StructureMap: MedicationOverviewLM -> MedicationOverview (Bundle Profile)
+// Source : PH4H Logical Model MedicationOverviewLM (1 PatientLM, 0..* MedicationTreatmentLineLM, verification, comment)
+// Target : PH4H Bundle Profile MedicationOverview (Composition + Patient + 0..* MedicationTreatmentLine entries)
+// FHIR version: R5 (5.0.0)
+//
+// Caveats:
+//   1. FML cannot dereference Reference.reference URLs at runtime. The source MedicationOverviewLM
+//      instance is expected to carry inline PatientLM / MedicationTreatmentLineLM / PractitionerLM
+//      payloads (logical-target wrapping). Free-standing references will not resolve.
+//   2. fullUrl uses ('urn:uuid:' + uuid()). If the engine accepts bare uuid() returning a
+//      'urn:uuid:' string, simplify accordingly.
+//   3. now() is used for Bundle.timestamp and Composition.date.
+//   4. Composition.attester.party and Annotation.authorReference are References; this map sets
+//      only Reference.display from PractitionerLM.name. Full Reference resolution requires
+//      emitting Practitioner as its own Bundle.entry (deferred).
+//   5. PatientLM.gender (CodeableConcept) -> Patient.gender (code): first coding wins.
+//   6. PatientLM.dateOfBirth (dateTime) -> Patient.birthDate (date): silent truncation expected.
+//   7. Composition.type defaults to LOINC 56445-0 "Medication summary Document" — TODO confirm.
+
+map "MedicationOverviewLMToMedicationOverviewBundle" = "http://smart.who.int/ph4h/StructureMap/MedicationOverviewLMToMedicationOverviewBundle"
+
+uses "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewLM"            alias MedicationOverviewLM              as source
+uses "http://smart.who.int/ph4h/StructureDefinition/PatientLM"                       alias PatientLM                         as source
+uses "http://smart.who.int/ph4h/StructureDefinition/MedicationTreatmentLineLM"       alias MedicationTreatmentLineLM         as source
+uses "http://smart.who.int/ph4h/StructureDefinition/PractitionerLM"                  alias PractitionerLM                    as source
+uses "http://smart.who.int/ph4h/StructureDefinition/MedicationOverview"              alias MedicationOverviewBundle          as target
+uses "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewComposition"   alias MedicationOverviewComposition     as target
+uses "http://smart.who.int/ph4h/StructureDefinition/MedicationTreatmentLine"         alias MedicationTreatmentLine           as target
+uses "http://hl7.org/fhir/StructureDefinition/Patient"                               alias Patient                           as target
+uses "http://hl7.org/fhir/StructureDefinition/Practitioner"                          alias Practitioner                      as target
+
+
+// ---------------------------------------------------------------------------
+// Top-level group: assemble MedicationOverview Bundle (document)
+// ---------------------------------------------------------------------------
+group MedicationOverviewLMToMedicationOverviewBundle(source src : MedicationOverviewLM, target tgt : MedicationOverviewBundle) {
+  src -> tgt.type      = 'document'                                                                                    "bundleType";
+  src -> tgt.timestamp = (now())                                                                                       "bundleTimestamp";
+  src -> tgt.identifier as bid,
+         bid.system = 'urn:ietf:rfc:3986',
+         bid.value  = ('urn:uuid:' + uuid())                                                                           "bundleIdentifier";
+
+  // Composition entry (slice [Composition])
+  src -> tgt.entry as ce,
+         ce.fullUrl  = ('urn:uuid:' + uuid()),
+         ce.resource = create('Composition') as comp
+         then MedicationOverviewLMToComposition(src, comp)                                                             "compositionEntry";
+
+  // Patient entry (slice [Patient])
+  src.patient as pref -> tgt.entry as pe,
+         pe.fullUrl  = ('urn:uuid:' + uuid()),
+         pe.resource = create('Patient') as pat
+         then PatientLMToPatient(pref, pat)                                                                            "patientEntry";
+
+  // One Bundle.entry per MedicationTreatmentLineLM (slice [MedRecordTreatmentLine])
+  src.medicationTreatmentLine as lref -> tgt.entry as te,
+         te.fullUrl  = ('urn:uuid:' + uuid()),
+         te.resource = create('MedicationStatement') as ms
+         then MedicationTreatmentLineLMToMedicationStatement(lref, ms)                                                 "treatmentLineEntry";
+}
+
+
+// ---------------------------------------------------------------------------
+// MedicationOverviewLM -> MedicationOverviewComposition
+// ---------------------------------------------------------------------------
+group MedicationOverviewLMToComposition(source src : MedicationOverviewLM, target tgt : MedicationOverviewComposition) {
+  src -> tgt.status = 'final'                                                                                          "compStatus";
+
+  // TODO confirm code
+  src -> tgt.type as ct, ct.coding as cc,
+         cc.system  = 'http://loinc.org',
+         cc.code    = '56445-0',
+         cc.display = 'Medication summary Document'                                                                    "compType";
+
+  src.patient as pref -> tgt.subject = pref                                                                            "compSubject";
+  src -> tgt.date  = (now())                                                                                           "compDate";
+  src -> tgt.title = 'Medication Overview'                                                                             "compTitle";
+
+  // Section: MedRecordTreatmentLine
+  src -> tgt.section as sect then {
+    src -> sect.title = 'Medication Treatment Lines'                                                                   "sectTitle";
+    src -> sect.code as sc, sc.coding as scc,
+           scc.system  = 'http://loinc.org',
+           scc.code    = '10160-0',
+           scc.display = 'History of Medication use Narrative'                                                         "sectCode";
+    src.medicationTreatmentLine as lref -> sect.entry = lref                                                           "sectEntry";
+  }                                                                                                                    "sectionTreatmentLines";
+
+  // Attester from verification BackboneElement
+  src.verification as v -> tgt.attester as att then {
+    v                        -> att.mode = 'professional'                                                              "attMode";
+    v.verificationTime as vt -> att.time = vt                                                                          "attTime";
+    v.practicioner as pr     -> att.party as party,
+                                party.display = (pr.name.text)                                                         "attParty";
+  }                                                                                                                    "attester";
+
+  // Composition.note from comment BackboneElement
+  src.comment as cm -> tgt.note as nt then {
+    cm.commentText as ctxt -> nt.text = ctxt                                                                           "noteText";
+    cm.date as d           -> nt.time = d                                                                              "noteTime";
+    cm.author as a         -> nt.authorReference as ar,
+                              ar.display = (a.name.text)                                                               "noteAuthor";
+  }                                                                                                                    "noteFromComment";
+}
+
+
+// ---------------------------------------------------------------------------
+// PatientLM -> FHIR Patient
+// ---------------------------------------------------------------------------
+group PatientLMToPatient(source src : PatientLM, target tgt : Patient) {
+  src.identifier  as id -> tgt.identifier = id                                                                         "patIdentifier";
+  src.name        as n  -> tgt.name       = n                                                                          "patName";
+  src.gender      as g  -> tgt.gender     = (g.coding.code)                                                            "patGender";
+  // dateOfBirth is dateTime in LM; birthDate is date — silent truncation expected.
+  src.dateOfBirth as d  -> tgt.birthDate  = d                                                                          "patBirthDate";
+}
+
+
+// ---------------------------------------------------------------------------
+// MedicationTreatmentLineLM -> MedicationTreatmentLine (profile on MedicationStatement, R5)
+// Field mapping authority: inline FSH comments in input/fsh/profiles/profiles.fsh
+// ---------------------------------------------------------------------------
+group MedicationTreatmentLineLMToMedicationStatement(source src : MedicationTreatmentLineLM, target tgt : MedicationTreatmentLine) {
+  src.identifier as id -> tgt.identifier = id                                                                          "identifier";
+  src.subject    as s  -> tgt.subject    = s                                                                           "subject";
+  src.status     as st -> tgt.status     = st                                                                          "status";
+
+  // medication[x] choice -> R5 CodeableReference
+  src.medicationReference       as mr -> tgt.medication as m, m.reference = mr                                         "medicationRef";
+  src.medicationCodeableConcept as mc -> tgt.medication as m, m.concept   = mc                                         "medicationCC";
+
+  src.effectivePeriod as ep -> tgt.effectivePeriod = ep                                                                "effectivePeriod";
+
+  // recordingMetadata -> dateAsserted + informationSource
+  src.recordingMetadata as rm then {
+    rm.recordedTime as rt -> tgt.dateAsserted      = rt                                                                "dateAsserted";
+    rm.recorder     as rc -> tgt.informationSource = rc                                                                "informationSource";
+  }                                                                                                                    "recordingMetadata";
+
+  // reason = indication + indicationText + intendedUse
+  src.indication     as ind -> tgt.reason as r, r.concept = ind                                                        "reasonIndication";
+  src.indicationText as it  -> tgt.reason as r, r.concept as cc, cc.text = it                                          "reasonIndicationText";
+  src.intendedUse    as iu  -> tgt.reason as r, r.concept = iu                                                         "reasonIntendedUse";
+
+  // dosage = usageInstructions; preparationInstructions -> dosage.text
+  src.usageInstructions       as ui -> tgt.dosage = ui                                                                 "dosage";
+  src.preparationInstructions as pi -> tgt.dosage as dos, dos.text = pi                                                "prepInstructions";
+
+  // note = comment
+  src.comment as cm -> tgt.note as nt then {
+    cm.commentText as ct -> nt.text = ct                                                                               "lineNoteText";
+    cm.date        as d  -> nt.time = d                                                                                "lineNoteTime";
+    cm.author      as a  -> nt.authorReference as ar,
+                            ar.display = (a.name.text)                                                                 "lineNoteAuthor";
+  }                                                                                                                    "lineNote";
+
+  // adherence from treatmentStatus
+  src.treatmentStatus as ts -> tgt.adherence as adh, adh.code = ts                                                     "adherence";
+
+  src.category as cat -> tgt.category = cat                                                                            "category";
+
+  // derivedFrom — flatten all sub-categories into MS.derivedFrom
+  src.derivedFrom as df then {
+    df.request        as rq  -> tgt.derivedFrom = rq                                                                   "derivedFromRequest";
+    df.statement      as stm -> tgt.derivedFrom = stm                                                                  "derivedFromStatement";
+    df.dispensation   as dsp -> tgt.derivedFrom = dsp                                                                  "derivedFromDispensation";
+    df.administration as adm -> tgt.derivedFrom = adm                                                                  "derivedFromAdministration";
+    df.other          as oth -> tgt.derivedFrom = oth                                                                  "derivedFromOther";
+  }                                                                                                                    "derivedFrom";
+
+  // Extension: artifact-version
+  src.version as v -> tgt.extension as ext,
+         ext.url   = 'http://hl7.org/fhir/StructureDefinition/artifact-version',
+         ext.value = v                                                                                                 "extVersion";
+
+  // Extension: VerificationInformation
+  src.verificationInformation as vi -> tgt.extension as ext,
+         ext.url = 'http://smart.who.int/ph4h/StructureDefinition/VerificationInformation'
+         then {
+           vi.verifier         as vr -> ext.extension as e1, e1.url = 'verifier',         e1.value = vr                "viVerifier";
+           vi.verificationTime as vt -> ext.extension as e2, e2.url = 'verificationTime', e2.value = vt                "viTime";
+         }                                                                                                             "extVerification";
+
+  // Extension: Substitution
+  src.substitution as sub -> tgt.extension as ext,
+         ext.url = 'http://smart.who.int/ph4h/StructureDefinition/Substitution'
+         then {
+           sub.substitutionType            as t  -> ext.extension as e1, e1.url = 'substitutionType',           e1.value = t  "subType";
+           sub.substitutionTypeReason      as r  -> ext.extension as e2, e2.url = 'substitutionTypeReason',     e2.value = r  "subReason";
+           sub.substitutionTypeReasonText  as rt -> ext.extension as e3, e3.url = 'substitutionTypeReasonText', e3.value = rt "subReasonText";
+         }                                                                                                             "extSubstitution";
+}
+
+
+// ---------------------------------------------------------------------------
+// PractitionerLM -> FHIR Practitioner
+// ---------------------------------------------------------------------------
+group PractitionerLMToPractitioner(source src : PractitionerLM, target tgt : Practitioner) {
+  src.identifier as id -> tgt.identifier = id                                                                          "practIdentifier";
+  src.name       as n  -> tgt.name       = n                                                                           "practName";
+}
