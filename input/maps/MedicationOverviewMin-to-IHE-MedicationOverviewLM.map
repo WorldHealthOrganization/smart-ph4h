@@ -7,9 +7,9 @@ map "MedicationOverviewMinToMedicationOverviewLM" = "http://smart.who.int/ph4h/S
 
 uses "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin"              alias MedicationOverviewMin       as source
 uses "http://smart.who.int/ph4h/StructureDefinition/MedicationTreatmentLineMin"         alias MedicationTreatmentLineMin  as source
-uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewLM"      alias MedicationOverviewLM        as target
-uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/PatientLM"                 alias PatientLM                   as target
-uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationTreatmentLineLM" alias MedicationTreatmentLineLM   as target
+uses "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewLM"      alias MedicationOverviewLM        as target
+uses "http://smart.who.int/ph4h/StructureDefinition/PatientLM"                 alias PatientLM                   as target
+uses "http://smart.who.int/ph4h/StructureDefinition/MedicationTreatmentLineLM" alias MedicationTreatmentLineLM   as target
 
 
 // ---------------------------------------------------------------------------
