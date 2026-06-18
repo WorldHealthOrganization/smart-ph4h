@@ -89,10 +89,12 @@ group MedicationTreatmentLineMinToMedicationTreatmentLineLM(source src : Medicat
     da -> rm.recordedTime = da                                                         "recordedTime";
   }                                                                                    "dateAsserted";
 
-  // comment is a BackboneElement on the line — navigate.
-  src.d as d -> tgt.comment as cmt then {
-    d -> cmt.commentText = d                                                           "commentText";
-  }                                                                                    "dosage";
+  // Dosage as free text. Route to preparationInstructions (a plain string array)
+  // rather than comment.commentText: comment is a BackboneElement with several
+  // 1..1 sub-fields (author, date, commentText) that the Min source can't
+  // populate, so creating a half-empty comment confuses matchbox's serializer.
+  // preparationInstructions is a string field, no nested required structure.
+  src.d as d -> tgt.preparationInstructions = d                                        "dosage";
 
   src.r as r -> tgt.indicationText = r                                                 "reason";
 
