@@ -3,19 +3,28 @@
 // Target : PH4H Bundle Profile MedicationOverview (Composition + Patient + 0..* MedicationTreatmentLine entries)
 // FHIR version: R5 (5.0.0)
 //
+// Patterns (matches the ICVPLMToIPS sample):
+//   * uuid() is an FML transform: bind to a variable via `uuid() as name`,
+//     then build a fullUrl with `append('urn:uuid:', name)`.
+//   * Generate fixed UUIDs (Composition, Patient) at the top of the bundle
+//     group and reuse them — so a section.entry Reference can point at the
+//     Patient entry's fullUrl, etc.
+//   * Variable-count entries (treatment lines) generate one uuid() per
+//     iteration. Their section.entry refs are display-only (a deterministic
+//     cross-link would require sharing scope between the line iteration and
+//     the Composition's section iteration).
+//   * Complex datatypes (CodeableConcept, Coding, CodeableReference, Reference,
+//     Annotation, Extension, Period, Dosage, Identifier) are still created
+//     via `create('TypeName') as <alias>`, populated, then assigned.
+//
 // Caveats:
-//   1. FML cannot dereference Reference.reference URLs at runtime. The source MedicationOverviewLM
-//      instance is expected to carry inline PatientLM / MedicationTreatmentLineLM / PractitionerLM
-//      payloads (logical-target wrapping). Free-standing references will not resolve.
-//   2. fullUrl uses ('urn:uuid:' + uuid()). If the engine accepts bare uuid() returning a
-//      'urn:uuid:' string, simplify accordingly.
-//   3. now() is used for Bundle.timestamp and Composition.date.
-//   4. Composition.attester.party and Annotation.authorReference are References; this map sets
-//      only Reference.display from PractitionerLM.name. Full Reference resolution requires
-//      emitting Practitioner as its own Bundle.entry (deferred).
-//   5. PatientLM.gender (CodeableConcept) -> Patient.gender (code): first coding wins.
-//   6. PatientLM.dateOfBirth (dateTime) -> Patient.birthDate (date): silent truncation expected.
-//   7. Composition.type defaults to LOINC 56445-0 "Medication summary Document" — TODO confirm.
+//   1. PatientLM / MedicationTreatmentLineLM are inline types on MedicationOverviewLM
+//      (not Reference) — the LM was updated to make this possible.
+//   2. Composition.subject points at the Patient entry via urn:uuid: ref.
+//   3. MedicationStatement.subject likewise points at the Patient entry via urn:uuid: ref.
+//   4. Composition.attester.party and Annotation.authorReference still use display-only
+//      Reference (Practitioner is not emitted as its own bundle entry yet).
+//   5. Composition.type defaults to LOINC 56445-0 "Medication summary Document".
 
 map "MedicationOverviewLMToMedicationOverviewBundle" = "http://smart.who.int/ph4h/StructureMap/MedicationOverviewLMToMedicationOverviewBundle"
 
@@ -34,73 +43,108 @@ uses "http://hl7.org/fhir/StructureDefinition/Practitioner"                     
 // Top-level group: assemble MedicationOverview Bundle (document)
 // ---------------------------------------------------------------------------
 group MedicationOverviewLMToMedicationOverviewBundle(source src : MedicationOverviewLM, target tgt : MedicationOverviewBundle) {
-  src -> tgt.type      = 'document'                                                                                    "bundleType";
-  src -> tgt.timestamp = (now())                                                                                       "bundleTimestamp";
-  src -> tgt.identifier as bid,
-         bid.system = 'urn:ietf:rfc:3986',
-         bid.value  = ('urn:uuid:' + uuid())                                                                           "bundleIdentifier";
+  src -> tgt.type      = 'document' "bundleType";
+  src -> tgt.timestamp = (now())    "bundleTimestamp";
 
-  // Composition entry (slice [Composition])
-  src -> tgt.entry as ce,
-         ce.fullUrl  = ('urn:uuid:' + uuid()),
-         ce.resource = create('Composition') as comp
-         then MedicationOverviewLMToComposition(src, comp)                                                             "compositionEntry";
+  // Generate fixed UUIDs once; reuse them across entries and Reference targets.
+  src -> uuid() as bid, uuid() as cid, uuid() as pid then {
 
-  // Patient entry (slice [Patient])
-  src.patient as pref -> tgt.entry as pe,
-         pe.fullUrl  = ('urn:uuid:' + uuid()),
-         pe.resource = create('Patient') as pat
-         then PatientLMToPatient(pref, pat)                                                                            "patientEntry";
+    // Bundle.identifier (UUID identifier per RFC 4122)
+    src -> tgt.identifier as id,
+           id.system = 'urn:ietf:rfc:4122',
+           id.value  = bid                                                                              "bundleIdentifier";
 
-  // One Bundle.entry per MedicationTreatmentLineLM (slice [MedRecordTreatmentLine])
-  src.medicationTreatmentLine as lref -> tgt.entry as te,
-         te.fullUrl  = ('urn:uuid:' + uuid()),
-         te.resource = create('MedicationStatement') as ms
-         then MedicationTreatmentLineLMToMedicationStatement(lref, ms)                                                 "treatmentLineEntry";
+    // Composition entry
+    src -> tgt.entry as ce,
+           ce.fullUrl  = append('urn:uuid:', cid),
+           ce.resource = create('Composition') as comp then {
+      src then MedicationOverviewLMToComposition(src, comp, pid) "compositionContent";
+    }                                                                                                   "compositionEntry";
+
+    // Patient entry
+    src.patient as pref -> tgt.entry as pe,
+                           pe.fullUrl  = append('urn:uuid:', pid),
+                           pe.resource = create('Patient') as pat then {
+      pref then PatientLMToPatient(pref, pat) "patientContent";
+    }                                                                                                   "patientEntry";
+
+    // Treatment line entries — UUID generated per iteration (variable count)
+    src.medicationTreatmentLine as lref -> uuid() as tid then {
+      lref -> tgt.entry as te,
+              te.fullUrl  = append('urn:uuid:', tid),
+              te.resource = create('MedicationStatement') as ms then {
+        lref then MedicationTreatmentLineLMToMedicationStatement(lref, ms, pid) "lineContent";
+      }                                                                                                 "lineEntry";
+    }                                                                                                   "treatmentLines";
+
+  }                                                                                                     "setEntries";
 }
 
 
 // ---------------------------------------------------------------------------
 // MedicationOverviewLM -> MedicationOverviewComposition
+// Receives the Patient entry's UUID (pid) so subject can reference it.
 // ---------------------------------------------------------------------------
-group MedicationOverviewLMToComposition(source src : MedicationOverviewLM, target tgt : MedicationOverviewComposition) {
-  src -> tgt.status = 'final'                                                                                          "compStatus";
+group MedicationOverviewLMToComposition(source src : MedicationOverviewLM, target tgt : MedicationOverviewComposition, source pid) {
+  src -> tgt.status = 'final' "compStatus";
 
-  // TODO confirm code
-  src -> tgt.type as ct, ct.coding as cc,
+  // Composition.type — LOINC 56445-0 "Medication summary Document"
+  src -> create('Coding') as cc,
          cc.system  = 'http://loinc.org',
          cc.code    = '56445-0',
-         cc.display = 'Medication summary Document'                                                                    "compType";
+         cc.display = 'Medication summary Document',
+         create('CodeableConcept') as ct,
+         ct.coding = cc,
+         tgt.type  = ct                                                                                 "compType";
 
-  src.patient as pref -> tgt.subject = pref                                                                            "compSubject";
-  src -> tgt.date  = (now())                                                                                           "compDate";
-  src -> tgt.title = 'Medication Overview'                                                                             "compTitle";
+  // Composition.subject -> Patient entry by uuid
+  src -> create('Reference') as subj,
+         subj.reference = append('urn:uuid:', pid),
+         tgt.subject    = subj                                                                          "compSubject";
+
+  src -> tgt.date  = (now())                  "compDate";
+  src -> tgt.title = 'Medication Overview'    "compTitle";
 
   // Section: MedRecordTreatmentLine
   src -> tgt.section as sect then {
-    src -> sect.title = 'Medication Treatment Lines'                                                                   "sectTitle";
-    src -> sect.code as sc, sc.coding as scc,
+    src -> sect.title = 'Medication Treatment Lines' "sectTitle";
+
+    src -> create('Coding') as scc,
            scc.system  = 'http://loinc.org',
            scc.code    = '10160-0',
-           scc.display = 'History of Medication use Narrative'                                                         "sectCode";
-    src.medicationTreatmentLine as lref -> sect.entry = lref                                                           "sectEntry";
-  }                                                                                                                    "sectionTreatmentLines";
+           scc.display = 'History of Medication use Narrative',
+           create('CodeableConcept') as sc,
+           sc.coding = scc,
+           sect.code = sc                                                                               "sectCode";
+
+    // Display-only Reference per line — cross-linking to bundle entry would
+    // require sharing the line iteration's uuid with this group.
+    src.medicationTreatmentLine as lref -> create('Reference') as ref,
+                                           ref.display = 'Medication Treatment Line',
+                                           sect.entry  = ref                                           "sectEntry";
+  }                                                                                                     "sectionTreatmentLines";
 
   // Attester from verification BackboneElement
   src.verification as v -> tgt.attester as att then {
-    v                        -> att.mode = 'professional'                                                              "attMode";
-    v.verificationTime as vt -> att.time = vt                                                                          "attTime";
-    v.practicioner as pr     -> att.party as party,
-                                party.display = (pr.name.text)                                                         "attParty";
-  }                                                                                                                    "attester";
+    v                        -> att.mode = 'professional' "attMode";
+    v.verificationTime as vt -> att.time = vt             "attTime";
+
+    v.practicioner as pr -> create('Reference') as party,
+                            party.display = (pr.name.text),
+                            att.party     = party                                                       "attParty";
+  }                                                                                                     "attester";
 
   // Composition.note from comment BackboneElement
-  src.comment as cm -> tgt.note as nt then {
-    cm.commentText as ctxt -> nt.text = ctxt                                                                           "noteText";
-    cm.date as d           -> nt.time = d                                                                              "noteTime";
-    cm.author as a         -> nt.authorReference as ar,
-                              ar.display = (a.name.text)                                                               "noteAuthor";
-  }                                                                                                                    "noteFromComment";
+  src.comment as cm -> create('Annotation') as nt then {
+    cm.commentText as ctxt -> nt.text = ctxt "noteText";
+    cm.date as d           -> nt.time = d    "noteTime";
+
+    cm.author as a -> create('Reference') as ar,
+                      ar.display          = (a.name.text),
+                      nt.authorReference  = ar                                                          "noteAuthor";
+
+    cm -> tgt.note = nt                                                                                 "noteAssign";
+  }                                                                                                     "noteFromComment";
 }
 
 
@@ -108,87 +152,136 @@ group MedicationOverviewLMToComposition(source src : MedicationOverviewLM, targe
 // PatientLM -> FHIR Patient
 // ---------------------------------------------------------------------------
 group PatientLMToPatient(source src : PatientLM, target tgt : Patient) {
-  src.identifier  as id -> tgt.identifier = id                                                                         "patIdentifier";
-  src.name        as n  -> tgt.name       = n                                                                          "patName";
-  src.gender      as g  -> tgt.gender     = (g.coding.code)                                                            "patGender";
+  src.identifier  as id -> tgt.identifier = id                "patIdentifier";
+  src.name        as n  -> tgt.name       = n                 "patName";
+  src.gender      as g  -> tgt.gender     = (g.coding.code)   "patGender";
   // dateOfBirth is dateTime in LM; birthDate is date — silent truncation expected.
-  src.dateOfBirth as d  -> tgt.birthDate  = d                                                                          "patBirthDate";
+  src.dateOfBirth as d  -> tgt.birthDate  = d                 "patBirthDate";
 }
 
 
 // ---------------------------------------------------------------------------
 // MedicationTreatmentLineLM -> MedicationTreatmentLine (profile on MedicationStatement, R5)
-// Field mapping authority: inline FSH comments in input/fsh/profiles/profiles.fsh
+// Receives the Patient entry's UUID (pid) so MS.subject can reference it.
 // ---------------------------------------------------------------------------
-group MedicationTreatmentLineLMToMedicationStatement(source src : MedicationTreatmentLineLM, target tgt : MedicationTreatmentLine) {
-  src.identifier as id -> tgt.identifier = id                                                                          "identifier";
-  src.subject    as s  -> tgt.subject    = s                                                                           "subject";
-  src.status     as st -> tgt.status     = st                                                                          "status";
+group MedicationTreatmentLineLMToMedicationStatement(source src : MedicationTreatmentLineLM, target tgt : MedicationTreatmentLine, source pid) {
+  src.identifier as id -> tgt.identifier = id    "identifier";
+
+  // subject -> Patient entry by uuid (R5 MS.subject is 1..1)
+  src -> create('Reference') as subj,
+         subj.reference = append('urn:uuid:', pid),
+         tgt.subject    = subj                                                                          "subject";
+
+  src.status as st -> tgt.status = st "status";
 
   // medication[x] choice -> R5 CodeableReference
-  src.medicationReference       as mr -> tgt.medication as m, m.reference = mr                                         "medicationRef";
-  src.medicationCodeableConcept as mc -> tgt.medication as m, m.concept   = mc                                         "medicationCC";
+  src.medicationReference as mr -> create('CodeableReference') as m,
+                                   m.reference    = mr,
+                                   tgt.medication = m                                                   "medicationRef";
 
-  src.effectivePeriod as ep -> tgt.effectivePeriod = ep                                                                "effectivePeriod";
+  src.medicationCodeableConcept as mc -> create('CodeableReference') as m,
+                                         m.concept      = mc,
+                                         tgt.medication = m                                             "medicationCC";
 
-  // recordingMetadata -> dateAsserted + informationSource
+  src.effectivePeriod as ep -> tgt.effectivePeriod = ep "effectivePeriod";
+
   src.recordingMetadata as rm then {
-    rm.recordedTime as rt -> tgt.dateAsserted      = rt                                                                "dateAsserted";
-    rm.recorder     as rc -> tgt.informationSource = rc                                                                "informationSource";
-  }                                                                                                                    "recordingMetadata";
+    rm.recordedTime as rt -> tgt.dateAsserted      = rt "dateAsserted";
+    rm.recorder     as rc -> tgt.informationSource = rc "informationSource";
+  }                                                                                                     "recordingMetadata";
 
   // reason = indication + indicationText + intendedUse
-  src.indication     as ind -> tgt.reason as r, r.concept = ind                                                        "reasonIndication";
-  src.indicationText as it  -> tgt.reason as r, r.concept as cc, cc.text = it                                          "reasonIndicationText";
-  src.intendedUse    as iu  -> tgt.reason as r, r.concept = iu                                                         "reasonIntendedUse";
+  src.indication as ind -> create('CodeableReference') as r,
+                           r.concept  = ind,
+                           tgt.reason = r                                                               "reasonIndication";
 
-  // dosage = usageInstructions; preparationInstructions -> dosage.text
-  src.usageInstructions       as ui -> tgt.dosage = ui                                                                 "dosage";
-  src.preparationInstructions as pi -> tgt.dosage as dos, dos.text = pi                                                "prepInstructions";
+  src.indicationText as it -> create('CodeableConcept') as cc,
+                              cc.text = it,
+                              create('CodeableReference') as r,
+                              r.concept  = cc,
+                              tgt.reason = r                                                            "reasonIndicationText";
+
+  src.intendedUse as iu -> create('CodeableReference') as r,
+                           r.concept  = iu,
+                           tgt.reason = r                                                               "reasonIntendedUse";
+
+  src.usageInstructions as ui -> tgt.dosage = ui "dosage";
+
+  src.preparationInstructions as pi -> create('Dosage') as dos,
+                                       dos.text   = pi,
+                                       tgt.dosage = dos                                                 "prepInstructions";
 
   // note = comment
-  src.comment as cm -> tgt.note as nt then {
-    cm.commentText as ct -> nt.text = ct                                                                               "lineNoteText";
-    cm.date        as d  -> nt.time = d                                                                                "lineNoteTime";
-    cm.author      as a  -> nt.authorReference as ar,
-                            ar.display = (a.name.text)                                                                 "lineNoteAuthor";
-  }                                                                                                                    "lineNote";
+  src.comment as cm -> create('Annotation') as nt then {
+    cm.commentText as ct -> nt.text = ct "lineNoteText";
+    cm.date        as d  -> nt.time = d  "lineNoteTime";
 
-  // adherence from treatmentStatus
-  src.treatmentStatus as ts -> tgt.adherence as adh, adh.code = ts                                                     "adherence";
+    cm.author as a -> create('Reference') as ar,
+                      ar.display         = (a.name.text),
+                      nt.authorReference = ar                                                           "lineNoteAuthor";
 
-  src.category as cat -> tgt.category = cat                                                                            "category";
+    cm -> tgt.note = nt                                                                                 "lineNoteAssign";
+  }                                                                                                     "lineNote";
 
-  // derivedFrom — flatten all sub-categories into MS.derivedFrom
+  // adherence — BackboneElement; navigate.
+  src.treatmentStatus as ts -> tgt.adherence as adh then {
+    ts -> adh.code = ts "adherenceCode";
+  }                                                                                                     "adherence";
+
+  src.category as cat -> tgt.category = cat "category";
+
   src.derivedFrom as df then {
-    df.request        as rq  -> tgt.derivedFrom = rq                                                                   "derivedFromRequest";
-    df.statement      as stm -> tgt.derivedFrom = stm                                                                  "derivedFromStatement";
-    df.dispensation   as dsp -> tgt.derivedFrom = dsp                                                                  "derivedFromDispensation";
-    df.administration as adm -> tgt.derivedFrom = adm                                                                  "derivedFromAdministration";
-    df.other          as oth -> tgt.derivedFrom = oth                                                                  "derivedFromOther";
-  }                                                                                                                    "derivedFrom";
+    df.request        as rq  -> tgt.derivedFrom = rq  "derivedFromRequest";
+    df.statement      as stm -> tgt.derivedFrom = stm "derivedFromStatement";
+    df.dispensation   as dsp -> tgt.derivedFrom = dsp "derivedFromDispensation";
+    df.administration as adm -> tgt.derivedFrom = adm "derivedFromAdministration";
+    df.other          as oth -> tgt.derivedFrom = oth "derivedFromOther";
+  }                                                                                                     "derivedFrom";
 
   // Extension: artifact-version
-  src.version as v -> tgt.extension as ext,
-         ext.url   = 'http://hl7.org/fhir/StructureDefinition/artifact-version',
-         ext.value = v                                                                                                 "extVersion";
+  src.version as v -> create('Extension') as ext,
+                      ext.url       = 'http://hl7.org/fhir/StructureDefinition/artifact-version',
+                      ext.value     = v,
+                      tgt.extension = ext                                                               "extVersion";
 
   // Extension: VerificationInformation
-  src.verificationInformation as vi -> tgt.extension as ext,
-         ext.url = 'http://smart.who.int/ph4h/StructureDefinition/VerificationInformation'
-         then {
-           vi.verifier         as vr -> ext.extension as e1, e1.url = 'verifier',         e1.value = vr                "viVerifier";
-           vi.verificationTime as vt -> ext.extension as e2, e2.url = 'verificationTime', e2.value = vt                "viTime";
-         }                                                                                                             "extVerification";
+  src.verificationInformation as vi -> create('Extension') as ext then {
+    vi -> ext.url = 'http://smart.who.int/ph4h/StructureDefinition/VerificationInformation' "viUrl";
+
+    vi.verifier as vr -> create('Extension') as e1,
+                         e1.url        = 'verifier',
+                         e1.value      = vr,
+                         ext.extension = e1                                                             "viVerifier";
+
+    vi.verificationTime as vt -> create('Extension') as e2,
+                                 e2.url        = 'verificationTime',
+                                 e2.value      = vt,
+                                 ext.extension = e2                                                     "viTime";
+
+    vi -> tgt.extension = ext "viAssign";
+  }                                                                                                     "extVerification";
 
   // Extension: Substitution
-  src.substitution as sub -> tgt.extension as ext,
-         ext.url = 'http://smart.who.int/ph4h/StructureDefinition/Substitution'
-         then {
-           sub.substitutionType            as t  -> ext.extension as e1, e1.url = 'substitutionType',           e1.value = t  "subType";
-           sub.substitutionTypeReason      as r  -> ext.extension as e2, e2.url = 'substitutionTypeReason',     e2.value = r  "subReason";
-           sub.substitutionTypeReasonText  as rt -> ext.extension as e3, e3.url = 'substitutionTypeReasonText', e3.value = rt "subReasonText";
-         }                                                                                                             "extSubstitution";
+  src.substitution as sub -> create('Extension') as ext then {
+    sub -> ext.url = 'http://smart.who.int/ph4h/StructureDefinition/Substitution' "subUrl";
+
+    sub.substitutionType as t -> create('Extension') as e1,
+                                 e1.url        = 'substitutionType',
+                                 e1.value      = t,
+                                 ext.extension = e1                                                     "subType";
+
+    sub.substitutionTypeReason as r -> create('Extension') as e2,
+                                       e2.url        = 'substitutionTypeReason',
+                                       e2.value      = r,
+                                       ext.extension = e2                                               "subReason";
+
+    sub.substitutionTypeReasonText as rt -> create('Extension') as e3,
+                                            e3.url        = 'substitutionTypeReasonText',
+                                            e3.value      = rt,
+                                            ext.extension = e3                                          "subReasonText";
+
+    sub -> tgt.extension = ext "subAssign";
+  }                                                                                                     "extSubstitution";
 }
 
 
@@ -196,6 +289,6 @@ group MedicationTreatmentLineLMToMedicationStatement(source src : MedicationTrea
 // PractitionerLM -> FHIR Practitioner
 // ---------------------------------------------------------------------------
 group PractitionerLMToPractitioner(source src : PractitionerLM, target tgt : Practitioner) {
-  src.identifier as id -> tgt.identifier = id                                                                          "practIdentifier";
-  src.name       as n  -> tgt.name       = n                                                                           "practName";
+  src.identifier as id -> tgt.identifier = id "practIdentifier";
+  src.name       as n  -> tgt.name       = n  "practName";
 }

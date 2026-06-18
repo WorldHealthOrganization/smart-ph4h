@@ -2,6 +2,14 @@
 // Source : PH4H Logical Model MedicationOverviewMin (with 0..* MedicationTreatmentLineMin)
 // Target : IHE Pharmacy MEOW MedicationOverviewLM (1 PatientLM, 0..* MedicationTreatmentLineLM)
 // FHIR version: R5 (5.0.0)
+//
+// Style note: Complex datatypes (HumanName, CodeableConcept, Coding, Identifier,
+// Period) are FIRST created via create('TypeName') as <alias>, populated, and
+// THEN assigned to the target field. This avoids engine errors triggered by
+// navigate-then-assign patterns (e.g. `tgt.x as y, y.z = v`) where the sub-element
+// doesn't yet exist on the freshly-navigated parent. BackboneElements that are
+// part of the parent type's definition (recordingMetadata, comment) keep the
+// navigate-into-target pattern `tgt.field as alias then { ... }`.
 
 map "MedicationOverviewMinToMedicationOverviewLM" = "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewLM"
 
@@ -25,15 +33,34 @@ group MedicationOverviewMinToMedicationOverviewLM(source src : MedicationOvervie
 // MedicationOverviewMin demographic fields -> PatientLM
 // ---------------------------------------------------------------------------
 group MedicationOverviewMinToPatientLM(source src : MedicationOverviewMin, target tgt : PatientLM) {
-  src.n   as n   -> tgt.name as hn, hn.text = n                                        "name";
+  // Name: create HumanName, populate, assign
+  src.n as n -> create('HumanName') as hn,
+                hn.text  = n,
+                tgt.name = hn                                                          "name";
+
   src.dob as dob -> tgt.dateOfBirth = dob                                              "dateOfBirth";
-  src.s   as s   -> tgt.gender as g, g.coding as gc,
-                    gc.system = 'http://hl7.org/fhir/administrative-gender',
-                    gc.code   = s                                                      "gender";
-  src.id  as id  -> tgt.identifier as ident then {
-                      id           -> ident.value = id                                 "identifierValue";
-                      src.dt as dt -> ident.type as t, t.coding as tc, tc.code = dt    "identifierType";
-                    }                                                                  "identifier";
+
+  // Gender: create Coding, then CodeableConcept wrapping it, assign
+  src.s as s -> create('Coding') as gc,
+                gc.system = 'http://hl7.org/fhir/administrative-gender',
+                gc.code   = s,
+                create('CodeableConcept') as g,
+                g.coding   = gc,
+                tgt.gender = g                                                         "gender";
+
+  // Identifier: create Identifier, populate (+ optional type), assign
+  src.id as id -> create('Identifier') as ident then {
+    id -> ident.value = id                                                             "identifierValue";
+
+    // Identifier.type: create Coding + CodeableConcept, assign to ident.type
+    src.dt as dt -> create('Coding') as tc,
+                    tc.code = dt,
+                    create('CodeableConcept') as t,
+                    t.coding    = tc,
+                    ident.type  = t                                                    "identifierType";
+
+    id -> tgt.identifier = ident                                                       "identifierAssign";
+  }                                                                                    "identifier";
 }
 
 
@@ -41,16 +68,38 @@ group MedicationOverviewMinToPatientLM(source src : MedicationOverviewMin, targe
 // One MedicationTreatmentLineMin -> one MedicationTreatmentLineLM
 // ---------------------------------------------------------------------------
 group MedicationTreatmentLineMinToMedicationTreatmentLineLM(source src : MedicationTreatmentLineMin, target tgt : MedicationTreatmentLineLM) {
-  src.m as med -> tgt.medicationCodeableConcept as cc, cc.coding as c,
-                  c.code = med, c.display = med                                        "medication";
+  // Medication: create Coding, then CodeableConcept wrapping it, assign
+  src.m as med -> create('Coding') as c,
+                  c.code    = med,
+                  c.display = med,
+                  create('CodeableConcept') as cc,
+                  cc.coding                    = c,
+                  tgt.medicationCodeableConcept = cc                                   "medication";
 
-  src -> tgt.effectivePeriod as ep then {
-    src.es as es -> ep.low  = es                                                       "effLow";
-    src.ee as ee -> ep.high = ee                                                       "effHigh";
+  // Effective period: create Period, populate, assign
+  // (Period uses .start/.end — NOT .low/.high; those are Range properties.)
+  src -> create('Period') as ep then {
+    src.es as es -> ep.start = es                                                      "effStart";
+    src.ee as ee -> ep.end   = ee                                                      "effEnd";
+    src          -> tgt.effectivePeriod = ep                                           "effAssign";
   }                                                                                    "effectivePeriod";
 
-  src.da as da -> tgt.recordingMetadata as rm, rm.recordedTime = da                    "dateAsserted";
-  src.d  as d  -> tgt.comment as cmt, cmt.commentText = d                              "dosage";
-  src.r  as r  -> tgt.indicationText = r                                               "reason";
-  src.a  as a  -> tgt.treatmentStatus as ts, ts.coding as tsc, tsc.code = a            "adherence";
+  // recordingMetadata is a BackboneElement defined inline in the LM — navigate.
+  src.da as da -> tgt.recordingMetadata as rm then {
+    da -> rm.recordedTime = da                                                         "recordedTime";
+  }                                                                                    "dateAsserted";
+
+  // comment is a BackboneElement on the line — navigate.
+  src.d as d -> tgt.comment as cmt then {
+    d -> cmt.commentText = d                                                           "commentText";
+  }                                                                                    "dosage";
+
+  src.r as r -> tgt.indicationText = r                                                 "reason";
+
+  // Adherence: create Coding, then CodeableConcept wrapping it, assign
+  src.a as a -> create('Coding') as tsc,
+                tsc.code = a,
+                create('CodeableConcept') as ts,
+                ts.coding           = tsc,
+                tgt.treatmentStatus = ts                                               "adherence";
 }

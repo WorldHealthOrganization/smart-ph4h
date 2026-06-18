@@ -6,7 +6,8 @@
       "WebFetch(domain:raw.githubusercontent.com)",
       "WebFetch(domain:profiles.ihe.net)",
       "WebSearch",
-      "WebFetch(domain:build.fhir.org)"
+      "WebFetch(domain:build.fhir.org)",
+      "Bash(sushi .)"
     ]
   }
 }
