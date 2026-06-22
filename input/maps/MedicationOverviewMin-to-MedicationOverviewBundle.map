@@ -15,7 +15,10 @@
 map "MedicationOverviewMinToMedicationOverviewBundle" = "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewBundle"
 
 uses "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin"            alias MedicationOverviewMin        as source
-uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewLM"    alias MedicationOverviewLM         as produced
+// Intermediate LM: only `source` and `target` are accepted by the matchbox/HAPI
+// FML parser. We declare it as `target` because create('MedicationOverviewLM')
+// produces it within this map.
+uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewLM"    alias MedicationOverviewLM         as target
 uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverview"      alias MedicationOverviewBundle     as target
 
 imports "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewLM"

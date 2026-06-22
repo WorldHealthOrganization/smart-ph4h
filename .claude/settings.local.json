@@ -12,7 +12,12 @@
       "Bash(grep -m1 -h '\"url\":\"http' /c/Users/ritik/.fhir/packages/ihe.pharm.meow#current\\\\$r4/package/StructureDefinition-MedicationTreatmentLine.json /c/Users/ritik/.fhir/packages/ihe.pharm.meow#current\\\\$r4/package/StructureDefinition-PatientLM.json /c/Users/ritik/.fhir/packages/ihe.pharm.meow#current\\\\$r4/package/StructureDefinition-IHEMedication.json /c/Users/ritik/.fhir/packages/ihe.pharm.meow#current\\\\$r4/package/StructureDefinition-MedicationOverviewLM.json /c/Users/ritik/.fhir/packages/ihe.pharm.meow#current\\\\$r4/package/StructureDefinition-MedicationOverview.json)",
       "Bash(ls \"/c/Users/ritik/.fhir/packages/ihe.pharm.meow#current\\\\$r4/package/\" | grep -i adher && echo \"--- adherence extension details ---\" && cat \"/c/Users/ritik/.fhir/packages/ihe.pharm.meow#current\\\\$r4/package/StructureDefinition-MedicationTreatmentLine.json\" 2>/dev/null | tr ',' '\\\\n' | grep -A 1 -E '\"path\":\"MedicationStatement\\\\.extension\"' | head -40)",
       "Bash(grep -o '\"url\":\"[^\"]*\"' \"/c/Users/ritik/.fhir/packages/ihe.pharm.meow#current\\\\$r4/package/StructureDefinition-MedicationTreatmentLine.json\" | sort -u | grep -i adher)",
-      "Bash(grep -o 'extension[^,]*adherence[^,]*' \"/c/Users/ritik/.fhir/packages/ihe.pharm.meow#current\\\\$r4/package/StructureDefinition-MedicationTreatmentLine.json\" | head -10)"
+      "Bash(grep -o 'extension[^,]*adherence[^,]*' \"/c/Users/ritik/.fhir/packages/ihe.pharm.meow#current\\\\$r4/package/StructureDefinition-MedicationTreatmentLine.json\" | head -10)",
+      "Bash(gh run *)",
+      "Bash(gh auth *)",
+      "WebFetch(domain:api.github.com)",
+      "Bash(where.exe python *)",
+      "PowerShell(\\(Get-Command python -ErrorAction SilentlyContinue\\).Source)"
     ]
   }
 }
