@@ -1,32 +1,29 @@
-// StructureMap: MedicationOverviewMin -> MedicationOverview (Bundle Profile)
+// StructureMap: MedicationOverviewMin -> MedicationOverview (Bundle Profile), R4
 // Source : PH4H Logical Model MedicationOverviewMin (compact QR-payload form)
-// Target : PH4H Bundle Profile MedicationOverview (document)
-// FHIR version: R5 (5.0.0)
+// Target : IHE Pharm MEOW MedicationOverview Bundle (document)
+// FHIR version: R4 (4.0.1)
 //
 // This map composes the two stage maps:
-//   1. MedicationOverviewMinToMedicationOverviewLM  (Min  -> LM)
-//   2. MedicationOverviewLMToMedicationOverviewBundle (LM -> Bundle)
+//   1. MedicationOverviewMinToMedicationOverviewLM  (Min  -> IHE LM)
+//   2. MedicationOverviewLMToMedicationOverviewBundle (IHE LM -> IHE Bundle)
 // via an intermediate MedicationOverviewLM created with create().
 //
 // Caveats:
 //   - Engine support for intermediate scratch variables created via create() varies.
-//     If the engine rejects the chained invocation, expand into two sequential
-//     transform invocations at the consumer (run map 1, then map 2).
-//   - Caveats from the downstream LM->Bundle map (Reference dereferencing, uuid()
-//     form, attester/note simplification, etc.) apply transitively.
+//   - All LM / profile canonicals are IHE Pharm MEOW (r4) on this branch.
 
 map "MedicationOverviewMinToMedicationOverviewBundle" = "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewBundle"
 
-uses "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin"     alias MedicationOverviewMin        as source
-uses "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewLM"      alias MedicationOverviewLM         as produced
-uses "http://smart.who.int/ph4h/StructureDefinition/MedicationOverview"        alias MedicationOverviewBundle     as target
+uses "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin"            alias MedicationOverviewMin        as source
+uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewLM"    alias MedicationOverviewLM         as produced
+uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverview"      alias MedicationOverviewBundle     as target
 
 imports "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewLM"
 imports "http://smart.who.int/ph4h/StructureMap/MedicationOverviewLMToMedicationOverviewBundle"
 
 
 // ---------------------------------------------------------------------------
-// Top-level group: chain Min -> LM -> Bundle via an intermediate LM instance
+// Top-level group: chain Min -> IHE LM -> IHE Bundle
 // ---------------------------------------------------------------------------
 group MedicationOverviewMinToMedicationOverviewBundle(source src : MedicationOverviewMin, target tgt : MedicationOverviewBundle) {
   src -> create('MedicationOverviewLM') as lm

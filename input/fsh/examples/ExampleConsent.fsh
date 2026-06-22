@@ -1,3 +1,5 @@
+Alias: $consentscope = http://terminology.hl7.org/CodeSystem/consentscope
+
 Instance: ExampleConsent
 InstanceOf: SmartConsent
 Title: "Example SMART Consent"

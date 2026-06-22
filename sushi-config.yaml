@@ -5,7 +5,7 @@ title: SMART PH4H
 description: An empty Implementation Guide to be used as a starting point for building SMART Guidelines Implementation Guides
 status: draft # draft | active | retired | unknown
 version: 0.9.9
-fhirVersion: 5.0.0 # https://www.hl7.org/fhir/valueset-FHIR-version.html
+fhirVersion: 4.0.1 # https://www.hl7.org/fhir/valueset-FHIR-version.html
 copyrightYear: 2023+
 releaseLabel: ci-build # ci-build | draft | qa-preview | ballot | trial-use | release | update | normative+trial-use
 # license: CC0-1.0 # https://www.hl7.org/fhir/valueset-spdx-license.html
@@ -268,4 +268,10 @@ dependencies:
   hl7.fhir.uv.ips: 1.1.0
   ihe.iti.pcf: 1.1.0
   hl7.fhir.uv.cpg: 2.0.0
+  # IHE Pharmacy Medication Overview Workflow, r4 branch CI build:
+  # https://github.com/IHE/pharm-meow/tree/r4 -> https://build.fhir.org/ig/IHE/pharm-meow/branches/r4/
+  # All LMs (PatientLM, PractitionerLM, MedicinalProductLM, DosagingInformation,
+  # MedicationOverviewLM, MedicationTreatmentLM, MedicationTreatmentLineLM) are
+  # consumed FROM this package; the local copies have been deleted on this branch.
+  ihe.pharm.meow: current$r4
 #  hl7.fhir.us.cqfmeasures: current
