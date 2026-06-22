@@ -268,10 +268,18 @@ dependencies:
   hl7.fhir.uv.ips: 1.1.0
   ihe.iti.pcf: 1.1.0
   hl7.fhir.uv.cpg: 2.0.0
-  # IHE Pharmacy Medication Overview Workflow, r4 branch CI build:
-  # https://github.com/IHE/pharm-meow/tree/r4 -> https://build.fhir.org/ig/IHE/pharm-meow/branches/r4/
-  # All LMs (PatientLM, PractitionerLM, MedicinalProductLM, DosagingInformation,
-  # MedicationOverviewLM, MedicationTreatmentLM, MedicationTreatmentLineLM) are
-  # consumed FROM this package; the local copies have been deleted on this branch.
-  ihe.pharm.meow: current$r4
+  # IHE Pharmacy Medication Overview Workflow, r4 branch CI build.
+  # SUSHI's `current$r4` syntax is rejected by the IG Publisher (HAPI) as an
+  # illegal version. The `current` slot in the FHIR package cache holds the
+  # MAIN branch build, which is R5 and incompatible with this R4 IG.
+  # Workaround: keep the r4 branch's package locally in the `dev` slot
+  # (~/.fhir/packages/ihe.pharm.meow#dev) — both SUSHI and the IG Publisher
+  # accept `dev` as a version string. Refresh that slot whenever IHE publishes
+  # a new r4 build:
+  #   rm -rf "~/.fhir/packages/ihe.pharm.meow#dev"
+  #   sushi-cli or curl https://build.fhir.org/ig/IHE/pharm-meow/branches/r4/package.tgz
+  #     and extract under that folder
+  # All LMs, profiles, and extensions are consumed FROM this package; local
+  # copies are deleted on this branch.
+  ihe.pharm.meow: dev
 #  hl7.fhir.us.cqfmeasures: current
