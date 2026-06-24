@@ -61,15 +61,18 @@ group MedicationOverviewLMToMedicationOverviewBundle(source src : MedicationOver
     src -> tgt.entry as ce,
            ce.fullUrl = append('urn:uuid:', cid),
            create('Composition') as comp then {
-      src then MedicationOverviewLMToComposition(src, comp, pid) "compositionContent";
-      src -> ce.resource = comp                                  "compositionAssign";
+      // Explicit `<src> -> <tgt> then GroupCall(args)` shape — see the note in
+      // the Min→LM map about matchbox dropping arguments when group calls
+      // are nested under imports.
+      src -> comp then MedicationOverviewLMToComposition(src, comp, pid)  "compositionContent";
+      src -> ce.resource = comp                                            "compositionAssign";
     }                                                                                                   "compositionEntry";
 
     src.patient as pref -> tgt.entry as pe,
                            pe.fullUrl = append('urn:uuid:', pid),
                            create('Patient') as pat then {
-      pref then PatientLMToPatient(pref, pat) "patientContent";
-      pref -> pe.resource = pat               "patientAssign";
+      pref -> pat then PatientLMToPatient(pref, pat) "patientContent";
+      pref -> pe.resource = pat                      "patientAssign";
     }                                                                                                   "patientEntry";
 
     // Fully-separated nested form: each create / set / then in its own rule.

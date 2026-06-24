@@ -25,11 +25,22 @@ uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationTreatment
 
 
 // ---------------------------------------------------------------------------
-// Top-level group: 1 patient + 0..* medication treatment lines
+// Top-level group: 1 patient + 0..* medication treatment lines.
+// Helper invocations are nested inside `then { }` blocks (rather than appended
+// directly with `then GroupCall(args)`). The latter shape parses fine when
+// matchbox runs this map directly, but loses its argument bindings when the
+// map is imported from the chained Min→Bundle map, producing
+// "Rule '<helper>' has 2 but the invocation has 0 variables". The explicit
+// `<src> -> <tgt> then GroupCall(args)` inner rule sidesteps that.
 // ---------------------------------------------------------------------------
 group MedicationOverviewMinToMedicationOverviewLM(source src : MedicationOverviewMin, target tgt : MedicationOverviewLM) {
-  src       -> tgt.patient                as patient then MedicationOverviewMinToPatientLM(src, patient)                              "patient";
-  src.m as line -> tgt.medicationTreatmentLine as tline   then MedicationTreatmentLineMinToMedicationTreatmentLineLM(line, tline)     "treatmentLine";
+  src -> tgt.patient as patient then {
+    src -> patient then MedicationOverviewMinToPatientLM(src, patient)                                       "patientInner";
+  }                                                                                                          "patient";
+
+  src.m as line -> tgt.medicationTreatmentLine as tline then {
+    line -> tline then MedicationTreatmentLineMinToMedicationTreatmentLineLM(line, tline)                    "treatmentLineInner";
+  }                                                                                                          "treatmentLine";
 }
 
 
