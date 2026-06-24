@@ -14,7 +14,8 @@
 //   * Extensions VerificationInformation / Substitution use IHE Pharm MEOW
 //     canonicals (http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/...).
 
-map "MedicationOverviewLMToMedicationOverviewBundle" = "http://smart.who.int/ph4h/StructureMap/MedicationOverviewLMToMedicationOverviewBundle"
+// FML spec: `map URL = identifier` — URL first, identifier second.
+map "http://smart.who.int/ph4h/StructureMap/MedicationOverviewLMToMedicationOverviewBundle" = "MedicationOverviewLMToMedicationOverviewBundle"
 
 // All LMs and profiles come from IHE Pharm MEOW (r4 branch). Local copies were
 // deleted on this branch.

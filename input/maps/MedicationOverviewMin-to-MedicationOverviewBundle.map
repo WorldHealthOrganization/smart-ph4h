@@ -12,7 +12,8 @@
 //   - Engine support for intermediate scratch variables created via create() varies.
 //   - All LM / profile canonicals are IHE Pharm MEOW (r4) on this branch.
 
-map "MedicationOverviewMinToMedicationOverviewBundle" = "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewBundle"
+// FML spec: `map URL = identifier` — URL first, identifier second.
+map "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewBundle" = "MedicationOverviewMinToMedicationOverviewBundle"
 
 uses "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin"            alias MedicationOverviewMin        as source
 // Intermediate LM: only `source` and `target` are accepted by the matchbox/HAPI

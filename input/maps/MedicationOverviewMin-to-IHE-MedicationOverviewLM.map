@@ -11,7 +11,10 @@
 // part of the parent type's definition (recordingMetadata, comment) keep the
 // navigate-into-target pattern `tgt.field as alias then { ... }`.
 
-map "MedicationOverviewMinToMedicationOverviewLM" = "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewLM"
+// FML spec: `map URL = identifier` — URL goes FIRST (the canonical the map
+// is registered under), identifier (the local name) goes second. Order matters
+// for import resolution; the chained Min→Bundle map imports this canonical.
+map "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewLM" = "MedicationOverviewMinToMedicationOverviewLM"
 
 uses "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin"              alias MedicationOverviewMin       as source
 uses "http://smart.who.int/ph4h/StructureDefinition/MedicationTreatmentLineMin"         alias MedicationTreatmentLineMin  as source
