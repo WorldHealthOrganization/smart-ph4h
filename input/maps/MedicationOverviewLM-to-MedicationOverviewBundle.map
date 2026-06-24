@@ -48,23 +48,35 @@ group MedicationOverviewLMToMedicationOverviewBundle(source src : MedicationOver
            id.system = 'urn:ietf:rfc:4122',
            id.value  = bid                                                                              "bundleIdentifier";
 
+    // Pattern matches ICVPLMToIPS: create the resource as a STANDALONE
+    // variable (not via `entry.resource = create(...) as alias`). When you
+    // bind via `entry.resource = create('X') as alias`, matchbox infers
+    // alias's type from entry.resource (Bundle.entry.resource is the base
+    // `Resource`), not from `create('X')`. The helper group then receives a
+    // bare Resource and fails to set typed properties (e.g. reasonCode).
+    // Assign to entry.resource INSIDE the then block, after the helper has
+    // populated the standalone resource.
+
     src -> tgt.entry as ce,
-           ce.fullUrl  = append('urn:uuid:', cid),
-           ce.resource = create('Composition') as comp then {
+           ce.fullUrl = append('urn:uuid:', cid),
+           create('Composition') as comp then {
       src then MedicationOverviewLMToComposition(src, comp, pid) "compositionContent";
+      src -> ce.resource = comp                                  "compositionAssign";
     }                                                                                                   "compositionEntry";
 
     src.patient as pref -> tgt.entry as pe,
-                           pe.fullUrl  = append('urn:uuid:', pid),
-                           pe.resource = create('Patient') as pat then {
+                           pe.fullUrl = append('urn:uuid:', pid),
+                           create('Patient') as pat then {
       pref then PatientLMToPatient(pref, pat) "patientContent";
+      pref -> pe.resource = pat               "patientAssign";
     }                                                                                                   "patientEntry";
 
     src.medicationTreatmentLine as lref -> uuid() as tid then {
       lref -> tgt.entry as te,
-              te.fullUrl  = append('urn:uuid:', tid),
-              te.resource = create('MedicationStatement') as ms then {
+              te.fullUrl = append('urn:uuid:', tid),
+              create('MedicationStatement') as ms then {
         lref then MedicationTreatmentLineLMToMedicationStatement(lref, ms, pid) "lineContent";
+        lref -> te.resource = ms                                                  "lineAssign";
       }                                                                                                 "lineEntry";
     }                                                                                                   "treatmentLines";
 

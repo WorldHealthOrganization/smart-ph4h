@@ -19,7 +19,9 @@
       "Bash(where.exe python *)",
       "PowerShell(\\(Get-Command python -ErrorAction SilentlyContinue\\).Source)",
       "Bash(grep -B 1 -A 8 -E '\"path\":\"MedicationOverviewLM\\\\.\\(patient|medicationTreatmentLine\\)\"' \"/c/Users/ritik/.fhir/packages/ihe.pharm.meow#dev/package/StructureDefinition-MedicationOverviewLM.json\")",
-      "Bash(cp \"/c/Users/ritik/.fhir/packages/ihe.pharm.meow#dev/package/StructureDefinition-MedicationOverviewLM.json\" \"/c/Users/ritik/.fhir/packages/ihe.pharm.meow#dev/package/StructureDefinition-MedicationOverviewLM.json.bak\" && echo \"backup saved\" && echo \"--- count of Reference->MedicationTreatmentLineLM occurrences before ---\" && grep -oE '\"code\":\"Reference\"[^]]*MedicationTreatmentLineLM' \"/c/Users/ritik/.fhir/packages/ihe.pharm.meow#dev/package/StructureDefinition-MedicationOverviewLM.json\" | wc -l)"
+      "Bash(cp \"/c/Users/ritik/.fhir/packages/ihe.pharm.meow#dev/package/StructureDefinition-MedicationOverviewLM.json\" \"/c/Users/ritik/.fhir/packages/ihe.pharm.meow#dev/package/StructureDefinition-MedicationOverviewLM.json.bak\" && echo \"backup saved\" && echo \"--- count of Reference->MedicationTreatmentLineLM occurrences before ---\" && grep -oE '\"code\":\"Reference\"[^]]*MedicationTreatmentLineLM' \"/c/Users/ritik/.fhir/packages/ihe.pharm.meow#dev/package/StructureDefinition-MedicationOverviewLM.json\" | wc -l)",
+      "Bash(git fetch *)",
+      "Bash(git rev-list *)"
     ]
   }
 }
