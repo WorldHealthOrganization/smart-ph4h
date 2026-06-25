@@ -2,43 +2,20 @@
 // Source : IHE Pharm MEOW MedicationOverviewLM (1 Reference(PatientLM), 0..* Reference(MedicationTreatmentLineLM), verification, comment)
 // Target : IHE Pharm MEOW MedicationOverview Bundle (Composition + Patient + 0..* MedicationTreatmentLine entries)
 // FHIR version: R4 (4.0.1)
-//
-// Differences from the R5 version:
-//   * MedicationStatement.medication is the R4 choice (medication[x]) — use
-//     tgt.medicationReference / tgt.medicationCodeableConcept directly
-//     (NOT R5's CodeableReference with .concept/.reference sub-fields).
-//   * MedicationStatement.reason is the R4 choice (reasonCode / reasonReference)
-//     — NOT R5's reason CodeableReference.
-//   * MedicationStatement.adherence does not exist in R4. The treatmentStatus
-//     mapping requires the IHE adherence extension; omitted here for now.
-//   * Extensions VerificationInformation / Substitution use IHE Pharm MEOW
-//     canonicals (http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/...).
 
 // FML spec: `map URL = identifier` — URL first, identifier second.
 map "http://smart.who.int/ph4h/StructureMap/MedicationOverviewLMToMedicationOverviewBundle" = "MedicationOverviewLMToMedicationOverviewBundle"
 
-// All LMs and profiles come from IHE Pharm MEOW (r4 branch). Local copies were
-// deleted on this branch.
 uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewLM"            alias MedicationOverviewLM              as source
 uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/PatientLM"                       alias PatientLM                         as source
 uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationTreatmentLineLM"       alias MedicationTreatmentLineLM         as source
 uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/PractitionerLM"                  alias PractitionerLM                    as source
 uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverview"              alias MedicationOverviewBundle          as target
 uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewComposition"   alias MedicationOverviewComposition     as target
-// Line target: use the base FHIR R4 MedicationStatement (NOT the IHE
-// MedicationTreatmentLine profile). `create('MedicationStatement')` (line 75)
-// creates a base instance; if the helper target is typed as the IHE profile,
-// matchbox can't reconcile and binds the variable at bare `Resource` level,
-// causing `tgt.reasonCode = …` to fail with "Cannot set property reasonCode
-// on resource". IHE profile conformance is a downstream validation concern.
 uses "http://hl7.org/fhir/StructureDefinition/MedicationStatement"                            alias MedicationStatement               as target
 uses "http://hl7.org/fhir/StructureDefinition/Patient"                                        alias Patient                           as target
 uses "http://hl7.org/fhir/StructureDefinition/Practitioner"                                   alias Practitioner                      as target
 
-
-// ---------------------------------------------------------------------------
-// Top-level group: assemble MedicationOverview Bundle (document)
-// ---------------------------------------------------------------------------
 group MedicationOverviewLMToMedicationOverviewBundle(source src : MedicationOverviewLM, target tgt : MedicationOverviewBundle) {
   src -> tgt.type      = 'document' "bundleType";
   src -> tgt.timestamp = (now())    "bundleTimestamp";
@@ -49,21 +26,10 @@ group MedicationOverviewLMToMedicationOverviewBundle(source src : MedicationOver
            id.system = 'urn:ietf:rfc:4122',
            id.value  = bid                                                                              "bundleIdentifier";
 
-    // Pattern matches ICVPLMToIPS: create the resource as a STANDALONE
-    // variable (not via `entry.resource = create(...) as alias`). When you
-    // bind via `entry.resource = create('X') as alias`, matchbox infers
-    // alias's type from entry.resource (Bundle.entry.resource is the base
-    // `Resource`), not from `create('X')`. The helper group then receives a
-    // bare Resource and fails to set typed properties (e.g. reasonCode).
-    // Assign to entry.resource INSIDE the then block, after the helper has
-    // populated the standalone resource.
 
     src -> tgt.entry as ce,
            ce.fullUrl = append('urn:uuid:', cid),
            create('Composition') as comp then {
-      // Explicit `<src> -> <tgt> then GroupCall(args)` shape — see the note in
-      // the Min→LM map about matchbox dropping arguments when group calls
-      // are nested under imports.
       src -> comp then MedicationOverviewLMToComposition(src, comp, pid)  "compositionContent";
       src -> ce.resource = comp                                            "compositionAssign";
     }                                                                                                   "compositionEntry";
@@ -75,8 +41,6 @@ group MedicationOverviewLMToMedicationOverviewBundle(source src : MedicationOver
       pref -> pe.resource = pat                      "patientAssign";
     }                                                                                                   "patientEntry";
 
-    // Fully-separated nested form: each create / set / then in its own rule.
-    // This is the most explicit form for matchbox to bind variable types.
     src.medicationTreatmentLine as lref -> uuid() as tid then {
       lref -> tgt.entry as te then {
         lref -> te.fullUrl = append('urn:uuid:', tid) "teFullUrl";
@@ -91,9 +55,6 @@ group MedicationOverviewLMToMedicationOverviewBundle(source src : MedicationOver
 }
 
 
-// ---------------------------------------------------------------------------
-// MedicationOverviewLM -> MedicationOverviewComposition
-// ---------------------------------------------------------------------------
 group MedicationOverviewLMToComposition(source src : MedicationOverviewLM, target tgt : MedicationOverviewComposition, source pid) {
   src -> tgt.status = 'final' "compStatus";
 
@@ -150,9 +111,6 @@ group MedicationOverviewLMToComposition(source src : MedicationOverviewLM, targe
 }
 
 
-// ---------------------------------------------------------------------------
-// PatientLM -> FHIR Patient
-// ---------------------------------------------------------------------------
 group PatientLMToPatient(source src : PatientLM, target tgt : Patient) {
   src.identifier  as id -> tgt.identifier = id                "patIdentifier";
   src.name        as n  -> tgt.name       = n                 "patName";
@@ -161,11 +119,6 @@ group PatientLMToPatient(source src : PatientLM, target tgt : Patient) {
 }
 
 
-// ---------------------------------------------------------------------------
-// MedicationTreatmentLineLM -> base FHIR R4 MedicationStatement
-// (NOT typed as the IHE MedicationTreatmentLine profile — see uses block.)
-// Receives the Patient entry's UUID (pid) so MS.subject can reference it.
-// ---------------------------------------------------------------------------
 group MedicationTreatmentLineLMToMedicationStatement(source src : MedicationTreatmentLineLM, target tgt : MedicationStatement, source pid) {
   src.identifier as id -> tgt.identifier = id    "identifier";
 
@@ -186,8 +139,6 @@ group MedicationTreatmentLineLMToMedicationStatement(source src : MedicationTrea
     rm.recorder     as rc -> tgt.informationSource = rc "informationSource";
   }                                                                                                     "recordingMetadata";
 
-  // R4: reasonCode (CodeableConcept) and reasonReference (Reference) are separate fields.
-  // indication / intendedUse are CodeableConcepts -> reasonCode; indicationText -> reasonCode.text
   src.indication as ind -> tgt.reasonCode = ind "reasonIndication";
 
   src.indicationText as it -> create('CodeableConcept') as cc,
@@ -212,11 +163,6 @@ group MedicationTreatmentLineLMToMedicationStatement(source src : MedicationTrea
 
     cm -> tgt.note = nt                                                                                 "lineNoteAssign";
   }                                                                                                     "lineNote";
-
-  // adherence: R4 MedicationStatement has no native adherence field. The IHE
-  // profile carries it via an extension (ihe-ext-medicationstatement-adherence
-  // backporting R5 MS.adherence). Populating that extension from treatmentStatus
-  // is left to a follow-up; the field would otherwise be silently dropped here.
 
   src.category as cat -> tgt.category = cat "category";
 
@@ -251,7 +197,6 @@ group MedicationTreatmentLineLMToMedicationStatement(source src : MedicationTrea
     vi -> tgt.extension = ext "viAssign";
   }                                                                                                     "extVerification";
 
-  // Extension: Substitution (IHE Pharm MEOW canonical)
   src.substitution as sub -> create('Extension') as ext then {
     sub -> ext.url = 'http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/ihe-ext-medicationstatement-substitution' "subUrl";
 
@@ -275,9 +220,6 @@ group MedicationTreatmentLineLMToMedicationStatement(source src : MedicationTrea
 }
 
 
-// ---------------------------------------------------------------------------
-// PractitionerLM -> FHIR Practitioner
-// ---------------------------------------------------------------------------
 group PractitionerLMToPractitioner(source src : PractitionerLM, target tgt : Practitioner) {
   src.identifier as id -> tgt.identifier = id "practIdentifier";
   src.name       as n  -> tgt.name       = n  "practName";

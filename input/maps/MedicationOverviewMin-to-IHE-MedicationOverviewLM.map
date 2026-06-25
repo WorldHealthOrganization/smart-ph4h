@@ -1,38 +1,13 @@
-// StructureMap: map MedicationOverviewMin to IHE MEOW MedicationOverviewLM
-// Source : PH4H Logical Model MedicationOverviewMin (with 0..* MedicationTreatmentLineMin)
-// Target : IHE Pharmacy MEOW MedicationOverviewLM (1 PatientLM, 0..* MedicationTreatmentLineLM)
-// FHIR version: R5 (5.0.0)
-//
-// Style note: Complex datatypes (HumanName, CodeableConcept, Coding, Identifier,
-// Period) are FIRST created via create('TypeName') as <alias>, populated, and
-// THEN assigned to the target field. This avoids engine errors triggered by
-// navigate-then-assign patterns (e.g. `tgt.x as y, y.z = v`) where the sub-element
-// doesn't yet exist on the freshly-navigated parent. BackboneElements that are
-// part of the parent type's definition (recordingMetadata, comment) keep the
-// navigate-into-target pattern `tgt.field as alias then { ... }`.
-
-// FML spec: `map URL = identifier` — URL goes FIRST (the canonical the map
-// is registered under), identifier (the local name) goes second. Order matters
-// for import resolution; the chained Min→Bundle map imports this canonical.
 map "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewLM" = "MedicationOverviewMinToMedicationOverviewLM"
 
 uses "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin"              alias MedicationOverviewMin       as source
 uses "http://smart.who.int/ph4h/StructureDefinition/MedicationTreatmentLineMin"         alias MedicationTreatmentLineMin  as source
-// LM targets come from IHE Pharm MEOW r4 (local copies deleted on this branch).
+
 uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewLM"      alias MedicationOverviewLM        as target
 uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/PatientLM"                 alias PatientLM                   as target
 uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationTreatmentLineLM" alias MedicationTreatmentLineLM   as target
 
 
-// ---------------------------------------------------------------------------
-// Top-level group: 1 patient + 0..* medication treatment lines.
-// Helper invocations are nested inside `then { }` blocks (rather than appended
-// directly with `then GroupCall(args)`). The latter shape parses fine when
-// matchbox runs this map directly, but loses its argument bindings when the
-// map is imported from the chained Min→Bundle map, producing
-// "Rule '<helper>' has 2 but the invocation has 0 variables". The explicit
-// `<src> -> <tgt> then GroupCall(args)` inner rule sidesteps that.
-// ---------------------------------------------------------------------------
 group MedicationOverviewMinToMedicationOverviewLM(source src : MedicationOverviewMin, target tgt : MedicationOverviewLM) {
   src -> tgt.patient as patient then {
     src -> patient then MedicationOverviewMinToPatientLM(src, patient)                                       "patientInner";

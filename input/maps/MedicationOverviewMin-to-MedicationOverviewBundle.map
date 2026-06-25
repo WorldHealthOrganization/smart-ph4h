@@ -1,37 +1,16 @@
-// StructureMap: MedicationOverviewMin -> MedicationOverview (Bundle Profile), R4
-// Source : PH4H Logical Model MedicationOverviewMin (compact QR-payload form)
-// Target : IHE Pharm MEOW MedicationOverview Bundle (document)
-// FHIR version: R4 (4.0.1)
-//
-// This map composes the two stage maps:
-//   1. MedicationOverviewMinToMedicationOverviewLM  (Min  -> IHE LM)
-//   2. MedicationOverviewLMToMedicationOverviewBundle (IHE LM -> IHE Bundle)
-// via an intermediate MedicationOverviewLM created with create().
-//
-// Caveats:
-//   - Engine support for intermediate scratch variables created via create() varies.
-//   - All LM / profile canonicals are IHE Pharm MEOW (r4) on this branch.
+// Title:   MedicationOverviewMin to MedicationOverview Bundle
+// Status:  active
+// Version: R4 (4.0.1)
 
-// FML spec: `map URL = identifier` — URL first, identifier second.
 map "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewBundle" = "MedicationOverviewMinToMedicationOverviewBundle"
 
 uses "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin"            alias MedicationOverviewMin        as source
-// Intermediate LM: only `source` and `target` are accepted by the matchbox/HAPI
-// FML parser. We declare it as `target` because create('MedicationOverviewLM')
-// produces it within this map.
 uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewLM"    alias MedicationOverviewLM         as target
 uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverview"      alias MedicationOverviewBundle     as target
 
 imports "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewLM"
 imports "http://smart.who.int/ph4h/StructureMap/MedicationOverviewLMToMedicationOverviewBundle"
 
-
-// ---------------------------------------------------------------------------
-// Top-level group: chain Min -> IHE LM -> IHE Bundle.
-// Each stage is its own rule inside a `then` block (instead of comma-separated
-// invocations after `then`), because matchbox misparses multi-line
-// comma-chained group invocations and reports "the invocation has 0 variables".
-// ---------------------------------------------------------------------------
 group MedicationOverviewMinToMedicationOverviewBundle(source src : MedicationOverviewMin, target tgt : MedicationOverviewBundle) {
   src -> create('MedicationOverviewLM') as lm then {
     src -> lm then MedicationOverviewMinToMedicationOverviewLM(src, lm)        "stage1MinToLM";
