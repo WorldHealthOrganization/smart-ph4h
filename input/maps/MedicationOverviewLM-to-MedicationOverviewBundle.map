@@ -128,11 +128,14 @@ group MedicationTreatmentLineLMToMedicationStatement(source src : MedicationTrea
 
   src.status as st -> tgt.status = st "status";
 
-  // R4 medication[x] choice — assign directly, no CodeableReference wrapper
-  src.medicationReference       as mr -> tgt.medicationReference       = mr "medicationRef";
-  src.medicationCodeableConcept as mc -> tgt.medicationCodeableConcept = mc "medicationCC";
+  // R4 medication[x] / effective[x] are choice elements: assign to the BASE name
+  // (tgt.medication / tgt.effective) so the engine derives the type suffix from the
+  // value. Using the type-suffixed name (tgt.medicationCodeableConcept) makes this
+  // engine append the type AGAIN -> medicationCodeableConceptCodeableConcept.
+  src.medicationReference       as mr -> tgt.medication = mr "medicationRef";
+  src.medicationCodeableConcept as mc -> tgt.medication = mc "medicationCC";
 
-  src.effectivePeriod as ep -> tgt.effectivePeriod = ep "effectivePeriod";
+  src.effectivePeriod as ep -> tgt.effective = ep "effectivePeriod";
 
   src.recordingMetadata as rm then {
     rm.recordedTime as rt -> tgt.dateAsserted      = rt "dateAsserted";
