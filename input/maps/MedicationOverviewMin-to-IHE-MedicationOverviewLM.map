@@ -61,7 +61,6 @@ group MedicationTreatmentLineMinToMedicationTreatmentLineLM(source src : Medicat
   // Medication: create Coding, then CodeableConcept wrapping it, assign
   src.m as med -> create('Coding') as c,
                   c.code    = med,
-                  c.display = med,
                   create('CodeableConcept') as cc,
                   cc.coding                    = c,
                   tgt.medication = cc                                                  "medication";
