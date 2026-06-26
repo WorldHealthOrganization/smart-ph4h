@@ -97,10 +97,9 @@ Usage: #inline
 * status                                  = #active // R4 MS.status 1..1 required; Min has no status field
 * subject                                 = Reference(urn:uuid:22222222-2222-2222-2222-222222222222) // R4 MS.subject 1..1 required
 * medicationCodeableConcept.coding.code    = #L02BG03
-* medicationCodeableConcept.coding.display = "L02BG03"
 * effectivePeriod.start                   = "2015-03-01"
 * dateAsserted                            = "2015-03-15"
-* note.text                               = "1 tablet once daily"
+* dosage.text                             = "1 tablet once daily"
 * reasonCode.text                         = "treatment for breast cancer"
 
 Instance: ExampleMOBLine2
@@ -109,6 +108,5 @@ Usage: #inline
 * status                                  = #active
 * subject                                 = Reference(urn:uuid:22222222-2222-2222-2222-222222222222)
 * medicationCodeableConcept.coding.code    = #G02CX04
-* medicationCodeableConcept.coding.display = "G02CX04"
 * effectivePeriod.start                   = "2016-01-01"
-* note.text                               = "as directed"
+* dosage.text                             = "as directed"

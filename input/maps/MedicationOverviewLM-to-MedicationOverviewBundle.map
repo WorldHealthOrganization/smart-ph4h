@@ -70,6 +70,13 @@ group MedicationOverviewLMToComposition(source src : MedicationOverviewLM, targe
          subj.reference = append('urn:uuid:', pid),
          tgt.subject    = subj                                                                          "compSubject";
 
+  // Author (1..* required). No author in the Min source; this overview is built
+  // from patient-reported data, so reference the Patient itself as author. Swap
+  // for a Device/Organization reference if a generating system is the author.
+  src -> create('Reference') as auth,
+         auth.reference = append('urn:uuid:', pid),
+         tgt.author     = auth                                                                          "compAuthor";
+
   src -> tgt.date  = (now())                  "compDate";
   src -> tgt.title = 'Medication Overview'    "compTitle";
 
@@ -182,6 +189,19 @@ group MedicationTreatmentLineLMToMedicationStatement(source src : MedicationTrea
                       ext.url       = 'http://hl7.org/fhir/StructureDefinition/artifact-version',
                       ext.value     = v,
                       tgt.extension = ext                                                               "extVersion";
+
+  // Extension: adherence. R4 MedicationStatement has no adherence field; the IHE
+  // MedicationTreatmentLine profile carries it via the HL7 cross-version extension
+  // that backports R5 MedicationStatement.adherence. adherence.code holds the
+  // status (LM.treatmentStatus, a CodeableConcept).
+  src.treatmentStatus as ts -> create('Extension') as advExt then {
+    ts -> advExt.url = 'http://hl7.org/fhir/5.0/StructureDefinition/extension-MedicationStatement.adherence' "advUrl";
+    ts -> create('Extension') as advCode,
+          advCode.url      = 'code',
+          advCode.value    = ts,
+          advExt.extension = advCode                                                                    "advCode";
+    ts -> tgt.extension = advExt                                                                        "advAssign";
+  }                                                                                                     "adherence";
 
   // Extension: VerificationInformation (IHE Pharm MEOW canonical)
   src.verificationInformation as vi -> create('Extension') as ext then {
