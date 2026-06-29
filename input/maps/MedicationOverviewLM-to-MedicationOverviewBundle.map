@@ -12,7 +12,7 @@ uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationTreatment
 uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/PractitionerLM"                  alias PractitionerLM                    as source
 uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverview"              alias MedicationOverviewBundle          as target
 uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewComposition"   alias MedicationOverviewComposition     as target
-uses "http://hl7.org/fhir/StructureDefinition/MedicationStatement"                            alias MedicationStatement               as target
+uses "http://hl7.org/fhir/StructureDefinition/MedicationStatement|4.0.1"                            alias MedicationStatement               as target
 uses "http://hl7.org/fhir/StructureDefinition/Patient"                                        alias Patient                           as target
 uses "http://hl7.org/fhir/StructureDefinition/Practitioner"                                   alias Practitioner                      as target
 
