@@ -40,6 +40,20 @@ Usage: #example
 * m[1].es = "2016-01-01"
 * m[1].d  = "as directed"
 
+* m[2].m  = #A02BC01
+* m[2].es = "2020-06-01"
+* m[2].da = "2020-06-05"
+* m[2].d  = "20 mg once daily before breakfast"
+* m[2].r  = "treatment for gastric reflux"
+* m[2].a  = #active
+
+* m[3].m  = #C10AA01
+* m[3].es = "2018-09-01"
+* m[3].da = "2018-09-10"
+* m[3].d  = "40 mg once at night"
+* m[3].r  = "treatment for hypercholesterolaemia"
+* m[3].a  = #active
+
 
 // ---------------------------------------------------------------------------
 // TARGET: Bundle (document) — representative output of the chained
