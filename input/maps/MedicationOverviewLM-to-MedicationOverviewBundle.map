@@ -5,7 +5,7 @@
 
 /// title = "MedicationOverviewLM → MedicationOverview Bundle (R4)"
 /// description = "Stage-2 transform mapping an IHE Pharm MEOW MedicationOverviewLM into a FHIR R4 document Bundle (Composition + Patient + per-line MedicationStatement entries) conforming to the IHE Pharm MEOW MedicationOverview Bundle profile."
-/// status = draft
+/// status = "draft"
 
 // FML spec: `map URL = identifier` — URL first, identifier second.
 map "http://smart.who.int/ph4h/StructureMap/MedicationOverviewLMToMedicationOverviewBundle" = "MedicationOverviewLMToMedicationOverviewBundle"
