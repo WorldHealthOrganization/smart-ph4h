@@ -5,7 +5,7 @@ uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/PatientLM"         
 uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationTreatmentLineLM"       alias MedicationTreatmentLineLM         as source
 uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/PractitionerLM"                  alias PractitionerLM                    as source
 uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverview"              alias MedicationOverviewBundle          as target
-uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewComposition"   alias MedicationOverviewComposition     as target
+uses "http://hl7.org/fhir/StructureDefinition/Composition"                                    alias Composition                       as target
 uses "http://hl7.org/fhir/StructureDefinition/MedicationStatement|4.0.1"                            alias MedicationStatement               as target
 uses "http://hl7.org/fhir/StructureDefinition/Patient"                                        alias Patient                           as target
 uses "http://hl7.org/fhir/StructureDefinition/Practitioner"                                   alias Practitioner                      as target
@@ -49,7 +49,7 @@ group MedicationOverviewLMToMedicationOverviewBundle(source src : MedicationOver
 }
 
 
-group MedicationOverviewLMToComposition(source src : MedicationOverviewLM, target tgt : MedicationOverviewComposition, source pid) {
+group MedicationOverviewLMToComposition(source src : MedicationOverviewLM, target tgt : Composition, source pid) {
   src -> tgt.status = 'final' "compStatus";
 
   src -> create('Coding') as cc,
