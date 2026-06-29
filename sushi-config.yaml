@@ -284,20 +284,3 @@ dependencies:
   ihe.pharm.meow: dev
 #  hl7.fhir.us.cqfmeasures: current
 
-# Explicit resource entries for the StructureMaps compiled from input/maps/*.map.
-# Needed because the IG Publisher parses our `map URL = identifier` declarations
-# (the new FML-spec convention, required by matchbox for import resolution)
-# with the OLD `map identifier = URL` convention — so it derives the StructureMap
-# id from the URL with slashes stripped (e.g. "httpsmart.who.intph4hStructureMap…").
-# Without these entries the maps don't appear in the artifact index; with them
-# they get human-readable names there.
-resources:
-  StructureMap/httpsmart.who.intph4hStructureMapMedicationOverviewMinToMedicationOverviewLM:
-    name: "MedicationOverviewMin → IHE MEOW MedicationOverviewLM"
-    description: "Stage-1 transform mapping the compact QR-payload MedicationOverviewMin logical model into IHE Pharm MEOW MedicationOverviewLM with embedded PatientLM and MedicationTreatmentLineLM."
-  StructureMap/httpsmart.who.intph4hStructureMapMedicationOverviewLMToMedicationOverviewBundle:
-    name: "MedicationOverviewLM → MedicationOverview Bundle (R4)"
-    description: "Stage-2 transform mapping an IHE Pharm MEOW MedicationOverviewLM into a FHIR R4 document Bundle (Composition + Patient + per-line MedicationStatement entries) conforming to the IHE Pharm MEOW MedicationOverview Bundle profile."
-  StructureMap/httpsmart.who.intph4hStructureMapMedicationOverviewMinToMedicationOverviewBundle:
-    name: "MedicationOverviewMin → MedicationOverview Bundle (chained, R4)"
-    description: "End-to-end chained transform composing the Min→LM and LM→Bundle stage maps via an intermediate MedicationOverviewLM created with create()."
