@@ -10,7 +10,7 @@ that are performed within the business process. The workflow provides a “story
 for the business process being diagrammed and is used to enhance communication 
 and collaboration among users, stakeholders and engineers.
 
-The DAK for <mark>[insert health domain here]</mark> focuses on key business processes <nark>insert content here</mark>.
+The DAK for <mark>[insert health domain here]</mark> focuses on key business processes <mark>insert content here</mark>.
 
 ### Overview of Key Business Processes 
 The following table describes the workflows of the included processes. 

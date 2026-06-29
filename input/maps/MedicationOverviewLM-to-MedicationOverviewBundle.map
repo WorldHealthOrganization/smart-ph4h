@@ -3,6 +3,10 @@
 // Target : IHE Pharm MEOW MedicationOverview Bundle (Composition + Patient + 0..* MedicationTreatmentLine entries)
 // FHIR version: R4 (4.0.1)
 
+/// title = "MedicationOverviewLM → MedicationOverview Bundle (R4)"
+/// description = "Stage-2 transform mapping an IHE Pharm MEOW MedicationOverviewLM into a FHIR R4 document Bundle (Composition + Patient + per-line MedicationStatement entries) conforming to the IHE Pharm MEOW MedicationOverview Bundle profile."
+/// status = draft
+
 // FML spec: `map URL = identifier` — URL first, identifier second.
 map "http://smart.who.int/ph4h/StructureMap/MedicationOverviewLMToMedicationOverviewBundle" = "MedicationOverviewLMToMedicationOverviewBundle"
 
@@ -101,7 +105,7 @@ group MedicationOverviewLMToComposition(source src : MedicationOverviewLM, targe
     v.verificationTime as vt -> att.time = vt             "attTime";
 
     v.practicioner as pr -> create('Reference') as party,
-                            party.display = (pr.name.text),
+                            party.display = (%pr.name.text),
                             att.party     = party                                                       "attParty";
   }                                                                                                     "attester";
 
@@ -110,7 +114,7 @@ group MedicationOverviewLMToComposition(source src : MedicationOverviewLM, targe
     cm.date as d           -> nt.time = d    "noteTime";
 
     cm.author as a -> create('Reference') as ar,
-                      ar.display          = (a.name.text),
+                      ar.display          = (%a.name.text),
                       nt.authorReference  = ar                                                          "noteAuthor";
 
     cm -> tgt.note = nt                                                                                 "noteAssign";
@@ -121,7 +125,7 @@ group MedicationOverviewLMToComposition(source src : MedicationOverviewLM, targe
 group PatientLMToPatient(source src : PatientLM, target tgt : Patient) {
   src.identifier  as id -> tgt.identifier = id                "patIdentifier";
   src.name        as n  -> tgt.name       = n                 "patName";
-  src.gender      as g  -> tgt.gender     = (g.coding.code)   "patGender";
+  src.gender      as g  -> tgt.gender     = (%g.coding.code)  "patGender";
   src.dateOfBirth as d  -> tgt.birthDate  = d                 "patBirthDate";
 }
 
@@ -168,7 +172,7 @@ group MedicationTreatmentLineLMToMedicationStatement(source src : MedicationTrea
     cm.date        as d  -> nt.time = d  "lineNoteTime";
 
     cm.author as a -> create('Reference') as ar,
-                      ar.display         = (a.name.text),
+                      ar.display         = (%a.name.text),
                       nt.authorReference = ar                                                           "lineNoteAuthor";
 
     cm -> tgt.note = nt                                                                                 "lineNoteAssign";

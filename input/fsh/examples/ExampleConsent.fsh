@@ -30,8 +30,11 @@ Usage: #example
 * meta.security = http://terminology.hl7.org/CodeSystem/v3-ActReason#HTEST
 * status = #current
 * type = http://loinc.org#64292-6 "Release of information consent"
-* subject = Reference(Martha)
-* author = Reference(45a5c5b1-4ec1-4d60-b4b2-ff5a84a41fd6)
+// Display-only references — the patient/org instances they used to point at
+// (Martha, 45a5c5b1-…) were defined in ExampleIPS.fsh, which is deleted on
+// this branch. Using .display avoids "Unable to resolve resource" errors.
+* subject.display = "Martha (example patient)"
+* author.display  = "Laboratoire de charme (example org)"
 * description = "The captured signed document"
 * content.attachment.title = "Hello World"
 * content.attachment.contentType = #text/plain

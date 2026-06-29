@@ -1,6 +1,6 @@
-// Title:   MedicationOverviewMin to MedicationOverview Bundle
-// Status:  active
-// Version: R4 (4.0.1)
+/// title = "MedicationOverviewMin → MedicationOverview Bundle (chained, R4)"
+/// description = "End-to-end chained transform: composes the Min→LM and LM→Bundle stage maps via an intermediate MedicationOverviewLM created with create(), producing a complete IHE Pharm MEOW MedicationOverview Bundle from a compact MedicationOverviewMin QR-payload source."
+/// status = active
 
 map "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewBundle" = "MedicationOverviewMinToMedicationOverviewBundle"
 

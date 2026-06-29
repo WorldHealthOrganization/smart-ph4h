@@ -1,3 +1,7 @@
+/// title = "MedicationOverviewMin → IHE MEOW MedicationOverviewLM"
+/// description = "Stage-1 transform mapping the compact QR-payload MedicationOverviewMin logical model into IHE Pharm MEOW MedicationOverviewLM with embedded PatientLM and MedicationTreatmentLineLM."
+/// status = draft
+
 map "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewLM" = "MedicationOverviewMinToMedicationOverviewLM"
 
 uses "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin"              alias MedicationOverviewMin       as source
