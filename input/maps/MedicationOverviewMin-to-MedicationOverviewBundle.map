@@ -1,9 +1,5 @@
 map "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewBundle" = "MedicationOverviewMinToMedicationOverviewBundle"
 
-/// title = "MedicationOverviewMin → MedicationOverview Bundle (chained, R4)"
-/// description = "End-to-end chained transform: composes the Min→LM and LM→Bundle stage maps via an intermediate MedicationOverviewLM created with create(), producing a complete IHE Pharm MEOW MedicationOverview Bundle from a compact MedicationOverviewMin QR-payload source."
-/// status = "active"
-
 uses "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin"            alias MedicationOverviewMin        as source
 uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverview"      alias MedicationOverviewBundle     as target
 uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewLM"    alias MedicationOverviewLM         as target

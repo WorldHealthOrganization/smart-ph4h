@@ -1,14 +1,4 @@
-// StructureMap: MedicationOverviewLM -> MedicationOverview (Bundle Profile), R4
-// Source : IHE Pharm MEOW MedicationOverviewLM (1 Reference(PatientLM), 0..* Reference(MedicationTreatmentLineLM), verification, comment)
-// Target : IHE Pharm MEOW MedicationOverview Bundle (Composition + Patient + 0..* MedicationTreatmentLine entries)
-// FHIR version: R4 (4.0.1)
-
-// FML spec: `map URL = identifier` — URL first, identifier second.
 map "http://smart.who.int/ph4h/StructureMap/MedicationOverviewLMToMedicationOverviewBundle" = "MedicationOverviewLMToMedicationOverviewBundle"
-
-/// title = "MedicationOverviewLM → MedicationOverview Bundle (R4)"
-/// description = "Stage-2 transform mapping an IHE Pharm MEOW MedicationOverviewLM into a FHIR R4 document Bundle (Composition + Patient + per-line MedicationStatement entries) conforming to the IHE Pharm MEOW MedicationOverview Bundle profile."
-/// status = "draft"
 
 uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewLM"            alias MedicationOverviewLM              as source
 uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/PatientLM"                       alias PatientLM                         as source
