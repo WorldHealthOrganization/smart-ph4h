@@ -279,6 +279,8 @@ dependencies:
   # (works locally only — CI has no primed cache).
   # All LMs, profiles, and extensions are consumed FROM this package; local
   # copies are deleted on this branch.
-  ihe.pharm.meow: current$r4
+  ihe.pharm.meow:
+    uri: https://profiles.ihe.net/PHARM/MEOW/ImplementationGuide/ihe.pharm.meow
+    version: current$r4
 #  hl7.fhir.us.cqfmeasures: current
 

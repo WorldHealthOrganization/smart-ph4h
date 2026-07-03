@@ -1,4 +1,4 @@
-map "MedicationOverviewMinToMedicationOverviewBundle" = "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewBundle"
+map "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewBundle" = "MedicationOverviewMinToMedicationOverviewBundle"
 
 uses "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin"     alias MedicationOverviewMin        as source
 uses "https://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewLM"      alias MedicationOverviewLM         as target

@@ -11,7 +11,7 @@
 // part of the parent type's definition (recordingMetadata, comment) keep the
 // navigate-into-target pattern `tgt.field as alias then { ... }`.
 
-map "MedicationOverviewMinToMedicationOverviewLM" = "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewLM"
+map "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewLM" = "MedicationOverviewMinToMedicationOverviewLM"
 
 uses "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin"              alias MedicationOverviewMin       as source
 uses "http://smart.who.int/ph4h/StructureDefinition/MedicationTreatmentLineMin"         alias MedicationTreatmentLineMin  as source
@@ -74,7 +74,7 @@ group MedicationTreatmentLineMinToMedicationTreatmentLineLM(source src : Medicat
                   c.display = med,
                   create('CodeableConcept') as cc,
                   cc.coding                    = c,
-                  tgt.medicationCodeableConcept = cc                                   "medication";
+                  tgt.medication = cc                                   "medication";
 
   // Effective period: create Period, populate, assign
   // (Period uses .start/.end — NOT .low/.high; those are Range properties.)
