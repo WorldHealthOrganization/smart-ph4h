@@ -1,57 +1,97 @@
-map "http://smart.who.int/ph4h/StructureMap/MedicationOverviewLMToMedicationOverviewBundle" = "MedicationOverviewLMToMedicationOverviewBundle"
+// StructureMap: MedicationOverviewLM -> MedicationOverview (Bundle Profile)
+// Source : PH4H Logical Model MedicationOverviewLM (1 PatientLM, 0..* MedicationTreatmentLineLM, verification, comment)
+// Target : PH4H Bundle Profile MedicationOverview (Composition + Patient + 0..* MedicationTreatmentLine entries)
+// FHIR version: R4 (4.0.1) — targets the IHE MEOW r4-branch profiles. R5-only
+// MedicationStatement concepts are represented the way the r4 profile does it:
+// cross-version extensions (http://hl7.org/fhir/5.0/...) for adherence, and
+// IHE extensions (ihe-ext-medicationstatement-*) for verification/substitution.
+//
+// Patterns (matches the ICVPLMToIPS sample):
+//   * uuid() is an FML transform: bind to a variable via `uuid() as name`,
+//     then build a fullUrl with `append('urn:uuid:', name)`.
+//   * Generate fixed UUIDs (Composition, Patient) at the top of the bundle
+//     group and reuse them — so a section.entry Reference can point at the
+//     Patient entry's fullUrl, etc.
+//   * Variable-count entries (treatment lines) generate one uuid() per
+//     iteration. Their section.entry refs are display-only (a deterministic
+//     cross-link would require sharing scope between the line iteration and
+//     the Composition's section iteration).
+//   * Complex datatypes (CodeableConcept, Coding, CodeableReference, Reference,
+//     Annotation, Extension, Period, Dosage, Identifier) are still created
+//     via `create('TypeName') as <alias>`, populated, then assigned.
+//
+// Caveats:
+//   1. PatientLM / MedicationTreatmentLineLM are inline types on MedicationOverviewLM
+//      (not Reference) — the LM was updated to make this possible.
+//   2. Composition.subject points at the Patient entry via urn:uuid: ref.
+//   3. MedicationStatement.subject likewise points at the Patient entry via urn:uuid: ref.
+//   4. Composition.attester.party and Annotation.authorReference still use display-only
+//      Reference (Practitioner is not emitted as its own bundle entry yet).
+//   5. Composition.type defaults to LOINC 56445-0 "Medication summary Document".
 
-uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewLM"            alias MedicationOverviewLM              as source
-uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/PatientLM"                       alias PatientLM                         as source
-uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationTreatmentLineLM"       alias MedicationTreatmentLineLM         as source
-uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/PractitionerLM"                  alias PractitionerLM                    as source
-uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverview"              alias MedicationOverviewBundle          as target
-uses "http://hl7.org/fhir/StructureDefinition/Composition"                                    alias Composition                       as target
-uses "http://hl7.org/fhir/StructureDefinition/MedicationStatement|4.0.1"                            alias MedicationStatement               as target
-uses "http://hl7.org/fhir/StructureDefinition/Patient"                                        alias Patient                           as target
-uses "http://hl7.org/fhir/StructureDefinition/Practitioner"                                   alias Practitioner                      as target
+map "MedicationOverviewLMToMedicationOverviewBundle" = "http://smart.who.int/ph4h/StructureMap/MedicationOverviewLMToMedicationOverviewBundle"
 
+uses "https://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewLM"            alias MedicationOverviewLM              as source
+uses "https://profiles.ihe.net/PHARM/MEOW/StructureDefinition/PatientLM"                       alias PatientLM                         as source
+uses "https://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationTreatmentLineLM"       alias MedicationTreatmentLineLM         as source
+uses "https://profiles.ihe.net/PHARM/MEOW/StructureDefinition/PractitionerLM"                  alias PractitionerLM                    as source
+uses "https://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverview"              alias MedicationOverviewBundle          as target
+uses "https://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewComposition"   alias MedicationOverviewComposition     as target
+uses "https://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationTreatmentLine"         alias MedicationTreatmentLine           as target
+uses "http://hl7.org/fhir/StructureDefinition/Patient"                               alias Patient                           as target
+uses "http://hl7.org/fhir/StructureDefinition/Practitioner"                          alias Practitioner                      as target
+
+
+// ---------------------------------------------------------------------------
+// Top-level group: assemble MedicationOverview Bundle (document)
+// ---------------------------------------------------------------------------
 group MedicationOverviewLMToMedicationOverviewBundle(source src : MedicationOverviewLM, target tgt : MedicationOverviewBundle) {
   src -> tgt.type      = 'document' "bundleType";
   src -> tgt.timestamp = (now())    "bundleTimestamp";
 
+  // Generate fixed UUIDs once; reuse them across entries and Reference targets.
   src -> uuid() as bid, uuid() as cid, uuid() as pid then {
 
+    // Bundle.identifier (UUID identifier per RFC 4122)
     src -> tgt.identifier as id,
            id.system = 'urn:ietf:rfc:4122',
            id.value  = bid                                                                              "bundleIdentifier";
 
-
+    // Composition entry
     src -> tgt.entry as ce,
-           ce.fullUrl = append('urn:uuid:', cid),
-           create('Composition') as comp then {
-      src -> comp then MedicationOverviewLMToComposition(src, comp, pid)  "compositionContent";
-      src -> ce.resource = comp                                            "compositionAssign";
+           ce.fullUrl  = append('urn:uuid:', cid),
+           ce.resource = create('Composition') as comp then {
+      src then MedicationOverviewLMToComposition(src, comp, pid) "compositionContent";
     }                                                                                                   "compositionEntry";
 
+    // Patient entry
     src.patient as pref -> tgt.entry as pe,
-                           pe.fullUrl = append('urn:uuid:', pid),
-                           create('Patient') as pat then {
-      pref -> pat then PatientLMToPatient(pref, pat) "patientContent";
-      pref -> pe.resource = pat                      "patientAssign";
+                           pe.fullUrl  = append('urn:uuid:', pid),
+                           pe.resource = create('Patient') as pat then {
+      pref then PatientLMToPatient(pref, pat) "patientContent";
     }                                                                                                   "patientEntry";
 
+    // Treatment line entries — UUID generated per iteration (variable count)
     src.medicationTreatmentLine as lref -> uuid() as tid then {
-      lref -> tgt.entry as te then {
-        lref -> te.fullUrl = append('urn:uuid:', tid) "teFullUrl";
-        lref -> create('MedicationStatement') as ms then {
-          lref -> ms then MedicationTreatmentLineLMToMedicationStatement(lref, ms, pid) "lineContent";
-          lref -> te.resource = ms                                                       "lineAssign";
-        } "teResource";
-      } "lineEntry";
+      lref -> tgt.entry as te,
+              te.fullUrl  = append('urn:uuid:', tid),
+              te.resource = create('MedicationStatement') as ms then {
+        lref then MedicationTreatmentLineLMToMedicationStatement(lref, ms, pid) "lineContent";
+      }                                                                                                 "lineEntry";
     }                                                                                                   "treatmentLines";
 
   }                                                                                                     "setEntries";
 }
 
 
-group MedicationOverviewLMToComposition(source src : MedicationOverviewLM, target tgt : Composition, source pid) {
+// ---------------------------------------------------------------------------
+// MedicationOverviewLM -> MedicationOverviewComposition
+// Receives the Patient entry's UUID (pid) so subject can reference it.
+// ---------------------------------------------------------------------------
+group MedicationOverviewLMToComposition(source src : MedicationOverviewLM, target tgt : MedicationOverviewComposition, source pid) {
   src -> tgt.status = 'final' "compStatus";
 
+  // Composition.type — LOINC 56445-0 "Medication summary Document"
   src -> create('Coding') as cc,
          cc.system  = 'http://loinc.org',
          cc.code    = '56445-0',
@@ -60,20 +100,15 @@ group MedicationOverviewLMToComposition(source src : MedicationOverviewLM, targe
          ct.coding = cc,
          tgt.type  = ct                                                                                 "compType";
 
+  // Composition.subject -> Patient entry by uuid
   src -> create('Reference') as subj,
          subj.reference = append('urn:uuid:', pid),
          tgt.subject    = subj                                                                          "compSubject";
 
-  // Author (1..* required). No author in the Min source; this overview is built
-  // from patient-reported data, so reference the Patient itself as author. Swap
-  // for a Device/Organization reference if a generating system is the author.
-  src -> create('Reference') as auth,
-         auth.reference = append('urn:uuid:', pid),
-         tgt.author     = auth                                                                          "compAuthor";
-
   src -> tgt.date  = (now())                  "compDate";
   src -> tgt.title = 'Medication Overview'    "compTitle";
 
+  // Section: MedRecordTreatmentLine
   src -> tgt.section as sect then {
     src -> sect.title = 'Medication Treatment Lines' "sectTitle";
 
@@ -85,71 +120,87 @@ group MedicationOverviewLMToComposition(source src : MedicationOverviewLM, targe
            sc.coding = scc,
            sect.code = sc                                                                               "sectCode";
 
+    // Display-only Reference per line — cross-linking to bundle entry would
+    // require sharing the line iteration's uuid with this group.
     src.medicationTreatmentLine as lref -> create('Reference') as ref,
                                            ref.display = 'Medication Treatment Line',
                                            sect.entry  = ref                                           "sectEntry";
   }                                                                                                     "sectionTreatmentLines";
 
+  // Attester from verification BackboneElement
   src.verification as v -> tgt.attester as att then {
     v                        -> att.mode = 'professional' "attMode";
     v.verificationTime as vt -> att.time = vt             "attTime";
 
     v.practicioner as pr -> create('Reference') as party,
-                            party.display = (%pr.name.text),
+                            party.display = (pr.name.text),
                             att.party     = party                                                       "attParty";
   }                                                                                                     "attester";
 
-  src.comment as cm -> create('Annotation') as nt then {
+  // Comment -> R4 Composition has NO `note` element (R5-only). Use the
+  // cross-version extension, mirroring the r4 profile's approach for adherence.
+  src.comment as cm -> create('Extension') as ext,
+                       ext.url = 'http://hl7.org/fhir/5.0/StructureDefinition/extension-Composition.note',
+                       create('Annotation') as nt then {
     cm.commentText as ctxt -> nt.text = ctxt "noteText";
     cm.date as d           -> nt.time = d    "noteTime";
 
     cm.author as a -> create('Reference') as ar,
-                      ar.display          = (%a.name.text),
+                      ar.display          = (a.name.text),
                       nt.authorReference  = ar                                                          "noteAuthor";
 
-    cm -> tgt.note = nt                                                                                 "noteAssign";
+    cm -> ext.value = nt, tgt.extension = ext                                                           "noteAssign";
   }                                                                                                     "noteFromComment";
 }
 
 
+// ---------------------------------------------------------------------------
+// PatientLM -> FHIR Patient
+// ---------------------------------------------------------------------------
 group PatientLMToPatient(source src : PatientLM, target tgt : Patient) {
   src.identifier  as id -> tgt.identifier = id                "patIdentifier";
   src.name        as n  -> tgt.name       = n                 "patName";
-  src.gender      as g  -> tgt.gender     = (%g.coding.code)  "patGender";
+  src.gender      as g  -> tgt.gender     = (g.coding.code)   "patGender";
+  // dateOfBirth is dateTime in LM; birthDate is date — silent truncation expected.
   src.dateOfBirth as d  -> tgt.birthDate  = d                 "patBirthDate";
 }
 
 
-group MedicationTreatmentLineLMToMedicationStatement(source src : MedicationTreatmentLineLM, target tgt : MedicationStatement, source pid) {
+// ---------------------------------------------------------------------------
+// MedicationTreatmentLineLM -> MedicationTreatmentLine (profile on MedicationStatement, R4)
+// Receives the Patient entry's UUID (pid) so MS.subject can reference it.
+// ---------------------------------------------------------------------------
+group MedicationTreatmentLineLMToMedicationStatement(source src : MedicationTreatmentLineLM, target tgt : MedicationTreatmentLine, source pid) {
   src.identifier as id -> tgt.identifier = id    "identifier";
 
+  // subject -> Patient entry by uuid (MS.subject is 1..1)
   src -> create('Reference') as subj,
          subj.reference = append('urn:uuid:', pid),
          tgt.subject    = subj                                                                          "subject";
 
   src.status as st -> tgt.status = st "status";
 
-  // R4 medication[x] / effective[x] are choice elements: assign to the BASE name
-  // (tgt.medication / tgt.effective) so the engine derives the type suffix from the
-  // value. Using the type-suffixed name (tgt.medicationCodeableConcept) makes this
-  // engine append the type AGAIN -> medicationCodeableConceptCodeableConcept.
+  // medication[x] choice -> R4 medication[x] (no CodeableReference in R4;
+  // the engine resolves medicationReference/medicationCodeableConcept by value type)
   src.medicationReference       as mr -> tgt.medication = mr "medicationRef";
   src.medicationCodeableConcept as mc -> tgt.medication = mc "medicationCC";
 
-  src.effectivePeriod as ep -> tgt.effective = ep "effectivePeriod";
+  src.effectivePeriod as ep -> tgt.effectivePeriod = ep "effectivePeriod";
 
   src.recordingMetadata as rm then {
     rm.recordedTime as rt -> tgt.dateAsserted      = rt "dateAsserted";
     rm.recorder     as rc -> tgt.informationSource = rc "informationSource";
   }                                                                                                     "recordingMetadata";
 
+  // reason -> R4 reasonCode (0..* CodeableConcept; no CodeableReference in R4)
   src.indication as ind -> tgt.reasonCode = ind "reasonIndication";
 
   src.indicationText as it -> create('CodeableConcept') as cc,
-                              cc.text         = it,
-                              tgt.reasonCode  = cc                                                       "reasonIndicationText";
+                              cc.text        = it,
+                              tgt.reasonCode = cc                                                       "reasonIndicationText";
 
-  src.intendedUse as iu -> tgt.reasonCode = iu "reasonIntendedUse";
+  // intendedUse: no R4 MedicationStatement element and no extension slice in the
+  // r4 MEOW profile — intentionally not mapped (stays LM-only).
 
   src.usageInstructions as ui -> tgt.dosage = ui "dosage";
 
@@ -157,16 +208,35 @@ group MedicationTreatmentLineLMToMedicationStatement(source src : MedicationTrea
                                        dos.text   = pi,
                                        tgt.dosage = dos                                                 "prepInstructions";
 
+  // note = comment
   src.comment as cm -> create('Annotation') as nt then {
     cm.commentText as ct -> nt.text = ct "lineNoteText";
     cm.date        as d  -> nt.time = d  "lineNoteTime";
 
     cm.author as a -> create('Reference') as ar,
-                      ar.display         = (%a.name.text),
+                      ar.display         = (a.name.text),
                       nt.authorReference = ar                                                           "lineNoteAuthor";
 
     cm -> tgt.note = nt                                                                                 "lineNoteAssign";
   }                                                                                                     "lineNote";
+
+  // adherence -> R4 has no MS.adherence; the r4 profile slices the R5
+  // cross-version extension (1..1 in the profile, sub-extensions code/reason).
+  src.treatmentStatus as ts -> create('Extension') as ext,
+                               ext.url = 'http://hl7.org/fhir/5.0/StructureDefinition/extension-MedicationStatement.adherence',
+                               create('Extension') as e1,
+                               e1.url        = 'code',
+                               e1.value      = ts,
+                               ext.extension = e1,
+                               tgt.extension = ext                                                      "extAdherence";
+
+  src.treatmentStatusReasonCode as tsr -> create('Extension') as ext,
+                               ext.url = 'http://hl7.org/fhir/5.0/StructureDefinition/extension-MedicationStatement.adherence',
+                               create('Extension') as e1,
+                               e1.url        = 'reason',
+                               e1.value      = tsr,
+                               ext.extension = e1,
+                               tgt.extension = ext                                                      "extAdherenceReason";
 
   src.category as cat -> tgt.category = cat "category";
 
@@ -178,28 +248,15 @@ group MedicationTreatmentLineLMToMedicationStatement(source src : MedicationTrea
     df.other          as oth -> tgt.derivedFrom = oth "derivedFromOther";
   }                                                                                                     "derivedFrom";
 
-  // Extension: artifact-version (R4 standard extension URL is unchanged)
+  // Extension: artifact-version
   src.version as v -> create('Extension') as ext,
                       ext.url       = 'http://hl7.org/fhir/StructureDefinition/artifact-version',
                       ext.value     = v,
                       tgt.extension = ext                                                               "extVersion";
 
-  // Extension: adherence. R4 MedicationStatement has no adherence field; the IHE
-  // MedicationTreatmentLine profile carries it via the HL7 cross-version extension
-  // that backports R5 MedicationStatement.adherence. adherence.code holds the
-  // status (LM.treatmentStatus, a CodeableConcept).
-  src.treatmentStatus as ts -> create('Extension') as advExt then {
-    ts -> advExt.url = 'http://hl7.org/fhir/5.0/StructureDefinition/extension-MedicationStatement.adherence' "advUrl";
-    ts -> create('Extension') as advCode,
-          advCode.url      = 'code',
-          advCode.value    = ts,
-          advExt.extension = advCode                                                                    "advCode";
-    ts -> tgt.extension = advExt                                                                        "advAssign";
-  }                                                                                                     "adherence";
-
-  // Extension: VerificationInformation (IHE Pharm MEOW canonical)
+  // Extension: VerificationInformation
   src.verificationInformation as vi -> create('Extension') as ext then {
-    vi -> ext.url = 'http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/ihe-ext-medicationstatement-verificationinformation' "viUrl";
+    vi -> ext.url = 'https://profiles.ihe.net/PHARM/MEOW/StructureDefinition/ihe-ext-medicationstatement-verificationinformation' "viUrl";
 
     vi.verifier as vr -> create('Extension') as e1,
                          e1.url        = 'verifier',
@@ -214,8 +271,9 @@ group MedicationTreatmentLineLMToMedicationStatement(source src : MedicationTrea
     vi -> tgt.extension = ext "viAssign";
   }                                                                                                     "extVerification";
 
+  // Extension: Substitution
   src.substitution as sub -> create('Extension') as ext then {
-    sub -> ext.url = 'http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/ihe-ext-medicationstatement-substitution' "subUrl";
+    sub -> ext.url = 'https://profiles.ihe.net/PHARM/MEOW/StructureDefinition/ihe-ext-medicationstatement-substitution' "subUrl";
 
     sub.substitutionType as t -> create('Extension') as e1,
                                  e1.url        = 'substitutionType',
@@ -237,6 +295,9 @@ group MedicationTreatmentLineLMToMedicationStatement(source src : MedicationTrea
 }
 
 
+// ---------------------------------------------------------------------------
+// PractitionerLM -> FHIR Practitioner
+// ---------------------------------------------------------------------------
 group PractitionerLMToPractitioner(source src : PractitionerLM, target tgt : Practitioner) {
   src.identifier as id -> tgt.identifier = id "practIdentifier";
   src.name       as n  -> tgt.name       = n  "practName";

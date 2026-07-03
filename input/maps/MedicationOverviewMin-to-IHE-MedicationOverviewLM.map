@@ -1,21 +1,31 @@
-map "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewLM" = "MedicationOverviewMinToMedicationOverviewLM"
+// StructureMap: map MedicationOverviewMin to IHE MEOW MedicationOverviewLM
+// Source : PH4H Logical Model MedicationOverviewMin (with 0..* MedicationTreatmentLineMin)
+// Target : IHE Pharmacy MEOW MedicationOverviewLM (1 PatientLM, 0..* MedicationTreatmentLineLM)
+// FHIR version: R4 (4.0.1) — logical models from the IHE MEOW r4 branch package.
+//
+// Style note: Complex datatypes (HumanName, CodeableConcept, Coding, Identifier,
+// Period) are FIRST created via create('TypeName') as <alias>, populated, and
+// THEN assigned to the target field. This avoids engine errors triggered by
+// navigate-then-assign patterns (e.g. `tgt.x as y, y.z = v`) where the sub-element
+// doesn't yet exist on the freshly-navigated parent. BackboneElements that are
+// part of the parent type's definition (recordingMetadata, comment) keep the
+// navigate-into-target pattern `tgt.field as alias then { ... }`.
+
+map "MedicationOverviewMinToMedicationOverviewLM" = "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewLM"
 
 uses "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin"              alias MedicationOverviewMin       as source
 uses "http://smart.who.int/ph4h/StructureDefinition/MedicationTreatmentLineMin"         alias MedicationTreatmentLineMin  as source
+uses "https://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewLM"      alias MedicationOverviewLM        as target
+uses "https://profiles.ihe.net/PHARM/MEOW/StructureDefinition/PatientLM"                 alias PatientLM                   as target
+uses "https://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationTreatmentLineLM" alias MedicationTreatmentLineLM   as target
 
-uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewLM"      alias MedicationOverviewLM        as target
-uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/PatientLM"                 alias PatientLM                   as target
-uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationTreatmentLineLM" alias MedicationTreatmentLineLM   as target
 
-
+// ---------------------------------------------------------------------------
+// Top-level group: 1 patient + 0..* medication treatment lines
+// ---------------------------------------------------------------------------
 group MedicationOverviewMinToMedicationOverviewLM(source src : MedicationOverviewMin, target tgt : MedicationOverviewLM) {
-  src -> tgt.patient as patient then {
-    src -> patient then MedicationOverviewMinToPatientLM(src, patient)                                       "patientInner";
-  }                                                                                                          "patient";
-
-  src.m as line -> tgt.medicationTreatmentLine as tline then {
-    line -> tline then MedicationTreatmentLineMinToMedicationTreatmentLineLM(line, tline)                    "treatmentLineInner";
-  }                                                                                                          "treatmentLine";
+  src       -> tgt.patient                as patient then MedicationOverviewMinToPatientLM(src, patient)                              "patient";
+  src.m as line -> tgt.medicationTreatmentLine as tline   then MedicationTreatmentLineMinToMedicationTreatmentLineLM(line, tline)     "treatmentLine";
 }
 
 
@@ -58,16 +68,13 @@ group MedicationOverviewMinToPatientLM(source src : MedicationOverviewMin, targe
 // One MedicationTreatmentLineMin -> one MedicationTreatmentLineLM
 // ---------------------------------------------------------------------------
 group MedicationTreatmentLineMinToMedicationTreatmentLineLM(source src : MedicationTreatmentLineMin, target tgt : MedicationTreatmentLineLM) {
-  // Status: the Min source carries no status; default to 'active'. LM.status is
-  // 1..1, and the downstream MedicationStatement.status is 1..1 required.
-  src -> tgt.status = 'active'                                                         "status";
-
   // Medication: create Coding, then CodeableConcept wrapping it, assign
   src.m as med -> create('Coding') as c,
                   c.code    = med,
+                  c.display = med,
                   create('CodeableConcept') as cc,
                   cc.coding                    = c,
-                  tgt.medication = cc                                                  "medication";
+                  tgt.medicationCodeableConcept = cc                                   "medication";
 
   // Effective period: create Period, populate, assign
   // (Period uses .start/.end — NOT .low/.high; those are Range properties.)
@@ -83,13 +90,11 @@ group MedicationTreatmentLineMinToMedicationTreatmentLineLM(source src : Medicat
   }                                                                                    "dateAsserted";
 
   // Dosage as free text. Route to preparationInstructions (a plain string array)
-  // Dosage as free text — route into usageInstructions.text (a DosagingInformation
-  // sub-field). DosagingInformation has no required sub-fields, so creating one
-  // with only `.text` populated is safe (unlike `comment`, where `author`, `date`,
-  // and `commentText` are all 1..1).
-  src.d as d -> tgt.usageInstructions as ui then {
-    d -> ui.text = d                                                                   "usageText";
-  }                                                                                    "dosage";
+  // rather than comment.commentText: comment is a BackboneElement with several
+  // 1..1 sub-fields (author, date, commentText) that the Min source can't
+  // populate, so creating a half-empty comment confuses matchbox's serializer.
+  // preparationInstructions is a string field, no nested required structure.
+  src.d as d -> tgt.preparationInstructions = d                                        "dosage";
 
   src.r as r -> tgt.indicationText = r                                                 "reason";
 

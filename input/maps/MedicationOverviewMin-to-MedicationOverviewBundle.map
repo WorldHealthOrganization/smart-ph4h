@@ -1,15 +1,16 @@
-map "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewBundle" = "MedicationOverviewMinToMedicationOverviewBundle"
+map "MedicationOverviewMinToMedicationOverviewBundle" = "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewBundle"
 
-uses "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin"            alias MedicationOverviewMin        as source
-uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverview"      alias MedicationOverviewBundle     as target
-uses "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewLM"    alias MedicationOverviewLM         as target
+uses "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin"     alias MedicationOverviewMin        as source
+uses "https://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewLM"      alias MedicationOverviewLM         as target
+uses "https://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverview"        alias MedicationOverviewBundle     as target
 
 imports "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewLM"
 imports "http://smart.who.int/ph4h/StructureMap/MedicationOverviewLMToMedicationOverviewBundle"
 
+
 group MedicationOverviewMinToMedicationOverviewBundle(source src : MedicationOverviewMin, target tgt : MedicationOverviewBundle) {
   src -> create('MedicationOverviewLM') as lm then {
-    src -> lm  then MedicationOverviewMinToMedicationOverviewLM(src, lm)       "stage1MinToLM";
-    src -> tgt then MedicationOverviewLMToMedicationOverviewBundle(lm, tgt)    "stage2LMToBundle";
+    src -> lm then MedicationOverviewMinToMedicationOverviewLM(src, lm)        "stage1MinToLM";
+    lm  -> tgt then MedicationOverviewLMToMedicationOverviewBundle(lm, tgt)    "stage2LMToBundle";
   }                                                                            "chainMinToBundle";
 }
