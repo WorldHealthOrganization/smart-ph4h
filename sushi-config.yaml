@@ -268,19 +268,11 @@ dependencies:
   hl7.fhir.uv.ips: 1.1.0
   ihe.iti.pcf: 1.1.0
   hl7.fhir.uv.cpg: 2.0.0
-  # IHE Pharmacy Medication Overview Workflow, r4 branch CI build, resolved
-  # ONLINE from https://build.fhir.org/ig/IHE/pharm-meow/branches/r4/ by both
-  # SUSHI and the IG Publisher — no local package-cache priming, so plain
-  # GitHub CI builds work too. (`current` alone would be the MAIN branch =
-  # R5, incompatible with this R4 IG.)
-  # NOTE: an older IG Publisher rejected `current$branch`; run _updatePublisher
-  # before building. If it still fails, fall back to `ihe.pharm.meow: dev` with
-  # the r4 package.tgz extracted into ~/.fhir/packages/ihe.pharm.meow#dev
-  # (works locally only — CI has no primed cache).
+  # IHE Pharmacy Medication Overview Workflow — official 1.0.0-preview
+  # publication (R4, inline-typed logical models, https canonicals), resolved
+  # online from the standard package feed. Works identically locally and in CI.
   # All LMs, profiles, and extensions are consumed FROM this package; local
   # copies are deleted on this branch.
-  ihe.pharm.meow:
-    uri: https://profiles.ihe.net/PHARM/MEOW/ImplementationGuide/ihe.pharm.meow
-    version: current$r4
+  ihe.pharm.meow: 1.0.0-preview
 #  hl7.fhir.us.cqfmeasures: current
 
