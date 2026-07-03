@@ -1,12 +1,14 @@
 map "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewBundle" = "MedicationOverviewMinToMedicationOverviewBundle"
 
 uses "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin"     alias MedicationOverviewMin        as source
-// The Bundle profile must be the map's (only) `target`-mode structure: the engine
-// instantiates the transform's target from the FIRST target-mode `uses`. The LM is
-// an intermediate created via create('MedicationOverviewLM') — mode `produced`
-// keeps the alias resolvable without hijacking target creation.
+// ORDER MATTERS: the transform engine instantiates the transform's target from
+// the FIRST target-mode `uses` (ValidationEngine.getTargetResourceFromStructureMap
+// picks the first TARGET structure). The Bundle profile must therefore come before
+// the LM, which is only an intermediate created via create('MedicationOverviewLM').
+// (FML mode `produced` would be the semantically right marker for the LM, but this
+// engine's FML text parser only accepts source|target.)
 uses "https://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverview"        alias MedicationOverviewBundle     as target
-uses "https://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewLM"      alias MedicationOverviewLM         as produced
+uses "https://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewLM"      alias MedicationOverviewLM         as target
 
 imports "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewLM"
 imports "http://smart.who.int/ph4h/StructureMap/MedicationOverviewLMToMedicationOverviewBundle"
