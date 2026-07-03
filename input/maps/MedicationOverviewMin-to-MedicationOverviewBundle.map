@@ -11,6 +11,9 @@ imports "http://smart.who.int/ph4h/StructureMap/MedicationOverviewLMToMedication
 group MedicationOverviewMinToMedicationOverviewBundle(source src : MedicationOverviewMin, target tgt : MedicationOverviewBundle) {
   src -> create('MedicationOverviewLM') as lm then {
     src -> lm then MedicationOverviewMinToMedicationOverviewLM(src, lm)        "stage1MinToLM";
-    lm  -> tgt then MedicationOverviewLMToMedicationOverviewBundle(lm, tgt)    "stage2LMToBundle";
+    // NOTE: the rule's source context must be a SOURCE-mode variable — `lm` is
+    // a target variable (created above) and may only appear as a dependent
+    // parameter. `lm -> tgt then ...` fails with "Unknown input variable lm".
+    src -> tgt then MedicationOverviewLMToMedicationOverviewBundle(lm, tgt)    "stage2LMToBundle";
   }                                                                            "chainMinToBundle";
 }

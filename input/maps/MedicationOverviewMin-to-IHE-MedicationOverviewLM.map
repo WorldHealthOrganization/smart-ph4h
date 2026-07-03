@@ -68,6 +68,12 @@ group MedicationOverviewMinToPatientLM(source src : MedicationOverviewMin, targe
 // One MedicationTreatmentLineMin -> one MedicationTreatmentLineLM
 // ---------------------------------------------------------------------------
 group MedicationTreatmentLineMinToMedicationTreatmentLineLM(source src : MedicationTreatmentLineMin, target tgt : MedicationTreatmentLineLM) {
+  // Status: the Min source carries no record status; default to 'active'.
+  // LM.status is 1..1 and the downstream R4 MedicationStatement.status is
+  // 1..1 required — without this rule, stage 2 emits status-less statements
+  // that fail MEOW Bundle profile validation.
+  src -> tgt.status = 'active' "status";
+
   // Medication: create Coding, then CodeableConcept wrapping it, assign
   src.m as med -> create('Coding') as c,
                   c.code    = med,
