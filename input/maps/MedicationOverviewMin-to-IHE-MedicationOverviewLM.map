@@ -75,10 +75,12 @@ group MedicationTreatmentLineMinToMedicationTreatmentLineLM(source src : Medicat
   // NOTE: the ATC-coded example (e.g. L02BG03) is mislabelled by this fixed system.
   // If mixed code systems must be supported, the Min model should carry the system
   // alongside the code (e.g. an 'ms' field) rather than assuming SNOMED here.
+  // Display intentionally NOT set: the Min 'm' field carries only a code, and
+  // emitting the code as the display fails SNOMED display validation
+  // ("Wrong Display Name"). Leaving it absent lets the term server supply it.
   src.m as med -> create('Coding') as c,
                   c.system  = 'http://snomed.info/sct',
                   c.code    = med,
-                  c.display = med,
                   create('CodeableConcept') as cc,
                   cc.coding                    = c,
                   tgt.medication = cc                                   "medication";

@@ -101,6 +101,14 @@ group MedicationOverviewLMToComposition(source src : MedicationOverviewLM, targe
   src -> tgt.date  = (now())                  "compDate";
   src -> tgt.title = 'Medication Overview'    "compTitle";
 
+  // Composition.author is 1..* (required). The Min source carries no author, so
+  // emit a display-only placeholder Reference to satisfy the cardinality.
+  // TODO: replace with the real authoring Organization/Device once the source
+  // (or a config value) provides it.
+  src -> create('Reference') as au,
+         au.display = 'Medication Overview generator',
+         tgt.author = au                                                                                "compAuthor";
+
   // Section: MedRecordTreatmentLine
   src -> tgt.section as sect then {
     src -> sect.title = 'Medication Treatment Lines' "sectTitle";
