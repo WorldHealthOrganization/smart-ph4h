@@ -48,17 +48,12 @@ group MedicationOverviewMinToPatientLM(source src : MedicationOverviewMin, targe
                 g.coding   = gc,
                 tgt.gender = g                                                         "gender";
 
-  // Identifier: create Identifier, populate (+ optional type), assign
+  // Identifier: create Identifier, populate, assign. Identifier.type is intentionally
+  // NOT emitted: the Min 'dt' code carries no code system, which produced
+  // unvalidatable type.coding warnings (no system / not in IdentifierType VS).
+  // Identifier.type is optional (0..1); the value alone is sufficient here.
   src.id as id -> create('Identifier') as ident then {
     id -> ident.value = id                                                             "identifierValue";
-
-    // Identifier.type: create Coding + CodeableConcept, assign to ident.type
-    src.dt as dt -> create('Coding') as tc,
-                    tc.code = dt,
-                    create('CodeableConcept') as t,
-                    t.coding    = tc,
-                    ident.type  = t                                                    "identifierType";
-
     id -> tgt.identifier = ident                                                       "identifierAssign";
   }                                                                                    "identifier";
 }
@@ -74,8 +69,14 @@ group MedicationTreatmentLineMinToMedicationTreatmentLineLM(source src : Medicat
   // that fail MEOW Bundle profile validation.
   src -> tgt.status = 'active' "status";
 
-  // Medication: create Coding, then CodeableConcept wrapping it, assign
+  // Medication: create Coding, then CodeableConcept wrapping it, assign.
+  // The Min 'm' field is a bare code with no system; RACSEL production data uses
+  // SNOMED CT, so tag it as SNOMED to satisfy validation.
+  // NOTE: the ATC-coded example (e.g. L02BG03) is mislabelled by this fixed system.
+  // If mixed code systems must be supported, the Min model should carry the system
+  // alongside the code (e.g. an 'ms' field) rather than assuming SNOMED here.
   src.m as med -> create('Coding') as c,
+                  c.system  = 'http://snomed.info/sct',
                   c.code    = med,
                   c.display = med,
                   create('CodeableConcept') as cc,
@@ -104,10 +105,16 @@ group MedicationTreatmentLineMinToMedicationTreatmentLineLM(source src : Medicat
 
   src.r as r -> tgt.indicationText = r                                                 "reason";
 
-  // Adherence: create Coding, then CodeableConcept wrapping it, assign
-  src.a as a -> create('Coding') as tsc,
-                tsc.code = a,
-                create('CodeableConcept') as ts,
-                ts.coding           = tsc,
-                tgt.treatmentStatus = ts                                               "adherence";
+  // Adherence (treatmentStatus): MEOW requires adherence 1..1 downstream, so always
+  // emit it. Default the code to 'active' and override with the source 'a' when it is
+  // present. System is medication-statement-status (see $adherenceStatusVS alias — the
+  // R4 stand-in for the R5 adherence value set), which includes 'active'.
+  src -> create('Coding') as tsc,
+         tsc.system = 'http://hl7.org/fhir/CodeSystem/medication-statement-status',
+         tsc.code   = 'active',
+         create('CodeableConcept') as ts,
+         ts.coding           = tsc,
+         tgt.treatmentStatus = ts then {
+    src.a as a -> tsc.code = a                                                         "adherenceValue";
+  }                                                                                    "adherence";
 }

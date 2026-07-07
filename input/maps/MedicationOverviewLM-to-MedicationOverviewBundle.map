@@ -57,11 +57,13 @@ group MedicationOverviewLMToMedicationOverviewBundle(source src : MedicationOver
            id.system = 'urn:ietf:rfc:4122',
            id.value  = bid                                                                              "bundleIdentifier";
 
-    // Composition entry
+    // Composition entry. The Composition group ALSO emits the treatment-line bundle
+    // entries (passing tgt in), so each section.entry reference can share the same
+    // UUID as its bundle entry — making the lines reachable from the Composition.
     src -> tgt.entry as ce,
            ce.fullUrl  = append('urn:uuid:', cid),
            ce.resource = create('MedicationOverviewComposition') as comp then {
-      src then MedicationOverviewLMToComposition(src, comp, pid) "compositionContent";
+      src then MedicationOverviewLMToComposition(src, comp, pid, tgt) "compositionContent";
     }                                                                                                   "compositionEntry";
 
     // Patient entry
@@ -71,15 +73,6 @@ group MedicationOverviewLMToMedicationOverviewBundle(source src : MedicationOver
       pref then PatientLMToPatient(pref, pat) "patientContent";
     }                                                                                                   "patientEntry";
 
-    // Treatment line entries — UUID generated per iteration (variable count)
-    src.medicationTreatmentLine as lref -> uuid() as tid then {
-      lref -> tgt.entry as te,
-              te.fullUrl  = append('urn:uuid:', tid),
-              te.resource = create('MedicationTreatmentLine') as ms then {
-        lref then MedicationTreatmentLineLMToMedicationStatement(lref, ms, pid) "lineContent";
-      }                                                                                                 "lineEntry";
-    }                                                                                                   "treatmentLines";
-
   }                                                                                                     "setEntries";
 }
 
@@ -88,7 +81,7 @@ group MedicationOverviewLMToMedicationOverviewBundle(source src : MedicationOver
 // MedicationOverviewLM -> MedicationOverviewComposition
 // Receives the Patient entry's UUID (pid) so subject can reference it.
 // ---------------------------------------------------------------------------
-group MedicationOverviewLMToComposition(source src : MedicationOverviewLM, target tgt : MedicationOverviewComposition, source pid) {
+group MedicationOverviewLMToComposition(source src : MedicationOverviewLM, target tgt : MedicationOverviewComposition, source pid, target bundle : MedicationOverviewBundle) {
   src -> tgt.status = 'final' "compStatus";
 
   // Composition.type — LOINC 56445-0 "Medication summary Document"
@@ -120,11 +113,19 @@ group MedicationOverviewLMToComposition(source src : MedicationOverviewLM, targe
            sc.coding = scc,
            sect.code = sc                                                                               "sectCode";
 
-    // Display-only Reference per line — cross-linking to bundle entry would
-    // require sharing the line iteration's uuid with this group.
-    src.medicationTreatmentLine as lref -> create('Reference') as ref,
-                                           ref.display = 'Medication Treatment Line',
-                                           sect.entry  = ref                                           "sectEntry";
+    // One UUID per line, shared by the section.entry reference AND the bundle entry,
+    // so each treatment line is reachable by forward traversal from the Composition
+    // (mirrors the ICVP ICVPLMToIPS pattern). This is why the group receives the
+    // Bundle: the line entries are created here, not in the top-level group.
+    src.medicationTreatmentLine as lref -> uuid() as tid then {
+      lref -> sect.entry as se,
+              se.reference = append('urn:uuid:', tid)                                                  "sectEntry";
+      lref -> bundle.entry as te,
+              te.fullUrl  = append('urn:uuid:', tid),
+              te.resource = create('MedicationTreatmentLine') as ms then {
+        lref then MedicationTreatmentLineLMToMedicationStatement(lref, ms, pid) "lineContent";
+      }                                                                                                 "lineEntry";
+    }                                                                                                   "treatmentLines";
   }                                                                                                     "sectionTreatmentLines";
 
   // Attester from verification BackboneElement
