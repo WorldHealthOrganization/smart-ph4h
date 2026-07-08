@@ -1,0 +1,14 @@
+{
+    "package-id" : "smart.who.int.ph4h",
+    "title" : "PH4H", 
+    "category" : "base",
+    "introduction" : "SMART PH4H Implementation Guide",
+    "version" : "0.9.9",
+    "desc" : "0.9.9 draft release",
+    "mode" : "milestone",    
+    "path" : "http://smart.who.int/ph4h/0.9.9",
+    "ci-build": "http://worldhealthorganization.github.io/smart-ph4h",    
+    "first": true,
+    "status" : "draft",
+    "sequence" : "Releases"
+  }

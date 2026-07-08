@@ -1,3 +1,2 @@
-# SMART
-
-Feel free to modify this index page with your own awesome content!
+v.0.9.9 - First draft release
+- Includes medication overview minimum
