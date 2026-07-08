@@ -273,6 +273,6 @@ dependencies:
   # online from the standard package feed. Works identically locally and in CI.
   # All LMs, profiles, and extensions are consumed FROM this package; local
   # copies are deleted on this branch.
-  ihe.pharm.meow: 1.0.0-preview
+  ihe.pharm.meow: current$r4
 #  hl7.fhir.us.cqfmeasures: current
 
