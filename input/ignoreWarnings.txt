@@ -4,9 +4,3 @@
 # (And include comments like this justifying why)
 # See https://github.com/FHIR/sample-ig/blob/master/input/ignoreWarnings.txt for examples
 
-# The ihe.pharm.meow package (r4 branch CI build) embeds Windows-style file:// URLs
-# with backslashes from its build environment (E:\work\ImplementationGuides\...).
-# When our IG Publisher resolves cross-package links from our maps' `uses`
-# declarations to those SDs, it reports each broken URL as an error. Nothing we
-# can fix on our side — the fix belongs upstream in the IHE pharm-meow build.
-The URL is not valid because '(URL contains 4 Invalid Characters: '\')'
