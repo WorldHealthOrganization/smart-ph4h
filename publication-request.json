@@ -10,5 +10,6 @@
     "ci-build": "http://worldhealthorganization.github.io/smart-ph4h",    
     "first": true,
     "status" : "draft",
-    "sequence" : "Releases"
+    "sequence" : "Releases",
+    "registry-authority" : "World Health Organization"
   }
