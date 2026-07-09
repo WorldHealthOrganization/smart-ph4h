@@ -11,5 +11,7 @@
     "first": true,
     "status" : "draft",
     "sequence" : "Releases",
-    "registry-authority" : "World Health Organization"
+    "registry-authority" : "World Health Organization",
+    "registry-description": "Implementation Guides for Pan-American Highway for Digital Health (PH4H), including profiles, value sets, maps, examples, and implementation notes.",
+    "registry-country": "uv"
   }

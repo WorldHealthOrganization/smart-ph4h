@@ -2,7 +2,7 @@ id: smart.who.int.ph4h
 canonical: http://smart.who.int/ph4h
 name: PH4H
 title: SMART PH4H
-description: An empty Implementation Guide to be used as a starting point for building SMART Guidelines Implementation Guides
+description: SMART PH4H Implementation Guide: Implementation Guides for Pan-American Highway for Digital Health (PH4H), including profiles, value sets, maps, examples, and implementation notes.
 status: draft # draft | active | retired | unknown
 version: 0.9.9
 fhirVersion: 4.0.1 # https://www.hl7.org/fhir/valueset-FHIR-version.html
