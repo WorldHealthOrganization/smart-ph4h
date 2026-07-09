@@ -1,0 +1,251 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Dosaging (model) API",
+    "description": "Logical model for usage instructions for administring the requested product. Based on FHIR Dosage complex data type.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/StructureDefinition-DosagingInformation.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the Logical Model StructureDefinition-DosagingInformation",
+        "description": "This endpoint serves the JSON Schema definition for the Logical Model StructureDefinition-DosagingInformation.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for StructureDefinition-DosagingInformation",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./StructureDefinition-DosagingInformation.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StructureDefinition-DosagingInformation": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "http://smart.who.int/base/StructureDefinition-DosagingInformation.schema.json",
+        "title": "Dosaging (model)",
+        "description": "Logical model for usage instructions for administring the requested product. Based on FHIR Dosage complex data type.",
+        "type": "object",
+        "properties": {
+          "resourceType": {
+            "type": "string",
+            "const": "DosagingInformation",
+            "description": "Resource type identifier for DosagingInformation logical model"
+          },
+          "sequence": {
+            "type": "integer",
+            "description": "Order of the dosage instruction, in case one treatment consists of several dosaging schemes"
+          },
+          "text": {
+            "type": "string",
+            "description": "Free text usage/dosage instructions"
+          },
+          "additionalInstruction": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "Coded instructions, e.g warnings to the patient, like 'may cause drowsiness' etc"
+          },
+          "patientInstruction": {
+            "type": "string",
+            "description": "Patient oriented instructions as free text"
+          },
+          "doseAndRate": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "FHIR BackboneElement"
+            },
+            "description": "Amount of medication administered per one dose (= one timing)"
+          },
+          "id": {
+            "type": "object",
+            "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces."
+          },
+          "modifierExtension": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "FHIR Extension"
+            },
+            "description": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and managable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."
+          },
+          "type": {
+            "type": "object",
+            "description": "The kind of dose or rate specified (e.g calculated, ordered, etc)."
+          },
+          "dose": {
+            "type": "object",
+            "description": "!Range or SimpleQuantity. Amount of medication per one dose. (1 tablet, 2-3 tablets, 20ml)"
+          },
+          "rate": {
+            "type": "object",
+            "description": "!Ratio, Range or SimpleQuantity. Time period during which one defined dose is administered (per 1 hour, per 5-10 minutes)"
+          },
+          "timing": {
+            "type": "object",
+            "description": "When medication should be administered (period, time of day, frequency, etc)"
+          },
+          "event": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "description": "Exact date and/or time of the administration"
+          },
+          "code": {
+            "type": "object",
+            "description": "Timing abbreviation (AM - morning, Q4H - once in every 4 hours, BID - twice a day, etc)"
+          },
+          "repeat": {
+            "type": "object",
+            "description": "Repetition of the administration."
+          },
+          "bounds": {
+            "type": "object",
+            "description": "Time bounds for the treatment (current dosaging scheme). Only one of the following can exist."
+          },
+          "duration": {
+            "type": "object",
+            "description": "Duration of administration (e.g '5 minutes', '1 hour')"
+          },
+          "range": {
+            "type": "object",
+            "description": "A range of numbers of time units, 5-10 days"
+          },
+          "period": {
+            "type": "object",
+            "description": "Duration to which the frequency applies (e.g '... / 1 day')"
+          },
+          "count": {
+            "type": "integer",
+            "description": "Number of times (e.g 'once', '10 times')"
+          },
+          "countMax": {
+            "type": "integer",
+            "description": "Maximum number of times (e.g 'maximum 10 times')"
+          },
+          "durationMax": {
+            "type": "object",
+            "description": "Maximum duration of administration (e.g 'maximum 1 hour')"
+          },
+          "frequency": {
+            "type": "object",
+            "description": "Frequency of intake/administration (e.g 'three times a day')"
+          },
+          "numberOfTimes": {
+            "type": "integer",
+            "description": "Number of times per period (e.g '3 times')"
+          },
+          "maxNumberOfTimes": {
+            "type": "integer",
+            "description": "Maximum number of times per period (e.g. 'maximum 3 times')"
+          },
+          "periodMax": {
+            "type": "object",
+            "description": "Upper limit of the period (e.g ... / 4-6 hours)"
+          },
+          "dayOfWeek": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "The day of the week of administration, e.g Mon, Tue, etc"
+          },
+          "timeOfDay": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "time"
+            },
+            "description": "Time of day of administration (e.g '10:00')"
+          },
+          "eventTime": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "FHIR BackboneElement"
+            },
+            "description": "An event the administration is bound to, e.g 'before meal', '30 min before meal'"
+          },
+          "when": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "Time period or event ('before meal', 'immediately', 'morning')"
+          },
+          "offset": {
+            "type": "integer",
+            "description": "minutes from event, before or after (?not sure how to show before/after with only positive integers)"
+          },
+          "asNeeded": {
+            "type": "boolean",
+            "description": "Take as needed"
+          },
+          "asNeededFor": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "Take as needed for the coded reason"
+          },
+          "bodySite": {
+            "type": "object",
+            "description": "Body site of administration"
+          },
+          "routeOfAdministration": {
+            "type": "object",
+            "description": "Route of administration"
+          },
+          "methodOfAdministration": {
+            "type": "object",
+            "description": "Method of administration"
+          },
+          "maxDose": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "FHIR BackboneElement"
+            },
+            "description": "Maximum dose for the patient"
+          },
+          "maxDosePerPeriod": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "FHIR Ratio"
+            },
+            "description": "Upper limit on medication per unit of time"
+          },
+          "maxDosePerAdministration": {
+            "type": "object",
+            "description": "Upper limit on medication per one administration"
+          },
+          "maxDosePerLifetime": {
+            "type": "object",
+            "description": "Upper limit on medication per lifetime of the patient"
+          }
+        },
+        "required": [
+          "resourceType",
+          "count",
+          "duration",
+          "numberOfTimes",
+          "period"
+        ],
+        "resourceDefinition": "http://smart.who.int/ph4h/StructureDefinition/DosagingInformation",
+        "fhir:parent": "http://hl7.org/fhir/StructureDefinition/Base"
+      }
+    }
+  }
+}

@@ -1,0 +1,189 @@
+[{
+  "id" : "httpsmart.who.intph4hStructureMapMedicationOverviewLMToMedicationOverviewBundle",
+  "type" : "StructureMap",
+  "url" : "MedicationOverviewLMToMedicationOverviewBundle",
+  "version" : "0.9.9",
+  "name" : "http://smart.who.int/ph4h/StructureMap/MedicationOverviewLMToMedicationOverviewBundle"
+},
+{
+  "id" : "httpsmart.who.intph4hStructureMapMedicationOverviewMinToMedicationOverviewBundle",
+  "type" : "StructureMap",
+  "url" : "MedicationOverviewMinToMedicationOverviewBundle",
+  "version" : "0.9.9",
+  "name" : "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewBundle"
+},
+{
+  "id" : "httpsmart.who.intph4hStructureMapMedicationOverviewMinToMedicationOverviewLM",
+  "type" : "StructureMap",
+  "url" : "MedicationOverviewMinToMedicationOverviewLM",
+  "version" : "0.9.9",
+  "name" : "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewLM"
+},
+{
+  "id" : "smart.who.int.ph4h",
+  "type" : "ImplementationGuide",
+  "url" : "http://smart.who.int/ph4h/ImplementationGuide/smart.who.int.ph4h",
+  "version" : "0.9.9",
+  "name" : "PH4H"
+},
+{
+  "id" : "DosagingInformation",
+  "type" : "StructureDefinition",
+  "url" : "http://smart.who.int/ph4h/StructureDefinition/DosagingInformation",
+  "version" : "0.9.9",
+  "name" : "DosagingInformation"
+},
+{
+  "id" : "IHEMedication",
+  "type" : "StructureDefinition",
+  "url" : "http://smart.who.int/ph4h/StructureDefinition/IHEMedication",
+  "version" : "0.9.9",
+  "name" : "IHEMedication"
+},
+{
+  "id" : "MedicationOverview",
+  "type" : "StructureDefinition",
+  "url" : "http://smart.who.int/ph4h/StructureDefinition/MedicationOverview",
+  "version" : "0.9.9",
+  "name" : "MedicationOverviewBundle"
+},
+{
+  "id" : "MedicationOverviewComposition",
+  "type" : "StructureDefinition",
+  "url" : "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewComposition",
+  "version" : "0.9.9",
+  "name" : "MedicationOverviewComposition"
+},
+{
+  "id" : "MedicationOverviewLM",
+  "type" : "StructureDefinition",
+  "url" : "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewLM",
+  "version" : "0.9.9",
+  "name" : "MedicationOverviewLM"
+},
+{
+  "id" : "MedicationOverviewMin",
+  "type" : "StructureDefinition",
+  "url" : "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin",
+  "version" : "0.9.9",
+  "name" : "MedicationOverviewMin"
+},
+{
+  "id" : "MedicationTreatment",
+  "type" : "StructureDefinition",
+  "url" : "http://smart.who.int/ph4h/StructureDefinition/MedicationTreatment",
+  "version" : "0.9.9",
+  "name" : "MedicationTreatment"
+},
+{
+  "id" : "MedicationTreatmentLM",
+  "type" : "StructureDefinition",
+  "url" : "http://smart.who.int/ph4h/StructureDefinition/MedicationTreatmentLM",
+  "version" : "0.9.9",
+  "name" : "MedicationTreatmentLM"
+},
+{
+  "id" : "MedicationTreatmentLine",
+  "type" : "StructureDefinition",
+  "url" : "http://smart.who.int/ph4h/StructureDefinition/MedicationTreatmentLine",
+  "version" : "0.9.9",
+  "name" : "MedicationTreatmentLine"
+},
+{
+  "id" : "MedicationTreatmentLineLM",
+  "type" : "StructureDefinition",
+  "url" : "http://smart.who.int/ph4h/StructureDefinition/MedicationTreatmentLineLM",
+  "version" : "0.9.9",
+  "name" : "MedicationTreatmentLineLM"
+},
+{
+  "id" : "MedicationTreatmentLineMin",
+  "type" : "StructureDefinition",
+  "url" : "http://smart.who.int/ph4h/StructureDefinition/MedicationTreatmentLineMin",
+  "version" : "0.9.9",
+  "name" : "MedicationTreatmentLineMin"
+},
+{
+  "id" : "MedicinalProductLM",
+  "type" : "StructureDefinition",
+  "url" : "http://smart.who.int/ph4h/StructureDefinition/MedicinalProductLM",
+  "version" : "0.9.9",
+  "name" : "MedicinalProductLM"
+},
+{
+  "id" : "PatientLM",
+  "type" : "StructureDefinition",
+  "url" : "http://smart.who.int/ph4h/StructureDefinition/PatientLM",
+  "version" : "0.9.9",
+  "name" : "PatientLM"
+},
+{
+  "id" : "PractitionerLM",
+  "type" : "StructureDefinition",
+  "url" : "http://smart.who.int/ph4h/StructureDefinition/PractitionerLM",
+  "version" : "0.9.9",
+  "name" : "PractitionerLM"
+},
+{
+  "id" : "SmartConsent",
+  "type" : "StructureDefinition",
+  "url" : "http://smart.who.int/ph4h/StructureDefinition/SmartConsent",
+  "version" : "0.9.9",
+  "name" : "SmartConsent"
+},
+{
+  "id" : "SmartIPS",
+  "type" : "StructureDefinition",
+  "url" : "http://smart.who.int/ph4h/StructureDefinition/SmartIPS",
+  "version" : "0.9.9",
+  "name" : "SmartIPS"
+},
+{
+  "id" : "SmartIPSComposition",
+  "type" : "StructureDefinition",
+  "url" : "http://smart.who.int/ph4h/StructureDefinition/SmartIPSComposition",
+  "version" : "0.9.9",
+  "name" : "SmartIPSComposition"
+},
+{
+  "id" : "ihe-ext-medication-classification",
+  "type" : "StructureDefinition",
+  "url" : "http://smart.who.int/ph4h/StructureDefinition/ihe-ext-medication-classification",
+  "version" : "0.9.9",
+  "name" : "MedicationClassification"
+},
+{
+  "id" : "ihe-ext-medication-device",
+  "type" : "StructureDefinition",
+  "url" : "http://smart.who.int/ph4h/StructureDefinition/ihe-ext-medication-device",
+  "version" : "0.9.9",
+  "name" : "MedicationDevice"
+},
+{
+  "id" : "ihe-ext-medication-productname",
+  "type" : "StructureDefinition",
+  "url" : "http://smart.who.int/ph4h/StructureDefinition/ihe-ext-medication-productname",
+  "version" : "0.9.9",
+  "name" : "MedicationProductName"
+},
+{
+  "id" : "ihe-ext-medication-sizeofitem",
+  "type" : "StructureDefinition",
+  "url" : "http://smart.who.int/ph4h/StructureDefinition/ihe-ext-medication-sizeofitem",
+  "version" : "0.9.9",
+  "name" : "MedicationSizeOfItem"
+},
+{
+  "id" : "ihe-ext-medicationstatement-substitution",
+  "type" : "StructureDefinition",
+  "url" : "http://smart.who.int/ph4h/StructureDefinition/ihe-ext-medicationstatement-substitution",
+  "version" : "0.9.9",
+  "name" : "Substitution"
+},
+{
+  "id" : "ihe-ext-medicationstatement-verificationinformation",
+  "type" : "StructureDefinition",
+  "url" : "http://smart.who.int/ph4h/StructureDefinition/ihe-ext-medicationstatement-verificationinformation",
+  "version" : "0.9.9",
+  "name" : "VerificationInformation"
+}]

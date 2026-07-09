@@ -1,0 +1,598 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<StructureMap xmlns="http://hl7.org/fhir">
+  <id value="httpsmart.who.intph4hStructureMapMedicationOverviewMinToMedicationOverviewLM"/>
+  <text>
+    <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p class="res-header-id"><b>Generated Narrative: StructureMap httpsmart.who.intph4hStructureMapMedicationOverviewMinToMedicationOverviewLM</b></p><a name="httpsmart.who.intph4hStructureMapMedicationOverviewMinToMedicationOverviewLM"> </a><a name="hchttpsmart.who.intph4hStructureMapMedicationOverviewMinToMedicationOverviewLM"> </a><pre class="fml">
+<span style="color: #cc00cc">/// <b>url</b> = </span><span style="color: blue">'MedicationOverviewMinToMedicationOverviewLM'</span>
+<span style="color: #cc00cc">/// <b>name</b> = </span><span style="color: blue">'http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewLM'</span>
+<span style="color: #cc00cc">/// <b>status</b> = </span><span style="color: blue">'draft'</span>
+
+<b>uses</b><span style="color: navy"> &quot;</span><a href="StructureDefinition-MedicationOverviewMin.html" title="Medication Overview (Minimal)">http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin</a><span style="color: navy">&quot; </span><b>alias </b>MedicationOverviewMin <b>as </b><b>source</b>
+<b>uses</b><span style="color: navy"> &quot;</span><a href="StructureDefinition-MedicationTreatmentLineMin.html" title="Medication Treatment Line (Minimal)">http://smart.who.int/ph4h/StructureDefinition/MedicationTreatmentLineMin</a><span style="color: navy">&quot; </span><b>alias </b>MedicationTreatmentLineMin <b>as </b><b>source</b>
+<b>uses</b><span style="color: navy"> &quot;</span><a href="StructureDefinition-MedicationOverviewLM.html" title="Medication Overview (model)">http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewLM</a><span style="color: navy">&quot; </span><b>alias </b>MedicationOverviewLM <b>as </b><b>target</b>
+<b>uses</b><span style="color: navy"> &quot;</span><a href="StructureDefinition-PatientLM.html" title="Patient (model)">http://smart.who.int/ph4h/StructureDefinition/PatientLM</a><span style="color: navy">&quot; </span><b>alias </b>PatientLM <b>as </b><b>target</b>
+<b>uses</b><span style="color: navy"> &quot;</span><a href="StructureDefinition-MedicationTreatmentLineLM.html" title="Medication Treatment Line (model)">http://smart.who.int/ph4h/StructureDefinition/MedicationTreatmentLineLM</a><span style="color: navy">&quot; </span><b>alias </b>MedicationTreatmentLineLM <b>as </b><b>target</b> <span style="color: navy">// </span><span style="color: green">---------------------------------------------------------------------------</span>
+
+<span style="color: navy">// </span><span style="color: green">Top-level group: 1 patient + 0..* medication treatment lines</span>
+<span style="color: navy">// </span><span style="color: green">---------------------------------------------------------------------------</span>
+<b>group </b>MedicationOverviewMinToMedicationOverviewLM<span style="color: navy">(</span><b>source</b> <span style="color: maroon">src</span><span style="color: navy"> : </span>MedicationOverviewMin, <b>target</b> <span style="color: maroon">tgt</span><span style="color: navy"> : </span>MedicationOverviewLM<span style="color: navy">)</span><span style="color: navy"> {
+</span>  src<span style="color: navy"><b> -&gt; </b></span>tgt.patient<b> as </b><span style="color: maroon">patient</span><b> then </b>MedicationOverviewMinToPatientLM<span style="color: navy">(</span><span style="color: maroon">src</span><span style="color: navy">, </span><span style="color: maroon">patient</span><span style="color: navy">)</span> <i>&quot;patient&quot;</i><span style="color: navy">;</span>
+  src.m<b> as </b><span style="color: maroon">line</span><span style="color: navy"><b> -&gt; </b></span>tgt.medicationTreatmentLine<b> as </b><span style="color: maroon">tline</span><b> then </b>MedicationTreatmentLineMinToMedicationTreatmentLineLM<span style="color: navy">(</span><span style="color: maroon">line</span><span style="color: navy">, </span><span style="color: maroon">tline</span><span style="color: navy">)</span> <i>&quot;treatmentLine&quot;</i><span style="color: navy">;</span>
+<span style="color: navy">}
+
+</span><span style="color: navy">// </span><span style="color: green">---------------------------------------------------------------------------</span>
+<span style="color: navy">// </span><span style="color: green">MedicationOverviewMin demographic fields -&gt; PatientLM</span>
+<span style="color: navy">// </span><span style="color: green">---------------------------------------------------------------------------</span>
+<b>group </b>MedicationOverviewMinToPatientLM<span style="color: navy">(</span><b>source</b> <span style="color: maroon">src</span><span style="color: navy"> : </span>MedicationOverviewMin, <b>target</b> <span style="color: maroon">tgt</span><span style="color: navy"> : </span>PatientLM<span style="color: navy">)</span><span style="color: navy"> {
+</span>  src.n<b> as </b><span style="color: maroon">n</span><span style="color: navy"><b> -&gt; </b></span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'HumanName'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">hn</span><span style="color: navy">, </span> hn.text = <span style="color: maroon">n</span><span style="color: navy">, </span> tgt.name = <span style="color: maroon">hn</span> <i>&quot;name&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">Name: create HumanName, populate, assign</span>
+  src.dob<b> as </b><span style="color: maroon">dob</span><span style="color: navy"><b> -&gt; </b></span>tgt.dateOfBirth = <span style="color: maroon">dob</span> <i>&quot;dateOfBirth&quot;</i><span style="color: navy">;</span>
+  src.s<b> as </b><span style="color: maroon">s</span><span style="color: navy"><b> -&gt; </b></span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'Coding'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">gc</span><span style="color: navy">, </span> gc.system = <span style="color: blue">'http://hl7.org/fhir/administrative-gender'</span><span style="color: navy">, </span> gc.code = <span style="color: maroon">s</span><span style="color: navy">, </span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'CodeableConcept'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">g</span><span style="color: navy">, </span> g.coding = <span style="color: maroon">gc</span><span style="color: navy">, </span> tgt.gender = <span style="color: maroon">g</span> <i>&quot;gender&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">Gender: create Coding, then CodeableConcept wrapping it, assign</span>
+  src.id<b> as </b><span style="color: maroon">id</span><span style="color: navy"><b> -&gt; </b></span><b>create</b><span style="color: navy">(</span><span style="color: blue">'Identifier'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">ident</span><b> then</b><span style="color: navy"> {
+</span>    id<span style="color: navy"><b> -&gt; </b></span>ident.value = <span style="color: maroon">id</span> <i>&quot;identifierValue&quot;</i><span style="color: navy">;</span>
+    src.dt<b> as </b><span style="color: maroon">dt</span><span style="color: navy"><b> -&gt; </b></span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'Coding'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">tc</span><span style="color: navy">, </span> tc.code = <span style="color: maroon">dt</span><span style="color: navy">, </span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'CodeableConcept'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">t</span><span style="color: navy">, </span> t.coding = <span style="color: maroon">tc</span><span style="color: navy">, </span> ident.type = <span style="color: maroon">t</span> <i>&quot;identifierType&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">Identifier.type: create Coding + CodeableConcept, assign to ident.type</span>
+    id<span style="color: navy"><b> -&gt; </b></span>tgt.identifier = <span style="color: maroon">ident</span> <i>&quot;identifierAssign&quot;</i><span style="color: navy">;</span>
+  <span style="color: navy">}</span> <i>&quot;identifier&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">Identifier: create Identifier, populate (+ optional type), assign</span>
+<span style="color: navy">}
+
+</span><span style="color: navy">// </span><span style="color: green">---------------------------------------------------------------------------</span>
+<span style="color: navy">// </span><span style="color: green">One MedicationTreatmentLineMin -&gt; one MedicationTreatmentLineLM</span>
+<span style="color: navy">// </span><span style="color: green">---------------------------------------------------------------------------</span>
+<b>group </b>MedicationTreatmentLineMinToMedicationTreatmentLineLM<span style="color: navy">(</span><b>source</b> <span style="color: maroon">src</span><span style="color: navy"> : </span>MedicationTreatmentLineMin, <b>target</b> <span style="color: maroon">tgt</span><span style="color: navy"> : </span>MedicationTreatmentLineLM<span style="color: navy">)</span><span style="color: navy"> {
+</span>  src.m<b> as </b><span style="color: maroon">med</span><span style="color: navy"><b> -&gt; </b></span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'Coding'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">c</span><span style="color: navy">, </span> c.code = <span style="color: maroon">med</span><span style="color: navy">, </span> c.display = <span style="color: maroon">med</span><span style="color: navy">, </span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'CodeableConcept'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">cc</span><span style="color: navy">, </span> cc.coding = <span style="color: maroon">c</span><span style="color: navy">, </span> tgt.medicationCodeableConcept = <span style="color: maroon">cc</span> <i>&quot;medication&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">Medication: create Coding, then CodeableConcept wrapping it, assign</span>
+  src<span style="color: navy"><b> -&gt; </b></span><b>create</b><span style="color: navy">(</span><span style="color: blue">'Period'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">ep</span><b> then</b><span style="color: navy"> {
+</span>    src.es<b> as </b><span style="color: maroon">es</span><span style="color: navy"><b> -&gt; </b></span>ep.start = <span style="color: maroon">es</span> <i>&quot;effStart&quot;</i><span style="color: navy">;</span>
+    src.ee<b> as </b><span style="color: maroon">ee</span><span style="color: navy"><b> -&gt; </b></span>ep.end = <span style="color: maroon">ee</span> <i>&quot;effEnd&quot;</i><span style="color: navy">;</span>
+    src<span style="color: navy"><b> -&gt; </b></span>tgt.effectivePeriod = <span style="color: maroon">ep</span> <i>&quot;effAssign&quot;</i><span style="color: navy">;</span>
+  <span style="color: navy">}</span> <i>&quot;effectivePeriod&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">Effective period: create Period, populate, assign</span>
+  src.da<b> as </b><span style="color: maroon">da</span><span style="color: navy"><b> -&gt; </b></span>tgt.recordingMetadata<b> as </b><span style="color: maroon">rm</span><b> then</b><span style="color: navy"> {
+</span>    da<span style="color: navy"><b> -&gt; </b></span>rm.recordedTime = <span style="color: maroon">da</span> <i>&quot;recordedTime&quot;</i><span style="color: navy">;</span>
+  <span style="color: navy">}</span> <i>&quot;dateAsserted&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">recordingMetadata is a BackboneElement defined inline in the LM — navigate.</span>
+  src.d<b> as </b><span style="color: maroon">d</span><span style="color: navy"><b> -&gt; </b></span>tgt.preparationInstructions = <span style="color: maroon">d</span> <i>&quot;dosage&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">Dosage as free text. Route to preparationInstructions (a plain string array)</span>
+  src.r<b> as </b><span style="color: maroon">r</span><span style="color: navy"><b> -&gt; </b></span>tgt.indicationText = <span style="color: maroon">r</span> <i>&quot;reason&quot;</i><span style="color: navy">;</span>
+  src.a<b> as </b><span style="color: maroon">a</span><span style="color: navy"><b> -&gt; </b></span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'Coding'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">tsc</span><span style="color: navy">, </span> tsc.code = <span style="color: maroon">a</span><span style="color: navy">, </span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'CodeableConcept'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">ts</span><span style="color: navy">, </span> ts.coding = <span style="color: maroon">tsc</span><span style="color: navy">, </span> tgt.treatmentStatus = <span style="color: maroon">ts</span> <i>&quot;adherence&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">Adherence: create Coding, then CodeableConcept wrapping it, assign</span>
+<span style="color: navy">}
+
+</span></pre></div>
+  </text>
+  <url value="MedicationOverviewMinToMedicationOverviewLM"/>
+  <version value="0.9.9"/>
+  <name value="http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewLM"/>
+  <status value="draft"/>
+  <date value="2026-06-18T13:21:56+00:00"/>
+  <publisher value="WHO"/>
+  <contact>
+    <name value="WHO"/>
+    <telecom>
+      <system value="url"/>
+      <value value="http://who.int"/>
+    </telecom>
+  </contact>
+  <structure>
+    <url value="http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin"/>
+    <mode value="source"/>
+    <alias value="MedicationOverviewMin"/>
+  </structure>
+  <structure>
+    <url value="http://smart.who.int/ph4h/StructureDefinition/MedicationTreatmentLineMin"/>
+    <mode value="source"/>
+    <alias value="MedicationTreatmentLineMin"/>
+  </structure>
+  <structure>
+    <url value="http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewLM"/>
+    <mode value="target"/>
+    <alias value="MedicationOverviewLM"/>
+  </structure>
+  <structure>
+    <url value="http://smart.who.int/ph4h/StructureDefinition/PatientLM"/>
+    <mode value="target"/>
+    <alias value="PatientLM"/>
+  </structure>
+  <structure>
+    <url value="http://smart.who.int/ph4h/StructureDefinition/MedicationTreatmentLineLM"/>
+    <mode value="target"/>
+    <alias value="MedicationTreatmentLineLM"/>
+    <documentation value="---------------------------------------------------------------------------"/>
+  </structure>
+  <group>
+    <name value="MedicationOverviewMinToMedicationOverviewLM"/>
+    <documentation value="Top-level group: 1 patient + 0..* medication treatment lines&#xD;&#xA;---------------------------------------------------------------------------"/>
+    <input>
+      <name value="src"/>
+      <type value="MedicationOverviewMin"/>
+      <mode value="source"/>
+    </input>
+    <input>
+      <name value="tgt"/>
+      <type value="MedicationOverviewLM"/>
+      <mode value="target"/>
+    </input>
+    <rule>
+      <name value="patient"/>
+      <source>
+        <context value="src"/>
+      </source>
+      <target>
+        <context value="tgt"/>
+        <element value="patient"/>
+        <variable value="patient"/>
+      </target>
+      <dependent>
+        <name value="MedicationOverviewMinToPatientLM"/>
+        <parameter>
+          <valueId value="src"/>
+        </parameter>
+        <parameter>
+          <valueId value="patient"/>
+        </parameter>
+      </dependent>
+    </rule>
+    <rule>
+      <name value="treatmentLine"/>
+      <source>
+        <context value="src"/>
+        <element value="m"/>
+        <variable value="line"/>
+      </source>
+      <target>
+        <context value="tgt"/>
+        <element value="medicationTreatmentLine"/>
+        <variable value="tline"/>
+      </target>
+      <dependent>
+        <name value="MedicationTreatmentLineMinToMedicationTreatmentLineLM"/>
+        <parameter>
+          <valueId value="line"/>
+        </parameter>
+        <parameter>
+          <valueId value="tline"/>
+        </parameter>
+      </dependent>
+    </rule>
+  </group>
+  <group>
+    <name value="MedicationOverviewMinToPatientLM"/>
+    <documentation value="---------------------------------------------------------------------------&#xD;&#xA;MedicationOverviewMin demographic fields -&gt; PatientLM&#xD;&#xA;---------------------------------------------------------------------------"/>
+    <input>
+      <name value="src"/>
+      <type value="MedicationOverviewMin"/>
+      <mode value="source"/>
+    </input>
+    <input>
+      <name value="tgt"/>
+      <type value="PatientLM"/>
+      <mode value="target"/>
+    </input>
+    <rule>
+      <name value="name"/>
+      <source>
+        <context value="src"/>
+        <element value="n"/>
+        <variable value="n"/>
+      </source>
+      <target>
+        <variable value="hn"/>
+        <transform value="create"/>
+        <parameter>
+          <valueString value="HumanName"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="hn"/>
+        <element value="text"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="n"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="tgt"/>
+        <element value="name"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="hn"/>
+        </parameter>
+      </target>
+      <documentation value="Name: create HumanName, populate, assign"/>
+    </rule>
+    <rule>
+      <name value="dateOfBirth"/>
+      <source>
+        <context value="src"/>
+        <element value="dob"/>
+        <variable value="dob"/>
+      </source>
+      <target>
+        <context value="tgt"/>
+        <element value="dateOfBirth"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="dob"/>
+        </parameter>
+      </target>
+    </rule>
+    <rule>
+      <name value="gender"/>
+      <source>
+        <context value="src"/>
+        <element value="s"/>
+        <variable value="s"/>
+      </source>
+      <target>
+        <variable value="gc"/>
+        <transform value="create"/>
+        <parameter>
+          <valueString value="Coding"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="gc"/>
+        <element value="system"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueString value="http://hl7.org/fhir/administrative-gender"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="gc"/>
+        <element value="code"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="s"/>
+        </parameter>
+      </target>
+      <target>
+        <variable value="g"/>
+        <transform value="create"/>
+        <parameter>
+          <valueString value="CodeableConcept"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="g"/>
+        <element value="coding"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="gc"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="tgt"/>
+        <element value="gender"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="g"/>
+        </parameter>
+      </target>
+      <documentation value="Gender: create Coding, then CodeableConcept wrapping it, assign"/>
+    </rule>
+    <rule>
+      <name value="identifier"/>
+      <source>
+        <context value="src"/>
+        <element value="id"/>
+        <variable value="id"/>
+      </source>
+      <target>
+        <variable value="ident"/>
+        <transform value="create"/>
+        <parameter>
+          <valueString value="Identifier"/>
+        </parameter>
+      </target>
+      <rule>
+        <name value="identifierValue"/>
+        <source>
+          <context value="id"/>
+        </source>
+        <target>
+          <context value="ident"/>
+          <element value="value"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="id"/>
+          </parameter>
+        </target>
+      </rule>
+      <rule>
+        <name value="identifierType"/>
+        <source>
+          <context value="src"/>
+          <element value="dt"/>
+          <variable value="dt"/>
+        </source>
+        <target>
+          <variable value="tc"/>
+          <transform value="create"/>
+          <parameter>
+            <valueString value="Coding"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="tc"/>
+          <element value="code"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="dt"/>
+          </parameter>
+        </target>
+        <target>
+          <variable value="t"/>
+          <transform value="create"/>
+          <parameter>
+            <valueString value="CodeableConcept"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="t"/>
+          <element value="coding"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="tc"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="ident"/>
+          <element value="type"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="t"/>
+          </parameter>
+        </target>
+        <documentation value="Identifier.type: create Coding + CodeableConcept, assign to ident.type"/>
+      </rule>
+      <rule>
+        <name value="identifierAssign"/>
+        <source>
+          <context value="id"/>
+        </source>
+        <target>
+          <context value="tgt"/>
+          <element value="identifier"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="ident"/>
+          </parameter>
+        </target>
+      </rule>
+      <documentation value="Identifier: create Identifier, populate (+ optional type), assign"/>
+    </rule>
+  </group>
+  <group>
+    <name value="MedicationTreatmentLineMinToMedicationTreatmentLineLM"/>
+    <documentation value="---------------------------------------------------------------------------&#xD;&#xA;One MedicationTreatmentLineMin -&gt; one MedicationTreatmentLineLM&#xD;&#xA;---------------------------------------------------------------------------"/>
+    <input>
+      <name value="src"/>
+      <type value="MedicationTreatmentLineMin"/>
+      <mode value="source"/>
+    </input>
+    <input>
+      <name value="tgt"/>
+      <type value="MedicationTreatmentLineLM"/>
+      <mode value="target"/>
+    </input>
+    <rule>
+      <name value="medication"/>
+      <source>
+        <context value="src"/>
+        <element value="m"/>
+        <variable value="med"/>
+      </source>
+      <target>
+        <variable value="c"/>
+        <transform value="create"/>
+        <parameter>
+          <valueString value="Coding"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="c"/>
+        <element value="code"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="med"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="c"/>
+        <element value="display"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="med"/>
+        </parameter>
+      </target>
+      <target>
+        <variable value="cc"/>
+        <transform value="create"/>
+        <parameter>
+          <valueString value="CodeableConcept"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="cc"/>
+        <element value="coding"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="c"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="tgt"/>
+        <element value="medicationCodeableConcept"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="cc"/>
+        </parameter>
+      </target>
+      <documentation value="Medication: create Coding, then CodeableConcept wrapping it, assign"/>
+    </rule>
+    <rule>
+      <name value="effectivePeriod"/>
+      <source>
+        <context value="src"/>
+      </source>
+      <target>
+        <variable value="ep"/>
+        <transform value="create"/>
+        <parameter>
+          <valueString value="Period"/>
+        </parameter>
+      </target>
+      <rule>
+        <name value="effStart"/>
+        <source>
+          <context value="src"/>
+          <element value="es"/>
+          <variable value="es"/>
+        </source>
+        <target>
+          <context value="ep"/>
+          <element value="start"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="es"/>
+          </parameter>
+        </target>
+      </rule>
+      <rule>
+        <name value="effEnd"/>
+        <source>
+          <context value="src"/>
+          <element value="ee"/>
+          <variable value="ee"/>
+        </source>
+        <target>
+          <context value="ep"/>
+          <element value="end"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="ee"/>
+          </parameter>
+        </target>
+      </rule>
+      <rule>
+        <name value="effAssign"/>
+        <source>
+          <context value="src"/>
+        </source>
+        <target>
+          <context value="tgt"/>
+          <element value="effectivePeriod"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="ep"/>
+          </parameter>
+        </target>
+      </rule>
+      <documentation value="Effective period: create Period, populate, assign"/>
+    </rule>
+    <rule>
+      <name value="dateAsserted"/>
+      <source>
+        <context value="src"/>
+        <element value="da"/>
+        <variable value="da"/>
+      </source>
+      <target>
+        <context value="tgt"/>
+        <element value="recordingMetadata"/>
+        <variable value="rm"/>
+      </target>
+      <rule>
+        <name value="recordedTime"/>
+        <source>
+          <context value="da"/>
+        </source>
+        <target>
+          <context value="rm"/>
+          <element value="recordedTime"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="da"/>
+          </parameter>
+        </target>
+      </rule>
+      <documentation value="recordingMetadata is a BackboneElement defined inline in the LM — navigate."/>
+    </rule>
+    <rule>
+      <name value="dosage"/>
+      <source>
+        <context value="src"/>
+        <element value="d"/>
+        <variable value="d"/>
+      </source>
+      <target>
+        <context value="tgt"/>
+        <element value="preparationInstructions"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="d"/>
+        </parameter>
+      </target>
+      <documentation value="Dosage as free text. Route to preparationInstructions (a plain string array)"/>
+    </rule>
+    <rule>
+      <name value="reason"/>
+      <source>
+        <context value="src"/>
+        <element value="r"/>
+        <variable value="r"/>
+      </source>
+      <target>
+        <context value="tgt"/>
+        <element value="indicationText"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="r"/>
+        </parameter>
+      </target>
+    </rule>
+    <rule>
+      <name value="adherence"/>
+      <source>
+        <context value="src"/>
+        <element value="a"/>
+        <variable value="a"/>
+      </source>
+      <target>
+        <variable value="tsc"/>
+        <transform value="create"/>
+        <parameter>
+          <valueString value="Coding"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="tsc"/>
+        <element value="code"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="a"/>
+        </parameter>
+      </target>
+      <target>
+        <variable value="ts"/>
+        <transform value="create"/>
+        <parameter>
+          <valueString value="CodeableConcept"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="ts"/>
+        <element value="coding"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="tsc"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="tgt"/>
+        <element value="treatmentStatus"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="ts"/>
+        </parameter>
+      </target>
+      <documentation value="Adherence: create Coding, then CodeableConcept wrapping it, assign"/>
+    </rule>
+  </group>
+</StructureMap>

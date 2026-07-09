@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/StructureDefinition-MedicationOverviewLM.schema.json",
+  "title": "Medication Overview (model)",
+  "description": "Logical model for the whole medication overview (medication schema)",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "const": "MedicationOverviewLM",
+      "description": "Resource type identifier for MedicationOverviewLM logical model"
+    },
+    "patient": {
+      "$ref": "StructureDefinition-PatientLM.schema.json",
+      "description": "Patient"
+    },
+    "medicationTreatmentLine": {
+      "type": "array",
+      "items": {
+        "$ref": "StructureDefinition-MedicationTreatmentLineLM.schema.json"
+      },
+      "description": "List item in the list of all current medication based treatments. Each line can be verified or unverified."
+    },
+    "verification": {
+      "type": "object",
+      "description": "Verification of overview"
+    },
+    "id": {
+      "type": "object",
+      "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces."
+    },
+    "modifierExtension": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR Extension"
+      },
+      "description": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and managable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."
+    },
+    "practicioner": {
+      "type": "object",
+      "description": "HCP verifying the treatments/overview"
+    },
+    "verificationTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Time of the verification of the overview"
+    },
+    "comment": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR BackboneElement"
+      },
+      "description": "Comment on the full overview"
+    },
+    "author": {
+      "type": "object",
+      "description": "author of the comment (pharmacist, doctor, social carer)"
+    },
+    "date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "time of comment"
+    },
+    "commentText": {
+      "type": "string",
+      "description": "content of the comment"
+    },
+    "subject": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR Reference"
+      },
+      "description": "What the comment is about. It can reference either a treatment line, treatment, or full overview"
+    }
+  },
+  "required": [
+    "resourceType",
+    "patient",
+    "practicioner",
+    "verificationTime",
+    "author",
+    "date",
+    "commentText"
+  ],
+  "allOf": [
+    {
+      "$ref": "./StructureDefinition-FHIRSchemaBase.schema.json"
+    },
+    {
+      "type": "object",
+      "properties": {
+        "resourceDefinition": {
+          "type": "string",
+          "format": "uri",
+          "const": "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewLM"
+        },
+        "fhir:parent": {
+          "type": "string",
+          "const": "http://hl7.org/fhir/StructureDefinition/Base"
+        }
+      }
+    }
+  ]
+}

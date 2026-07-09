@@ -1,0 +1,21 @@
+{
+  "resourceType": "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin",
+  "id": "574687583",
+  "n": "Martha DeLarosa",
+  "dob": "1972-05-01",
+  "s": "female",
+  "m": [
+    {
+      "m": "L02BG03",
+      "es": "2015-03-01",
+      "da": "2015-03-15",
+      "d": "1 tablet once daily",
+      "r": "treatment for breast cancer"
+    },
+    {
+      "m": "G02CX04",
+      "es": "2016-01-01",
+      "d": "as directed"
+    }
+  ]
+}

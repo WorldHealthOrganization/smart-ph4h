@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "#/LogicalModels.schema.json",
+  "title": "Logical Model Enumeration Schema",
+  "description": "JSON Schema defining the structure of the Logical Model enumeration endpoint response",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "const": "logical_model",
+      "description": "The type of schemas enumerated (logical_model)"
+    },
+    "count": {
+      "type": "integer",
+      "description": "Total number of schemas available"
+    },
+    "schemas": {
+      "type": "array",
+      "description": "Array of available schemas",
+      "items": {
+        "type": "object",
+        "properties": {
+          "filename": {
+            "type": "string",
+            "description": "Schema filename"
+          },
+          "id": {
+            "type": "string",
+            "description": "Schema $id"
+          },
+          "title": {
+            "type": "string",
+            "description": "Schema title"
+          },
+          "description": {
+            "type": "string",
+            "description": "Schema description"
+          },
+          "url": {
+            "type": "string",
+            "description": "Relative URL to the schema file"
+          },
+          "logicalModelUrl": {
+            "type": "string",
+            "description": "FHIR canonical URL of the Logical Model"
+          },
+          "propertyCount": {
+            "type": "integer",
+            "description": "Number of properties in the Logical Model"
+          }
+        },
+        "required": [
+          "filename",
+          "title",
+          "url"
+        ]
+      }
+    }
+  },
+  "required": [
+    "type",
+    "count",
+    "schemas"
+  ],
+  "example": {
+    "type": "logical_model",
+    "count": 10,
+    "schemas": [
+      {
+        "filename": "StructureDefinition-MedicationOverviewLM.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-MedicationOverviewLM.schema.json",
+        "title": "Medication Overview (model)",
+        "description": "Logical model for the whole medication overview (medication schema)",
+        "url": "./StructureDefinition-MedicationOverviewLM.schema.json",
+        "propertyCount": 13
+      },
+      {
+        "filename": "StructureDefinition-MedicationTreatmentLM.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-MedicationTreatmentLM.schema.json",
+        "title": "Medication Treatment (model)",
+        "description": "Logical model for subgroups of treatment lines that are somehow related to eachother (the same purpose, other)",
+        "url": "./StructureDefinition-MedicationTreatmentLM.schema.json",
+        "propertyCount": 5
+      },
+      {
+        "filename": "StructureDefinition-MedicationOverviewMin.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-MedicationOverviewMin.schema.json",
+        "title": "Medication Overview (Minimal)",
+        "description": "Minimal medication overview payload for use within a QR code payload. Based on the IHE Pharmacy Medication Overview logical model, with short element labels (one or two letters) and simple data",
+        "url": "./StructureDefinition-MedicationOverviewMin.schema.json",
+        "propertyCount": 10
+      },
+      {
+        "filename": "StructureDefinition-DosagingInformation.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-DosagingInformation.schema.json",
+        "title": "Dosaging (model)",
+        "description": "Logical model for usage instructions for administring the requested product. Based on FHIR Dosage complex data type.",
+        "url": "./StructureDefinition-DosagingInformation.schema.json",
+        "propertyCount": 40
+      },
+      {
+        "filename": "LogicalModels.schema.json",
+        "id": "#/LogicalModels.schema.json",
+        "title": "Logical Model Enumeration Schema",
+        "description": "JSON Schema defining the structure of the Logical Model enumeration endpoint response",
+        "url": "./LogicalModels.schema.json",
+        "propertyCount": 3
+      },
+      {
+        "filename": "StructureDefinition-MedicinalProductLM.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-MedicinalProductLM.schema.json",
+        "title": "Medicinal product (model)",
+        "description": "Logical model for prescribed/dispensed medication. The model is shared by statements, requests, dispensations, and treatment lines. Each of those may have different restrictions in FHIR profile.",
+        "url": "./StructureDefinition-MedicinalProductLM.schema.json",
+        "propertyCount": 28
+      },
+      {
+        "filename": "StructureDefinition-PractitionerLM.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-PractitionerLM.schema.json",
+        "title": "Practitioner (model)",
+        "description": "Logical model for practitioner (basic data relevant for this use case)",
+        "url": "./StructureDefinition-PractitionerLM.schema.json",
+        "propertyCount": 12
+      },
+      {
+        "filename": "StructureDefinition-MedicationTreatmentLineLM.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-MedicationTreatmentLineLM.schema.json",
+        "title": "Medication Treatment Line (model)",
+        "description": "Logical model for representing one line/medication in medication overview.",
+        "url": "./StructureDefinition-MedicationTreatmentLineLM.schema.json",
+        "propertyCount": 45
+      },
+      {
+        "filename": "StructureDefinition-PatientLM.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-PatientLM.schema.json",
+        "title": "Patient (model)",
+        "description": "Logical model for patient (basic data relevant for this use case)",
+        "url": "./StructureDefinition-PatientLM.schema.json",
+        "propertyCount": 6
+      },
+      {
+        "filename": "StructureDefinition-MedicationTreatmentLineMin.schema.json",
+        "id": "http://smart.who.int/base/StructureDefinition-MedicationTreatmentLineMin.schema.json",
+        "title": "Medication Treatment Line (Minimal)",
+        "description": "Minimal medication treatment line payload for use within a QR code payload. Based on the IHE Pharmacy Medication Treatment Line logical model, with short element labels (one or two letters) and simple data types suitable for encoding in a compact QR code payload.",
+        "url": "./StructureDefinition-MedicationTreatmentLineMin.schema.json",
+        "propertyCount": 10
+      }
+    ]
+  }
+}

@@ -1,0 +1,351 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/StructureDefinition-MedicationTreatmentLineLM.schema.json",
+  "title": "Medication Treatment Line (model)",
+  "description": "Logical model for representing one line/medication in medication overview.",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "const": "MedicationTreatmentLineLM",
+      "description": "Resource type identifier for MedicationTreatmentLineLM logical model"
+    },
+    "@context": {
+      "description": "JSON-LD context for this logical model with ValueSet vocabularies",
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "uri",
+          "description": "URI reference to external JSON-LD context"
+        },
+        {
+          "type": "object",
+          "description": "Inline JSON-LD context",
+          "properties": {
+            "@version": {
+              "type": "number",
+              "const": 1.1
+            },
+            "fhir": {
+              "type": "string",
+              "const": "http://hl7.org/fhir/"
+            }
+          },
+          "additionalProperties": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        {
+          "type": "array",
+          "description": "Array of JSON-LD context objects/URIs",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uri"
+              },
+              {
+                "type": "object"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "@type": {
+      "type": "string",
+      "description": "JSON-LD type identifier for MedicationTreatmentLineLM logical model",
+      "examples": [
+        "LogicalModel-MedicationTreatmentLineLM"
+      ]
+    },
+    "identifier": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Unique business identifier(s) for the medication treatment line"
+    },
+    "subject": {
+      "type": "object",
+      "description": "The patient for whom the medication treatment line applies"
+    },
+    "medication[x]": {
+      "oneOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "object",
+          "description": "FHIR Reference"
+        }
+      ],
+      "description": "Medicinal product for which the treatment line refers to. Identification or sufficient description of the product."
+    },
+    "status": {
+      "oneOf": [
+        {
+          "type": "string",
+          "description": "Code from ValueSet medication-statement-status (plain string)"
+        },
+        {
+          "type": "object",
+          "description": "Code from ValueSet medication-statement-status (JSON-LD structure)",
+          "properties": {
+            "@type": {
+              "type": "string",
+              "const": "http://smart.who.int/base/ValueSet-medication-statement-status.jsonld",
+              "description": "JSON-LD type reference to ValueSet medication-statement-status"
+            },
+            "@id": {
+              "type": "string",
+              "format": "uri",
+              "description": "Full IRI of the code from ValueSet medication-statement-status"
+            }
+          },
+          "required": [
+            "@type",
+            "@id"
+          ],
+          "additionalProperties": false
+        }
+      ],
+      "description": "Status of the record, not the status of the treatment."
+    },
+    "version": {
+      "type": "string",
+      "description": "Business version of the treatment line"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of the version of the treatment line"
+    },
+    "treatmentStatus": {
+      "type": "object",
+      "description": "The state of the actual treatment - taking, not taken..."
+    },
+    "treatmentStatusReasonCode": {
+      "type": "object",
+      "description": "The reason - coded - for the treatment status - i.e. adverse events, refusal..."
+    },
+    "treatmentStatusReasonText": {
+      "type": "string",
+      "description": "The reason - free text - for the treatment status - i.e. adverse events, refusal..."
+    },
+    "effectivePeriod": {
+      "type": "object",
+      "description": "The period of time the treatment is in effect"
+    },
+    "verificationInformation": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR BackboneElement"
+      },
+      "description": "Verification of medication line. The overview is verified as a whole, but each line is equipped with the information. The actual functional meaning and impact of this validation depends on the implementation."
+    },
+    "id": {
+      "type": "object",
+      "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces."
+    },
+    "modifierExtension": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR Extension"
+      },
+      "description": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and managable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."
+    },
+    "verifier": {
+      "type": "object",
+      "description": "HCP (or device, if authorized) verifying the treatments/overview"
+    },
+    "verificationTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The date and time when this medication treatment line was verified"
+    },
+    "category": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Whatever category for the treatment line. Categorisation of treatment lines is implementation-specific."
+    },
+    "medicationTreatment": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR Reference"
+      },
+      "description": "Reference or identifier of the group of lines that belong together"
+    },
+    "indication": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Reason why the product has been prescribed to the patient, or why the patient claims to be taking it"
+    },
+    "indicationText": {
+      "type": "string",
+      "description": "Textual explanation for why the medication has been prescribed or why the patient is taking it. This might not be allowed by some implementations."
+    },
+    "intendedUse": {
+      "type": "object",
+      "description": "Intended Use of the medication - prophylaxis, therapy..."
+    },
+    "usageInstructions": {
+      "type": "array",
+      "items": {
+        "$ref": "http://smart.who.int/base/StructureDefinition-DosagingInformation.schema.json"
+      },
+      "description": "Instructions about requested or actual administration of the product. This is repeatable to support complex or concurrent dosage instructions. e.g. take 1 per day for 3 weeks; 2x PRN"
+    },
+    "preparationInstructions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Additional instructions about preparation or dispense"
+    },
+    "comment": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR BackboneElement"
+      },
+      "description": "Comment on the individual line"
+    },
+    "author": {
+      "type": "object",
+      "description": "Author of the comment (Pharmacist, doctor, social carer, patient, device, related person)"
+    },
+    "date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "time of comment"
+    },
+    "commentText": {
+      "type": "string",
+      "description": "content of the comment"
+    },
+    "substitution": {
+      "type": "object",
+      "description": "Whether and which type of substitution is allowed for this medication treatment line"
+    },
+    "substitutionType": {
+      "type": "object",
+      "description": "The type of substitution that is allowed."
+    },
+    "substitutionTypeReason": {
+      "type": "object",
+      "description": "Coded reason for the substitution requirement"
+    },
+    "substitutionTypeReasonText": {
+      "type": "string",
+      "description": "Textual reason for the substitution requirement"
+    },
+    "recordingMetadata": {
+      "type": "object",
+      "description": "Metadata about reporting/authoring of the treatment line"
+    },
+    "recorder": {
+      "type": "object",
+      "description": "Person entering the statement by initiating a treatment or documenting a statement by a patient or another professional. The recorder may be different from the author."
+    },
+    "recordedTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Time of creation of the treatment line"
+    },
+    "patientReported": {
+      "type": "boolean",
+      "description": "The treatment line has been documented according to patient's statement"
+    },
+    "responsibleAuthor": {
+      "type": "object",
+      "description": "HCP who takes the clinical decision for the medication treatment line. If an author is not present, the responsibility of the medication line is with the recorder."
+    },
+    "authoringTime": {
+      "type": "string",
+      "format": "date-time",
+      "description": "The time the clinical decision was made by the responsibleAuthor. Normally, the same time as recording time when it's the same person."
+    },
+    "derivedFrom": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR BackboneElement"
+      },
+      "description": "Any data object that this treatment line is derived from"
+    },
+    "request": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR Reference"
+      },
+      "description": "Prescriptions that have been the source for creating the unverified treatment line"
+    },
+    "statement": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR Reference"
+      },
+      "description": "Medication-related statements from patients, pharmacists, or other HCPs, that are the source for creating the unverified treatment line"
+    },
+    "dispensation": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR Reference"
+      },
+      "description": "Related dispensations that are not necessarily related to existing prescriptions/requests/statements."
+    },
+    "administration": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR Reference"
+      },
+      "description": "Related administrations that are not necessarily related to existing prescriptions/requests/statements."
+    },
+    "other": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR Reference"
+      },
+      "description": "Other related sources of information - CarePlan, Immunizations, Documents (e.g. Discharge letters)..."
+    }
+  },
+  "required": [
+    "resourceType",
+    "subject",
+    "medication[x]",
+    "status",
+    "verifier",
+    "verificationTime",
+    "author",
+    "date",
+    "commentText",
+    "substitutionType",
+    "recordingMetadata",
+    "recorder",
+    "recordedTime"
+  ],
+  "resourceDefinition": "http://smart.who.int/ph4h/StructureDefinition/MedicationTreatmentLineLM",
+  "fhir:parent": "http://hl7.org/fhir/StructureDefinition/Base",
+  "jsonld:valuesets": [
+    "medication-statement-status"
+  ],
+  "jsonld:contextTemplate": {
+    "@version": 1.1,
+    "fhir": "http://hl7.org/fhir/",
+    "medication-statement-status": "http://smart.who.int/base/ValueSet-medication-statement-status.jsonld"
+  }
+}

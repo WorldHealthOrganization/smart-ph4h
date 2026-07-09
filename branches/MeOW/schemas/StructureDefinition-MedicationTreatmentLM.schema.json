@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/StructureDefinition-MedicationTreatmentLM.schema.json",
+  "title": "Medication Treatment (model)",
+  "description": "Logical model for subgroups of treatment lines that are somehow related to eachother (the same purpose, other)",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "const": "MedicationTreatmentLM",
+      "description": "Resource type identifier for MedicationTreatmentLM logical model"
+    },
+    "comment": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR BackboneElement"
+      },
+      "description": "Comment"
+    },
+    "treatmentPeriod": {
+      "type": "object",
+      "description": "The intended or effective treatment period"
+    },
+    "identifier": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Unique identifier of the treatment"
+    },
+    "indication": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Reason why the treatment has been prescribed to the patient, or why the patient claims to be taking it"
+    }
+  },
+  "required": [
+    "resourceType"
+  ],
+  "resourceDefinition": "http://smart.who.int/ph4h/StructureDefinition/MedicationTreatmentLM",
+  "fhir:parent": "http://hl7.org/fhir/StructureDefinition/Base"
+}

@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "http://smart.who.int/base/StructureDefinition-MedicinalProductLM.schema.json",
+  "title": "Medicinal product (model)",
+  "description": "Logical model for prescribed/dispensed medication. The model is shared by statements, requests, dispensations, and treatment lines. Each of those may have different restrictions in FHIR profile.",
+  "type": "object",
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "const": "MedicinalProductLM",
+      "description": "Resource type identifier for MedicinalProductLM logical model"
+    },
+    "identifier": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR BackboneElement"
+      },
+      "description": "The identifier(s) of the product, independently of the level of product. If several identifiers are specified, they shall not have conflicting meanings."
+    },
+    "id": {
+      "type": "object",
+      "description": "Unique id for the element within a resource (for internal references). This may be any string value that does not contain spaces."
+    },
+    "modifierExtension": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR Extension"
+      },
+      "description": "May be used to represent additional information that is not part of the basic definition of the element and that modifies the understanding of the element in which it is contained and/or the understanding of the containing element's descendants. Usually modifier elements provide negation or qualification. To make the use of extensions safe and managable, there is a strict set of governance applied to the definition and use of extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part of the definition of the extension. Applications processing a resource are required to check for modifier extensions.\n\nModifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot change the meaning of modifierExtension itself)."
+    },
+    "medicinalProductIdentifier": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Identifier at the product level - can be MPID or national Identifier"
+    },
+    "packagedProductIdentifier": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Identifier at the package level - can be PCID or national"
+    },
+    "pharmaceuticalProductIdentifier": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Identifier at the virtual or administrable product level - can be PhPID or national virtual/administrable product code"
+    },
+    "productCode": {
+      "type": "object",
+      "description": "Code for the product that is actually being specified, in established terminologies"
+    },
+    "classification": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Classification (e.g. ATC; narcotic/psychotropic; orphan drug; etc.)"
+    },
+    "packSize": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Overall amount of product in one package (100ml; 20 tablets; 1 creme & 6 pessaries)"
+    },
+    "productName": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR BackboneElement"
+      },
+      "description": "Name of the product (full name, invented name, other)"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of type and language that is relevant for the users"
+    },
+    "language": {
+      "type": "object",
+      "description": "Language of the name"
+    },
+    "type": {
+      "type": "object",
+      "description": "Type of the name (full name, common name, etc)"
+    },
+    "doseForm": {
+      "type": "object",
+      "description": "Dose form"
+    },
+    "item": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR BackboneElement"
+      },
+      "description": "A medication item. For combination packs, this can be manufactured items with each item having its own dose form and ingredients+strengths defined"
+    },
+    "ingredient": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR BackboneElement"
+      },
+      "minItems": 1,
+      "description": "Ingredients"
+    },
+    "role": {
+      "type": "object",
+      "description": "Role (active ingredient, excipient). Typically excipients are not needed, so by default active ingredients are expected."
+    },
+    "substance": {
+      "type": "object",
+      "description": "Substance"
+    },
+    "strengthInfo": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "FHIR BackboneElement"
+      },
+      "description": "Concentration or presentation strength"
+    },
+    "strength": {
+      "type": "object",
+      "description": "Concentration or presentation strength of the precise active ingredient"
+    },
+    "strengthType": {
+      "type": "object",
+      "description": "Type of strength that is expressed"
+    },
+    "strengthSubstance": {
+      "type": "object",
+      "description": "Substance that the strength refers to, if different from the main substance"
+    },
+    "unitOfPresentation": {
+      "type": "object",
+      "description": "Unit of presentation for the manufactured item (tablet, vial, tube). Typically, the smallest countable object in the package."
+    },
+    "containedQuantity": {
+      "type": "object",
+      "description": "Manufactured item quantity for liquids (3ml/vial)"
+    },
+    "amount": {
+      "type": "object",
+      "description": "Number of such manufactured items in this product (5 vials)"
+    },
+    "device": {
+      "type": "object",
+      "description": "Device coded"
+    },
+    "deviceQuantity": {
+      "type": "object",
+      "description": "Number of such devices"
+    }
+  },
+  "required": [
+    "resourceType",
+    "name",
+    "ingredient",
+    "substance",
+    "strength",
+    "deviceQuantity",
+    "device"
+  ],
+  "resourceDefinition": "http://smart.who.int/ph4h/StructureDefinition/MedicinalProductLM",
+  "fhir:parent": "http://hl7.org/fhir/StructureDefinition/Base"
+}

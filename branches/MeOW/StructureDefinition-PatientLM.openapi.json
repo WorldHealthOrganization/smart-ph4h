@@ -1,0 +1,99 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Patient (model) API",
+    "description": "Logical model for patient (basic data relevant for this use case)",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/StructureDefinition-PatientLM.schema.json": {
+      "get": {
+        "summary": "JSON Schema definition for the Logical Model StructureDefinition-PatientLM",
+        "description": "This endpoint serves the JSON Schema definition for the Logical Model StructureDefinition-PatientLM.",
+        "responses": {
+          "200": {
+            "description": "The JSON Schema for StructureDefinition-PatientLM",
+            "content": {
+              "application/schema+json": {
+                "schema": {
+                  "$ref": "./StructureDefinition-PatientLM.schema.json"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "StructureDefinition-PatientLM": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "http://smart.who.int/base/StructureDefinition-PatientLM.schema.json",
+        "title": "Patient (model)",
+        "description": "Logical model for patient (basic data relevant for this use case)",
+        "type": "object",
+        "properties": {
+          "resourceType": {
+            "type": "string",
+            "const": "PatientLM",
+            "description": "Resource type identifier for PatientLM logical model"
+          },
+          "identifier": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "minItems": 1,
+            "description": "Patient Identifier"
+          },
+          "name": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "minItems": 1,
+            "description": "Patient's name, incl first name, last name, or any other relevant name parts"
+          },
+          "gender": {
+            "type": "object",
+            "description": "Question: eHDSI prescription emphasisis the biological gender, but I think the reality is that most systems would have administrative gender or somekindof gender"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date-time",
+            "description": "eHDSI"
+          },
+          "insuranceInformation": {
+            "type": "object",
+            "description": "Question: shall we go here and how deep?"
+          }
+        },
+        "required": [
+          "resourceType",
+          "identifier",
+          "name"
+        ],
+        "allOf": [
+          {
+            "$ref": "./StructureDefinition-FHIRSchemaBase.schema.json"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "resourceDefinition": {
+                "type": "string",
+                "format": "uri",
+                "const": "http://smart.who.int/ph4h/StructureDefinition/PatientLM"
+              },
+              "fhir:parent": {
+                "type": "string",
+                "const": "http://hl7.org/fhir/StructureDefinition/Base"
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

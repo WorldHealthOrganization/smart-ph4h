@@ -1,0 +1,112 @@
+# smart.who.int.ph4h#0.9.9: SMART PH4H
+
+## Pages
+
+* [Home](index.md)
+* [User Scenarios](scenarios.md)
+* [Data Dictionary](dictionary.md)
+* [Non-functional Requirements](non-functional-requirements.md)
+* [Business Processes](business-processes.md)
+* [Indicators and Measures](indicators-measures.md)
+* [Downloads](downloads.md)
+* [Data Models and Exchange](data-models-and-exchange.md)
+* [Trust Domains](trust_domain.md)
+* [Codings](codings.md)
+* [Business Requirements](business-requirements.md)
+* [PH4H Trust Domain Policy](trust_domain_policy.md)
+* [Indices](indices.md)
+* [System Actors](system-actors.md)
+* [Testing](testing.md)
+* [Generic Personas](personas.md)
+* [Reference Implementations](reference-implementations.md)
+* [Dependencies](dependencies.md)
+* [Artifact Index](artifacts.md)
+* [Sequence Diagrams](sequence-diagrams.md)
+* [Functional Requirements](functional-requirements.md)
+* [Adapting Guidelines for Country use](adapting.md)
+* [Test Data](test-data.md)
+* [DAK API Documentation Hub](dak-api.md)
+* [Decision-support logic](decision-logic.md)
+* [License](license.md)
+* [PH4H Use Cases](trust_domain_use_cases.md)
+* [PH4H Technical Specifications](trust_domain_specifications.md)
+* [Transactions](transactions.md)
+* [Deployment](deployment.md)
+* [Changes](changes.md)
+* [Mappings](maps.md)
+* [References](references.md)
+* [Security and Privacy Considerations](security-privacy.md)
+* [Indicator and Performance Metrics](indicators.md)
+* [Concepts](concepts.md)
+
+## Resources
+
+### Logicals
+
+* [Dosaging (model)](StructureDefinition-DosagingInformation.md)
+* [Medication Overview (model)](StructureDefinition-MedicationOverviewLM.md)
+* [Medication Overview (Minimal)](StructureDefinition-MedicationOverviewMin.md)
+* [Medication Treatment (model)](StructureDefinition-MedicationTreatmentLM.md)
+* [Medication Treatment Line (model)](StructureDefinition-MedicationTreatmentLineLM.md)
+* [Medication Treatment Line (Minimal)](StructureDefinition-MedicationTreatmentLineMin.md)
+* [Medicinal product (model)](StructureDefinition-MedicinalProductLM.md)
+* [Patient (model)](StructureDefinition-PatientLM.md)
+* [Practitioner (model)](StructureDefinition-PractitionerLM.md)
+
+### Resource Profiles
+
+* [Medicinal product](StructureDefinition-IHEMedication.md)
+* [Medication Overview Bundle](StructureDefinition-MedicationOverview.md)
+* [Medication Overview Composition](StructureDefinition-MedicationOverviewComposition.md)
+* [Medication Treatment](StructureDefinition-MedicationTreatment.md)
+* [Medication Treatment Line](StructureDefinition-MedicationTreatmentLine.md)
+* [SMART Consent](StructureDefinition-SmartConsent.md)
+* [SMART Bundle (IPS)](StructureDefinition-SmartIPS.md)
+* [SMART Composition (IPS)](StructureDefinition-SmartIPSComposition.md)
+
+### Extensions
+
+* [Medication - Classification](StructureDefinition-ihe-ext-medication-classification.md)
+* [Medication - Device](StructureDefinition-ihe-ext-medication-device.md)
+* [Medication - Product Name](StructureDefinition-ihe-ext-medication-productname.md)
+* [Medication - Size of Item](StructureDefinition-ihe-ext-medication-sizeofitem.md)
+* [MedicationStatement - Substitution](StructureDefinition-ihe-ext-medicationstatement-substitution.md)
+* [MedicationStatement - Verification Information](StructureDefinition-ihe-ext-medicationstatement-verificationinformation.md)
+
+### ImplementationGuides
+
+* [SMART PH4H](index.md)
+
+### StructureMaps
+
+* [http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewLM](StructureMap-httpsmart.who.intph4hStructureMapMedicationOverviewMinToMedicationOverviewLM.md)
+* [http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewBundle](StructureMap-httpsmart.who.intph4hStructureMapMedicationOverviewMinToMedicationOverviewBundle.md)
+* [http://smart.who.int/ph4h/StructureMap/MedicationOverviewLMToMedicationOverviewBundle](StructureMap-httpsmart.who.intph4hStructureMapMedicationOverviewLMToMedicationOverviewBundle.md)
+
+### Examples
+
+* [72884cad-ebe6-4f43-a51a-2f978275f131 (AllergyIntolerance)](AllergyIntolerance-72884cad-ebe6-4f43-a51a-2f978275f131.md)
+* [574687583 (Binary)](Binary-574687583.md)
+* [ExampleIPS (Bundle)](Bundle-ExampleIPS.md)
+* [ExampleMedicationOverviewBundle (Bundle)](Bundle-ExampleMedicationOverviewBundle.md)
+* [Patient Summary as of December 11, 2017 14:30 (Composition)](Composition-ExampleComposition.md)
+* [c4597aa2-688a-401b-a658-70acc6de28c5 (Condition)](Condition-c4597aa2-688a-401b-a658-70acc6de28c5.md)
+* [c64139e7-f02d-409c-bf34-75e8bf23bc89 (Condition)](Condition-c64139e7-f02d-409c-bf34-75e8bf23bc89.md)
+* [c7781f44-6df8-4a8b-9e06-0b34263a47c6 (Consent)](Consent-c7781f44-6df8-4a8b-9e06-0b34263a47c6.md)
+* [ex-documentreference (DocumentReference)](DocumentReference-ex-documentreference.md)
+* [ex-documentreference1 (DocumentReference)](DocumentReference-ex-documentreference1.md)
+* [8adc0999-9468-4ac9-9557-680fa133d625 (Medication)](Medication-8adc0999-9468-4ac9-9557-680fa133d625.md)
+* [976d0804-cae0-45ae-afe3-a19f3ceba6bb (Medication)](Medication-976d0804-cae0-45ae-afe3-a19f3ceba6bb.md)
+* [47524493-846a-4a26-bae2-4ab03e60f02d (MedicationStatement)](MedicationStatement-47524493-846a-4a26-bae2-4ab03e60f02d.md)
+* [c220e36c-eb67-4fc4-9ba1-2fabc52acec5 (MedicationStatement)](MedicationStatement-c220e36c-eb67-4fc4-9ba1-2fabc52acec5.md)
+* [2639657a-c19a-48e2-82cc-471e13b8ad93 (Observation)](Observation-2639657a-c19a-48e2-82cc-471e13b8ad93.md)
+* [26bee0a9-5997-4557-ab9d-c6adbb05b571 (Observation)](Observation-26bee0a9-5997-4557-ab9d-c6adbb05b571.md)
+* [6e39ccf3-f997-4a2b-8f28-b4b71c778c79 (Observation)](Observation-6e39ccf3-f997-4a2b-8f28-b4b71c778c79.md)
+* [a6a5a1d5-c896-4c7e-b922-888fcc7e6ae3 (Observation)](Observation-a6a5a1d5-c896-4c7e-b922-888fcc7e6ae3.md)
+* [aa11a2be-3e36-4be7-b58a-6fc3dace2740 (Observation)](Observation-aa11a2be-3e36-4be7-b58a-6fc3dace2740.md)
+* [b4916505-a06b-460c-9be8-011609282456 (Observation)](Observation-b4916505-a06b-460c-9be8-011609282456.md)
+* [cc354e00-a419-47ea-8b6c-1768b2a01645 (Observation)](Observation-cc354e00-a419-47ea-8b6c-1768b2a01645.md)
+* [Laboratoire de charme (Organization)](Organization-45a5c5b1-4ec1-4d60-b4b2-ff5a84a41fd6.md)
+* [Anorg Aniza Tion BV / The best custodian ever (Organization)](Organization-890751f4-2924-4636-bab7-efffc7f3cf14.md)
+* [2b90dd2b-2dab-4c75-9bb9-a355e07401e7 (Patient)](Patient-2b90dd2b-2dab-4c75-9bb9-a355e07401e7.md)
+* [1c616b24-3895-48c4-9a02-9a64110351ee (Practitioner)](Practitioner-1c616b24-3895-48c4-9a02-9a64110351ee.md)

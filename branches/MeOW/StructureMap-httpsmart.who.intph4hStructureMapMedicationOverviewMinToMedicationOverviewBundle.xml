@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<StructureMap xmlns="http://hl7.org/fhir">
+  <id value="httpsmart.who.intph4hStructureMapMedicationOverviewMinToMedicationOverviewBundle"/>
+  <text>
+    <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p class="res-header-id"><b>Generated Narrative: StructureMap httpsmart.who.intph4hStructureMapMedicationOverviewMinToMedicationOverviewBundle</b></p><a name="httpsmart.who.intph4hStructureMapMedicationOverviewMinToMedicationOverviewBundle"> </a><a name="hchttpsmart.who.intph4hStructureMapMedicationOverviewMinToMedicationOverviewBundle"> </a><pre class="fml">
+<span style="color: #cc00cc">/// <b>url</b> = </span><span style="color: blue">'MedicationOverviewMinToMedicationOverviewBundle'</span>
+<span style="color: #cc00cc">/// <b>name</b> = </span><span style="color: blue">'http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewBundle'</span>
+<span style="color: #cc00cc">/// <b>status</b> = </span><span style="color: blue">'draft'</span>
+
+<b>uses</b><span style="color: navy"> &quot;</span><a href="StructureDefinition-MedicationOverviewMin.html" title="Medication Overview (Minimal)">http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin</a><span style="color: navy">&quot; </span><b>alias </b>MedicationOverviewMin <b>as </b><b>source</b>
+<b>uses</b><span style="color: navy"> &quot;</span><a href="StructureDefinition-MedicationOverviewLM.html" title="Medication Overview (model)">http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewLM</a><span style="color: navy">&quot; </span><b>alias </b>MedicationOverviewLM <b>as </b><b>produced</b>
+<b>uses</b><span style="color: navy"> &quot;</span><a href="StructureDefinition-MedicationOverview.html" title="Medication Overview Bundle">http://smart.who.int/ph4h/StructureDefinition/MedicationOverview</a><span style="color: navy">&quot; </span><b>alias </b>MedicationOverviewBundle <b>as </b><b>target</b>
+
+<b>imports</b><span style="color: navy"> &quot;</span>http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewLM<span style="color: navy">&quot;
+</span><b>imports</b><span style="color: navy"> &quot;</span>http://smart.who.int/ph4h/StructureMap/MedicationOverviewLMToMedicationOverviewBundle<span style="color: navy">&quot;
+</span>
+<span style="color: navy">// </span><span style="color: green">---------------------------------------------------------------------------</span>
+<span style="color: navy">// </span><span style="color: green">Top-level group: chain Min -&gt; LM -&gt; Bundle via an intermediate LM instance</span>
+<span style="color: navy">// </span><span style="color: green">---------------------------------------------------------------------------</span>
+<b>group </b>MedicationOverviewMinToMedicationOverviewBundle<span style="color: navy">(</span><b>source</b> <span style="color: maroon">src</span><span style="color: navy"> : </span>MedicationOverviewMin, <b>target</b> <span style="color: maroon">tgt</span><span style="color: navy"> : </span>MedicationOverviewBundle<span style="color: navy">)</span><span style="color: navy"> {
+</span>  src<span style="color: navy"><b> -&gt; </b></span><b>create</b><span style="color: navy">(</span><span style="color: blue">'MedicationOverviewLM'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">lm</span><b> then </b>MedicationOverviewMinToMedicationOverviewLM<span style="color: navy">(</span><span style="color: maroon">src</span><span style="color: navy">, </span><span style="color: maroon">lm</span><span style="color: navy">)</span><span style="color: navy">, </span>MedicationOverviewLMToMedicationOverviewBundle<span style="color: navy">(</span><span style="color: maroon">lm</span><span style="color: navy">, </span><span style="color: maroon">tgt</span><span style="color: navy">)</span> <i>&quot;chainMinToBundle&quot;</i><span style="color: navy">;</span>
+<span style="color: navy">}
+
+</span></pre></div>
+  </text>
+  <url value="MedicationOverviewMinToMedicationOverviewBundle"/>
+  <version value="0.9.9"/>
+  <name value="http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewBundle"/>
+  <status value="draft"/>
+  <date value="2026-06-18T13:21:56+00:00"/>
+  <publisher value="WHO"/>
+  <contact>
+    <name value="WHO"/>
+    <telecom>
+      <system value="url"/>
+      <value value="http://who.int"/>
+    </telecom>
+  </contact>
+  <structure>
+    <url value="http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin"/>
+    <mode value="source"/>
+    <alias value="MedicationOverviewMin"/>
+  </structure>
+  <structure>
+    <url value="http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewLM"/>
+    <mode value="produced"/>
+    <alias value="MedicationOverviewLM"/>
+  </structure>
+  <structure>
+    <url value="http://smart.who.int/ph4h/StructureDefinition/MedicationOverview"/>
+    <mode value="target"/>
+    <alias value="MedicationOverviewBundle"/>
+  </structure>
+  <import value="http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewLM"/>
+  <import value="http://smart.who.int/ph4h/StructureMap/MedicationOverviewLMToMedicationOverviewBundle"/>
+  <group>
+    <name value="MedicationOverviewMinToMedicationOverviewBundle"/>
+    <documentation value="---------------------------------------------------------------------------&#xD;&#xA;Top-level group: chain Min -&gt; LM -&gt; Bundle via an intermediate LM instance&#xD;&#xA;---------------------------------------------------------------------------"/>
+    <input>
+      <name value="src"/>
+      <type value="MedicationOverviewMin"/>
+      <mode value="source"/>
+    </input>
+    <input>
+      <name value="tgt"/>
+      <type value="MedicationOverviewBundle"/>
+      <mode value="target"/>
+    </input>
+    <rule>
+      <name value="chainMinToBundle"/>
+      <source>
+        <context value="src"/>
+      </source>
+      <target>
+        <variable value="lm"/>
+        <transform value="create"/>
+        <parameter>
+          <valueString value="MedicationOverviewLM"/>
+        </parameter>
+      </target>
+      <dependent>
+        <name value="MedicationOverviewMinToMedicationOverviewLM"/>
+        <parameter>
+          <valueId value="src"/>
+        </parameter>
+        <parameter>
+          <valueId value="lm"/>
+        </parameter>
+      </dependent>
+      <dependent>
+        <name value="MedicationOverviewLMToMedicationOverviewBundle"/>
+        <parameter>
+          <valueId value="lm"/>
+        </parameter>
+        <parameter>
+          <valueId value="tgt"/>
+        </parameter>
+      </dependent>
+    </rule>
+  </group>
+</StructureMap>

@@ -1,0 +1,930 @@
+{
+  "phase": "postprocessing",
+  "timestamp": "2026-06-18T13:28:44.012049",
+  "status": "completed",
+  "summary": {
+    "total_successes": 82,
+    "total_warnings": 14,
+    "total_errors": 0,
+    "files_processed_count": 42,
+    "files_expected_count": 1,
+    "files_missing_count": 1,
+    "completion_timestamp": "2026-06-18T13:28:45.164592"
+  },
+  "details": {
+    "successes": [
+      {
+        "message": "Starting generate_dak_api_hub.py post-processing",
+        "timestamp": "2026-06-18T13:28:44.012059"
+      },
+      {
+        "message": "Configured directories - Output: output, OpenAPI: input/openapi",
+        "timestamp": "2026-06-18T13:28:44.012063"
+      },
+      {
+        "message": "Loaded existing FHIR IG publisher QA file for merging",
+        "timestamp": "2026-06-18T13:28:44.012133"
+      },
+      {
+        "message": "[preprocessing] Starting update_sushi_config.py preprocessing",
+        "timestamp": "2026-06-18T13:28:44.012237"
+      },
+      {
+        "message": "[preprocessing] Successfully loaded sushi-config.yaml",
+        "timestamp": "2026-06-18T13:28:44.012241"
+      },
+      {
+        "message": "[preprocessing] Found smart-base dependency: smart.who.int.base",
+        "timestamp": "2026-06-18T13:28:44.012243"
+      },
+      {
+        "message": "[preprocessing] Created directory structure for input/pagecontent/dak-api.md",
+        "timestamp": "2026-06-18T13:28:44.012244"
+      },
+      {
+        "message": "[preprocessing] Successfully created dak-api.md with DAK_API_CONTENT marker",
+        "timestamp": "2026-06-18T13:28:44.012246"
+      },
+      {
+        "message": "[preprocessing] Found directory: input/resources",
+        "timestamp": "2026-06-18T13:28:44.012250"
+      },
+      {
+        "message": "[preprocessing] Found 0 JSON files in input/resources",
+        "timestamp": "2026-06-18T13:28:44.012251"
+      },
+      {
+        "message": "[preprocessing] Found directory: input/fsh/models",
+        "timestamp": "2026-06-18T13:28:44.012253"
+      },
+      {
+        "message": "[preprocessing] Found 9 FSH files in input/fsh/models",
+        "timestamp": "2026-06-18T13:28:44.012255"
+      },
+      {
+        "message": "[preprocessing] Found Logical Model from FSH: DosagingInformation",
+        "timestamp": "2026-06-18T13:28:44.012256",
+        "details": {
+          "source_file": "input/fsh/models/dosaging.fsh",
+          "title": "Dosaging (model)"
+        }
+      },
+      {
+        "message": "[preprocessing] Found Logical Model from FSH: MedicationTreatmentLineMin",
+        "timestamp": "2026-06-18T13:28:44.012258",
+        "details": {
+          "source_file": "input/fsh/models/MedicationTreatmentLineMin.fsh",
+          "title": "Medication Treatment Line (Minimal)"
+        }
+      },
+      {
+        "message": "[preprocessing] Found Logical Model from FSH: PractitionerLM",
+        "timestamp": "2026-06-18T13:28:44.012259",
+        "details": {
+          "source_file": "input/fsh/models/practitioner.fsh",
+          "title": "Practitioner (model)"
+        }
+      },
+      {
+        "message": "[preprocessing] Found Logical Model from FSH: MedicationOverviewMin",
+        "timestamp": "2026-06-18T13:28:44.012261",
+        "details": {
+          "source_file": "input/fsh/models/MedicationOverviewMin.fsh",
+          "title": "Medication Overview (Minimal)"
+        }
+      },
+      {
+        "message": "[preprocessing] Found Logical Model from FSH: MedicinalProductLM",
+        "timestamp": "2026-06-18T13:28:44.012262",
+        "details": {
+          "source_file": "input/fsh/models/medicinalProduct.fsh",
+          "title": "Medicinal product (model)"
+        }
+      },
+      {
+        "message": "[preprocessing] Found Logical Model from FSH: PatientLM",
+        "timestamp": "2026-06-18T13:28:44.012263",
+        "details": {
+          "source_file": "input/fsh/models/patient.fsh",
+          "title": "Patient (model)"
+        }
+      },
+      {
+        "message": "[preprocessing] Found Logical Model from FSH: MedicationTreatmentLM",
+        "timestamp": "2026-06-18T13:28:44.012265",
+        "details": {
+          "source_file": "input/fsh/models/medicationTreatment.fsh",
+          "title": "Medication Treatment (model)"
+        }
+      },
+      {
+        "message": "[preprocessing] Found Logical Model from FSH: MedicationOverviewLM",
+        "timestamp": "2026-06-18T13:28:44.012266",
+        "details": {
+          "source_file": "input/fsh/models/medicationOverview.fsh",
+          "title": "Medication Overview (model)"
+        }
+      },
+      {
+        "message": "[preprocessing] Found Logical Model from FSH: MedicationTreatmentLineLM",
+        "timestamp": "2026-06-18T13:28:44.012268",
+        "details": {
+          "source_file": "input/fsh/models/medicationTreatmentLine.fsh",
+          "title": "Medication Treatment Line (model)"
+        }
+      },
+      {
+        "message": "[preprocessing] Found directory: input/fsh/valuesets",
+        "timestamp": "2026-06-18T13:28:44.012269"
+      },
+      {
+        "message": "[preprocessing] Found 0 FSH files in input/fsh/valuesets",
+        "timestamp": "2026-06-18T13:28:44.012271"
+      },
+      {
+        "message": "[preprocessing] Found directory: input/models",
+        "timestamp": "2026-06-18T13:28:44.012273"
+      },
+      {
+        "message": "[preprocessing] Found 0 JSON files in input/models",
+        "timestamp": "2026-06-18T13:28:44.012274"
+      },
+      {
+        "message": "[preprocessing] Found directory: input/vocabulary",
+        "timestamp": "2026-06-18T13:28:44.012276"
+      },
+      {
+        "message": "[preprocessing] Found 0 JSON files in input/vocabulary",
+        "timestamp": "2026-06-18T13:28:44.012277"
+      },
+      {
+        "message": "[preprocessing] Ensured directory exists: input/pagecontent",
+        "timestamp": "2026-06-18T13:28:44.012279"
+      },
+      {
+        "message": "[preprocessing] Placeholder generation completed",
+        "timestamp": "2026-06-18T13:28:44.012280",
+        "details": {
+          "valuesets_found": 0,
+          "logical_models_found": 9,
+          "placeholder_files_created": 0
+        }
+      },
+      {
+        "message": "[preprocessing] Added dak-api.md to pages section",
+        "timestamp": "2026-06-18T13:28:44.012284"
+      },
+      {
+        "message": "[preprocessing] Added DAK API to menu Indices section",
+        "timestamp": "2026-06-18T13:28:44.012285"
+      },
+      {
+        "message": "[preprocessing] sushi-config.yaml updated successfully",
+        "timestamp": "2026-06-18T13:28:44.012286"
+      },
+      {
+        "message": "[preprocessing] update_sushi_config completed successfully",
+        "timestamp": "2026-06-18T13:28:44.012287"
+      },
+      {
+        "message": "Merged preprocessing QA report from input/temp/",
+        "timestamp": "2026-06-18T13:28:44.012357"
+      },
+      {
+        "message": "[valueset_schemas] Starting ValueSet schema generation",
+        "timestamp": "2026-06-18T13:28:44.012472"
+      },
+      {
+        "message": "[valueset_schemas] Configured paths - Expansions: output/expansions.json, Output: output",
+        "timestamp": "2026-06-18T13:28:44.012476"
+      },
+      {
+        "message": "[valueset_schemas] Successfully loaded expansions data from output/expansions.json",
+        "timestamp": "2026-06-18T13:28:44.012477"
+      },
+      {
+        "message": "Merged ValueSet schema generation QA report from input/temp/qa_valueset_schemas.json",
+        "timestamp": "2026-06-18T13:28:44.012485"
+      },
+      {
+        "message": "[logical_model_schemas] Script started",
+        "timestamp": "2026-06-18T13:28:44.012711",
+        "details": {
+          "input_directory": "output",
+          "output_directory": "output"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Input directory found",
+        "timestamp": "2026-06-18T13:28:44.012715",
+        "details": {
+          "directory": "output"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Found 41 StructureDefinition files",
+        "timestamp": "2026-06-18T13:28:44.012716",
+        "details": {
+          "directory": "output",
+          "file_count": 41
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Found 9 logical models",
+        "timestamp": "2026-06-18T13:28:44.012718",
+        "details": {
+          "models_found": 9,
+          "model_names": [
+            "MedicationOverviewLM",
+            "DosagingInformation",
+            "MedicationTreatmentLM",
+            "MedicationTreatmentLineMin",
+            "PractitionerLM",
+            "MedicinalProductLM",
+            "PatientLM",
+            "MedicationOverviewMin",
+            "MedicationTreatmentLineLM"
+          ]
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model MedicationOverviewLM",
+        "timestamp": "2026-06-18T13:28:44.012720"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model DosagingInformation",
+        "timestamp": "2026-06-18T13:28:44.012722"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model MedicationTreatmentLM",
+        "timestamp": "2026-06-18T13:28:44.012723"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model MedicationTreatmentLineMin",
+        "timestamp": "2026-06-18T13:28:44.012725"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model PractitionerLM",
+        "timestamp": "2026-06-18T13:28:44.012726"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model MedicinalProductLM",
+        "timestamp": "2026-06-18T13:28:44.012728"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model PatientLM",
+        "timestamp": "2026-06-18T13:28:44.012729"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model MedicationOverviewMin",
+        "timestamp": "2026-06-18T13:28:44.012731"
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema for model MedicationTreatmentLineLM",
+        "timestamp": "2026-06-18T13:28:44.012732"
+      },
+      {
+        "message": "[logical_model_schemas] Generated 9 Logical Model schemas",
+        "timestamp": "2026-06-18T13:28:44.012734",
+        "details": {
+          "schemas_generated": 9,
+          "schema_files": [
+            "output/StructureDefinition-MedicationOverviewLM.schema.json",
+            "output/StructureDefinition-DosagingInformation.schema.json",
+            "output/StructureDefinition-MedicationTreatmentLM.schema.json",
+            "output/StructureDefinition-MedicationTreatmentLineMin.schema.json",
+            "output/StructureDefinition-PractitionerLM.schema.json",
+            "output/StructureDefinition-MedicinalProductLM.schema.json",
+            "output/StructureDefinition-PatientLM.schema.json",
+            "output/StructureDefinition-MedicationOverviewMin.schema.json",
+            "output/StructureDefinition-MedicationTreatmentLineLM.schema.json"
+          ]
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Successfully generated 9 logical model schemas",
+        "timestamp": "2026-06-18T13:28:44.012735",
+        "details": {
+          "schemas_generated": 9
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Found 1 Binary JSON file(s)",
+        "timestamp": "2026-06-18T13:28:44.012739",
+        "details": {
+          "directory": "output",
+          "file_count": 1
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Instance Binary/574687583 passed validation",
+        "timestamp": "2026-06-18T13:28:44.012741",
+        "details": {
+          "binary_id": "574687583",
+          "model": "MedicationOverviewMin"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Processed 1 logical model instance(s) (1 valid, 0 with issues)",
+        "timestamp": "2026-06-18T13:28:44.012743",
+        "details": {
+          "instances_processed": 1,
+          "instances_valid": 1,
+          "instances_invalid": 0
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-06-18T13:28:44.012767",
+        "details": {
+          "model_name": "MedicationOverviewLM",
+          "schema_file": "output/StructureDefinition-MedicationOverviewLM.schema.json",
+          "properties_count": 13,
+          "required_fields": [
+            "resourceType",
+            "patient",
+            "practicioner",
+            "verificationTime",
+            "author",
+            "date",
+            "commentText"
+          ],
+          "timestamp": "2026-06-18T13:28:43.237387",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-06-18T13:28:44.012770",
+        "details": {
+          "model_name": "DosagingInformation",
+          "schema_file": "output/StructureDefinition-DosagingInformation.schema.json",
+          "properties_count": 40,
+          "required_fields": [
+            "resourceType",
+            "count",
+            "duration",
+            "numberOfTimes",
+            "period"
+          ],
+          "timestamp": "2026-06-18T13:28:43.238031",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-06-18T13:28:44.012771",
+        "details": {
+          "model_name": "MedicationTreatmentLM",
+          "schema_file": "output/StructureDefinition-MedicationTreatmentLM.schema.json",
+          "properties_count": 5,
+          "required_fields": [
+            "resourceType"
+          ],
+          "timestamp": "2026-06-18T13:28:43.238310",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-06-18T13:28:44.012773",
+        "details": {
+          "model_name": "MedicationTreatmentLineMin",
+          "schema_file": "output/StructureDefinition-MedicationTreatmentLineMin.schema.json",
+          "properties_count": 10,
+          "required_fields": [
+            "resourceType",
+            "m"
+          ],
+          "timestamp": "2026-06-18T13:28:43.238726",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-06-18T13:28:44.012775",
+        "details": {
+          "model_name": "PractitionerLM",
+          "schema_file": "output/StructureDefinition-PractitionerLM.schema.json",
+          "properties_count": 12,
+          "required_fields": [
+            "resourceType",
+            "identifier",
+            "name"
+          ],
+          "timestamp": "2026-06-18T13:28:43.239105",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-06-18T13:28:44.012776",
+        "details": {
+          "model_name": "MedicinalProductLM",
+          "schema_file": "output/StructureDefinition-MedicinalProductLM.schema.json",
+          "properties_count": 28,
+          "required_fields": [
+            "resourceType",
+            "name",
+            "ingredient",
+            "substance",
+            "strength",
+            "deviceQuantity",
+            "device"
+          ],
+          "timestamp": "2026-06-18T13:28:43.239599",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-06-18T13:28:44.012778",
+        "details": {
+          "model_name": "PatientLM",
+          "schema_file": "output/StructureDefinition-PatientLM.schema.json",
+          "properties_count": 6,
+          "required_fields": [
+            "resourceType",
+            "identifier",
+            "name"
+          ],
+          "timestamp": "2026-06-18T13:28:43.239859",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-06-18T13:28:44.012782",
+        "details": {
+          "model_name": "MedicationOverviewMin",
+          "schema_file": "output/StructureDefinition-MedicationOverviewMin.schema.json",
+          "properties_count": 10,
+          "required_fields": [
+            "resourceType",
+            "n",
+            "dob",
+            "s"
+          ],
+          "timestamp": "2026-06-18T13:28:43.240300",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "[logical_model_schemas] Generated schema",
+        "timestamp": "2026-06-18T13:28:44.012784",
+        "details": {
+          "model_name": "MedicationTreatmentLineLM",
+          "schema_file": "output/StructureDefinition-MedicationTreatmentLineLM.schema.json",
+          "properties_count": 45,
+          "required_fields": [
+            "resourceType",
+            "subject",
+            "medication[x]",
+            "status",
+            "verifier",
+            "verificationTime",
+            "author",
+            "date",
+            "commentText",
+            "substitutionType",
+            "recordingMetadata",
+            "recorder",
+            "recordedTime"
+          ],
+          "timestamp": "2026-06-18T13:28:43.241032",
+          "component": "logical_model_schemas"
+        }
+      },
+      {
+        "message": "Merged Logical Model schema generation QA report from input/temp/qa_logical_model_schemas.json",
+        "timestamp": "2026-06-18T13:28:44.012787"
+      },
+      {
+        "message": "[jsonld_vocabularies] Script started",
+        "timestamp": "2026-06-18T13:28:44.012910",
+        "details": {
+          "expansions_path": "output/expansions.json",
+          "output_directory": "output"
+        }
+      },
+      {
+        "message": "[jsonld_vocabularies] Successfully loaded expansions data",
+        "timestamp": "2026-06-18T13:28:44.012915",
+        "details": {
+          "expansions_path": "output/expansions.json"
+        }
+      },
+      {
+        "message": "[jsonld_vocabularies] Found FHIR Bundle",
+        "timestamp": "2026-06-18T13:28:44.012917",
+        "details": {
+          "resourceType": "Bundle"
+        }
+      },
+      {
+        "message": "Merged JSON-LD vocabulary generation QA report from input/temp/qa_jsonld_vocabularies.json",
+        "timestamp": "2026-06-18T13:28:44.012924"
+      },
+      {
+        "message": "Output directory exists with 1327 items",
+        "timestamp": "2026-06-18T13:28:44.014443"
+      },
+      {
+        "message": "Output directory contents sampled",
+        "timestamp": "2026-06-18T13:28:44.015107",
+        "details": {
+          "sample_files": [
+            "tbl_bck1500.png",
+            "tbl_bck11011.png",
+            "tbl_bck00001010.png",
+            "icon_page_0.gif",
+            "scenarios.html",
+            "tbl_bck0000111110.png",
+            "tbl_bck1152.png",
+            "StructureDefinition-ihe-ext-medication-device.json",
+            "tbl_bck12.png",
+            "tbl_bck001001.png"
+          ]
+        }
+      },
+      {
+        "message": "Initializing DAK API components",
+        "timestamp": "2026-06-18T13:28:44.015147"
+      },
+      {
+        "message": "All components initialized successfully",
+        "timestamp": "2026-06-18T13:28:44.015177"
+      },
+      {
+        "message": "Starting schema file detection phase",
+        "timestamp": "2026-06-18T13:28:44.015201"
+      },
+      {
+        "message": "Schema detection completed",
+        "timestamp": "2026-06-18T13:28:44.017133",
+        "details": {
+          "valueset_schemas": 0,
+          "logical_model_schemas": 10,
+          "other_schemas": 0
+        }
+      },
+      {
+        "message": "Documentation summary completed",
+        "timestamp": "2026-06-18T13:28:44.509210",
+        "details": {
+          "valueset_schema_docs": 0,
+          "logical_model_schema_docs": 10,
+          "enumeration_endpoints": 1,
+          "jsonld_vocabularies": 0,
+          "openapi_docs": 11
+        }
+      },
+      {
+        "message": "Total content items to include in hub: 22",
+        "timestamp": "2026-06-18T13:28:44.509258"
+      },
+      {
+        "message": "Dynamic source loading applied to 153 HTML files",
+        "timestamp": "2026-06-18T13:28:45.160585"
+      },
+      {
+        "message": "Starting DAK API hub post-processing phase",
+        "timestamp": "2026-06-18T13:28:45.160663"
+      },
+      {
+        "message": "DAK API hub post-processing completed successfully",
+        "timestamp": "2026-06-18T13:28:45.161990",
+        "details": {
+          "total_documentation_pages": 22,
+          "valueset_pages": 0,
+          "logical_model_pages": 10,
+          "enumeration_pages": 1,
+          "jsonld_references": 0,
+          "openapi_pages": 11
+        }
+      },
+      {
+        "message": "Generated OpenAPI index: output/openapi/index.html",
+        "timestamp": "2026-06-18T13:28:45.164583"
+      }
+    ],
+    "warnings": [
+      {
+        "message": "[preprocessing] dak-api.md does not exist, creating new file",
+        "timestamp": "2026-06-18T13:28:44.012290"
+      },
+      {
+        "message": "[preprocessing] Directory not found: fsh-generated/resources",
+        "timestamp": "2026-06-18T13:28:44.012292"
+      },
+      {
+        "message": "[preprocessing] Skipping StructureDefinition-DosagingInformation.md - already exists with content",
+        "timestamp": "2026-06-18T13:28:44.012294"
+      },
+      {
+        "message": "[preprocessing] Skipping StructureDefinition-MedicationTreatmentLineMin.md - already exists with content",
+        "timestamp": "2026-06-18T13:28:44.012295"
+      },
+      {
+        "message": "[preprocessing] Skipping StructureDefinition-PractitionerLM.md - already exists with content",
+        "timestamp": "2026-06-18T13:28:44.012297"
+      },
+      {
+        "message": "[preprocessing] Skipping StructureDefinition-MedicationOverviewMin.md - already exists with content",
+        "timestamp": "2026-06-18T13:28:44.012298"
+      },
+      {
+        "message": "[preprocessing] Skipping StructureDefinition-MedicinalProductLM.md - already exists with content",
+        "timestamp": "2026-06-18T13:28:44.012299"
+      },
+      {
+        "message": "[preprocessing] Skipping StructureDefinition-PatientLM.md - already exists with content",
+        "timestamp": "2026-06-18T13:28:44.012300"
+      },
+      {
+        "message": "[preprocessing] Skipping StructureDefinition-MedicationTreatmentLM.md - already exists with content",
+        "timestamp": "2026-06-18T13:28:44.012302"
+      },
+      {
+        "message": "[preprocessing] Skipping StructureDefinition-MedicationOverviewLM.md - already exists with content",
+        "timestamp": "2026-06-18T13:28:44.012305"
+      },
+      {
+        "message": "[preprocessing] Skipping StructureDefinition-MedicationTreatmentLineLM.md - already exists with content",
+        "timestamp": "2026-06-18T13:28:44.012307"
+      },
+      {
+        "message": "[valueset_schemas] No ValueSet schemas were generated - no ValueSets found in expansions",
+        "timestamp": "2026-06-18T13:28:44.012479"
+      },
+      {
+        "message": "[jsonld_vocabularies] Bundle has no entries",
+        "timestamp": "2026-06-18T13:28:44.012919"
+      },
+      {
+        "message": "[jsonld_vocabularies] No JSON-LD vocabularies were generated (no ValueSets found in expansions)",
+        "timestamp": "2026-06-18T13:28:44.012921"
+      }
+    ],
+    "errors": [],
+    "files_processed": [
+      {
+        "file": "[preprocessing] sushi-config.yaml",
+        "status": "loaded",
+        "timestamp": "2026-06-18T13:28:44.012309"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/dak-api.md",
+        "status": "created",
+        "timestamp": "2026-06-18T13:28:44.012311"
+      },
+      {
+        "file": "[preprocessing] input/fsh/models/dosaging.fsh",
+        "status": "logical_model_detected",
+        "timestamp": "2026-06-18T13:28:44.012313"
+      },
+      {
+        "file": "[preprocessing] input/fsh/models/MedicationTreatmentLineMin.fsh",
+        "status": "logical_model_detected",
+        "timestamp": "2026-06-18T13:28:44.012315"
+      },
+      {
+        "file": "[preprocessing] input/fsh/models/practitioner.fsh",
+        "status": "logical_model_detected",
+        "timestamp": "2026-06-18T13:28:44.012317"
+      },
+      {
+        "file": "[preprocessing] input/fsh/models/MedicationOverviewMin.fsh",
+        "status": "logical_model_detected",
+        "timestamp": "2026-06-18T13:28:44.012318"
+      },
+      {
+        "file": "[preprocessing] input/fsh/models/medicinalProduct.fsh",
+        "status": "logical_model_detected",
+        "timestamp": "2026-06-18T13:28:44.012320"
+      },
+      {
+        "file": "[preprocessing] input/fsh/models/patient.fsh",
+        "status": "logical_model_detected",
+        "timestamp": "2026-06-18T13:28:44.012321"
+      },
+      {
+        "file": "[preprocessing] input/fsh/models/medicationTreatment.fsh",
+        "status": "logical_model_detected",
+        "timestamp": "2026-06-18T13:28:44.012323"
+      },
+      {
+        "file": "[preprocessing] input/fsh/models/medicationOverview.fsh",
+        "status": "logical_model_detected",
+        "timestamp": "2026-06-18T13:28:44.012324"
+      },
+      {
+        "file": "[preprocessing] input/fsh/models/medicationTreatmentLine.fsh",
+        "status": "logical_model_detected",
+        "timestamp": "2026-06-18T13:28:44.012326"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/StructureDefinition-DosagingInformation.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-06-18T13:28:44.012327"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/StructureDefinition-MedicationTreatmentLineMin.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-06-18T13:28:44.012332"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/StructureDefinition-PractitionerLM.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-06-18T13:28:44.012335"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/StructureDefinition-MedicationOverviewMin.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-06-18T13:28:44.012336"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/StructureDefinition-MedicinalProductLM.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-06-18T13:28:44.012343"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/StructureDefinition-PatientLM.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-06-18T13:28:44.012347"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/StructureDefinition-MedicationTreatmentLM.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-06-18T13:28:44.012349"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/StructureDefinition-MedicationOverviewLM.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-06-18T13:28:44.012351"
+      },
+      {
+        "file": "[preprocessing] input/pagecontent/StructureDefinition-MedicationTreatmentLineLM.md",
+        "status": "skipped_existing",
+        "timestamp": "2026-06-18T13:28:44.012352"
+      },
+      {
+        "file": "[preprocessing] sushi-config.yaml",
+        "status": "updated",
+        "timestamp": "2026-06-18T13:28:44.012353"
+      },
+      {
+        "file": "[valueset_schemas] output/expansions.json",
+        "status": "loaded",
+        "timestamp": "2026-06-18T13:28:44.012481"
+      },
+      {
+        "file": "[logical_model_schemas] output/StructureDefinition-MedicationOverviewLM.schema.json",
+        "status": "success",
+        "timestamp": "2026-06-18T13:28:44.012745",
+        "details": {
+          "model_name": "MedicationOverviewLM",
+          "schema_size": 3286
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/StructureDefinition-DosagingInformation.schema.json",
+        "status": "success",
+        "timestamp": "2026-06-18T13:28:44.012747",
+        "details": {
+          "model_name": "DosagingInformation",
+          "schema_size": 6525
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/StructureDefinition-MedicationTreatmentLM.schema.json",
+        "status": "success",
+        "timestamp": "2026-06-18T13:28:44.012749",
+        "details": {
+          "model_name": "MedicationTreatmentLM",
+          "schema_size": 1398
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/StructureDefinition-MedicationTreatmentLineMin.schema.json",
+        "status": "success",
+        "timestamp": "2026-06-18T13:28:44.012750",
+        "details": {
+          "model_name": "MedicationTreatmentLineMin",
+          "schema_size": 2941
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/StructureDefinition-PractitionerLM.schema.json",
+        "status": "success",
+        "timestamp": "2026-06-18T13:28:44.012754",
+        "details": {
+          "model_name": "PractitionerLM",
+          "schema_size": 2942
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/StructureDefinition-MedicinalProductLM.schema.json",
+        "status": "success",
+        "timestamp": "2026-06-18T13:28:44.012756",
+        "details": {
+          "model_name": "MedicinalProductLM",
+          "schema_size": 5589
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/StructureDefinition-PatientLM.schema.json",
+        "status": "success",
+        "timestamp": "2026-06-18T13:28:44.012758",
+        "details": {
+          "model_name": "PatientLM",
+          "schema_size": 1467
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/StructureDefinition-MedicationOverviewMin.schema.json",
+        "status": "success",
+        "timestamp": "2026-06-18T13:28:44.012759",
+        "details": {
+          "model_name": "MedicationOverviewMin",
+          "schema_size": 3007
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/StructureDefinition-MedicationTreatmentLineLM.schema.json",
+        "status": "success",
+        "timestamp": "2026-06-18T13:28:44.012761",
+        "details": {
+          "model_name": "MedicationTreatmentLineLM",
+          "schema_size": 9736
+        }
+      },
+      {
+        "file": "[logical_model_schemas] output/Binary-574687583.instance.json",
+        "status": "success",
+        "timestamp": "2026-06-18T13:28:44.012763",
+        "details": {
+          "binary_id": "574687583",
+          "model": "MedicationOverviewMin",
+          "validation_errors": 0
+        }
+      },
+      {
+        "file": "output/StructureDefinition-MedicationOverviewLM.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-06-18T13:28:44.017138"
+      },
+      {
+        "file": "output/StructureDefinition-MedicationTreatmentLM.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-06-18T13:28:44.017141"
+      },
+      {
+        "file": "output/StructureDefinition-MedicationOverviewMin.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-06-18T13:28:44.017143"
+      },
+      {
+        "file": "output/StructureDefinition-DosagingInformation.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-06-18T13:28:44.017144"
+      },
+      {
+        "file": "output/LogicalModels.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-06-18T13:28:44.017145"
+      },
+      {
+        "file": "output/StructureDefinition-MedicinalProductLM.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-06-18T13:28:44.017147"
+      },
+      {
+        "file": "output/StructureDefinition-PractitionerLM.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-06-18T13:28:44.017148"
+      },
+      {
+        "file": "output/StructureDefinition-MedicationTreatmentLineLM.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-06-18T13:28:44.017150"
+      },
+      {
+        "file": "output/StructureDefinition-PatientLM.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-06-18T13:28:44.017151"
+      },
+      {
+        "file": "output/StructureDefinition-MedicationTreatmentLineMin.schema.json",
+        "status": "logical_model_schema_detected",
+        "timestamp": "2026-06-18T13:28:44.017153"
+      }
+    ],
+    "files_expected": [
+      "output"
+    ],
+    "files_missing": [
+      "output"
+    ]
+  }
+}

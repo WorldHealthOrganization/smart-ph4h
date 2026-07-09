@@ -1,0 +1,1923 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<StructureMap xmlns="http://hl7.org/fhir">
+  <id value="httpsmart.who.intph4hStructureMapMedicationOverviewLMToMedicationOverviewBundle"/>
+  <text>
+    <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p class="res-header-id"><b>Generated Narrative: StructureMap httpsmart.who.intph4hStructureMapMedicationOverviewLMToMedicationOverviewBundle</b></p><a name="httpsmart.who.intph4hStructureMapMedicationOverviewLMToMedicationOverviewBundle"> </a><a name="hchttpsmart.who.intph4hStructureMapMedicationOverviewLMToMedicationOverviewBundle"> </a><pre class="fml">
+<span style="color: #cc00cc">/// <b>url</b> = </span><span style="color: blue">'MedicationOverviewLMToMedicationOverviewBundle'</span>
+<span style="color: #cc00cc">/// <b>name</b> = </span><span style="color: blue">'http://smart.who.int/ph4h/StructureMap/MedicationOverviewLMToMedicationOverviewBundle'</span>
+<span style="color: #cc00cc">/// <b>status</b> = </span><span style="color: blue">'draft'</span>
+
+<b>uses</b><span style="color: navy"> &quot;</span><a href="StructureDefinition-MedicationOverviewLM.html" title="Medication Overview (model)">http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewLM</a><span style="color: navy">&quot; </span><b>alias </b>MedicationOverviewLM <b>as </b><b>source</b>
+<b>uses</b><span style="color: navy"> &quot;</span><a href="StructureDefinition-PatientLM.html" title="Patient (model)">http://smart.who.int/ph4h/StructureDefinition/PatientLM</a><span style="color: navy">&quot; </span><b>alias </b>PatientLM <b>as </b><b>source</b>
+<b>uses</b><span style="color: navy"> &quot;</span><a href="StructureDefinition-MedicationTreatmentLineLM.html" title="Medication Treatment Line (model)">http://smart.who.int/ph4h/StructureDefinition/MedicationTreatmentLineLM</a><span style="color: navy">&quot; </span><b>alias </b>MedicationTreatmentLineLM <b>as </b><b>source</b>
+<b>uses</b><span style="color: navy"> &quot;</span><a href="StructureDefinition-PractitionerLM.html" title="Practitioner (model)">http://smart.who.int/ph4h/StructureDefinition/PractitionerLM</a><span style="color: navy">&quot; </span><b>alias </b>PractitionerLM <b>as </b><b>source</b>
+<b>uses</b><span style="color: navy"> &quot;</span><a href="StructureDefinition-MedicationOverview.html" title="Medication Overview Bundle">http://smart.who.int/ph4h/StructureDefinition/MedicationOverview</a><span style="color: navy">&quot; </span><b>alias </b>MedicationOverviewBundle <b>as </b><b>target</b>
+<b>uses</b><span style="color: navy"> &quot;</span><a href="StructureDefinition-MedicationOverviewComposition.html" title="Medication Overview Composition">http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewComposition</a><span style="color: navy">&quot; </span><b>alias </b>MedicationOverviewComposition <b>as </b><b>target</b>
+<b>uses</b><span style="color: navy"> &quot;</span><a href="StructureDefinition-MedicationTreatmentLine.html" title="Medication Treatment Line">http://smart.who.int/ph4h/StructureDefinition/MedicationTreatmentLine</a><span style="color: navy">&quot; </span><b>alias </b>MedicationTreatmentLine <b>as </b><b>target</b>
+<b>uses</b><span style="color: navy"> &quot;</span><a href="http://hl7.org/fhir/R5/patient.html" title="Patient">http://hl7.org/fhir/StructureDefinition/Patient</a><span style="color: navy">&quot; </span><b>alias </b>Patient <b>as </b><b>target</b>
+<b>uses</b><span style="color: navy"> &quot;</span><a href="http://hl7.org/fhir/R5/practitioner.html" title="Practitioner">http://hl7.org/fhir/StructureDefinition/Practitioner</a><span style="color: navy">&quot; </span><b>alias </b>Practitioner <b>as </b><b>target</b> <span style="color: navy">// </span><span style="color: green">---------------------------------------------------------------------------</span>
+
+<span style="color: navy">// </span><span style="color: green">Top-level group: assemble MedicationOverview Bundle (document)</span>
+<span style="color: navy">// </span><span style="color: green">---------------------------------------------------------------------------</span>
+<b>group </b>MedicationOverviewLMToMedicationOverviewBundle<span style="color: navy">(</span><b>source</b> <span style="color: maroon">src</span><span style="color: navy"> : </span>MedicationOverviewLM, <b>target</b> <span style="color: maroon">tgt</span><span style="color: navy"> : </span>MedicationOverviewBundle<span style="color: navy">)</span><span style="color: navy"> {
+</span>  src<span style="color: navy"><b> -&gt; </b></span>tgt.type = <span style="color: blue">'document'</span> <i>&quot;bundleType&quot;</i><span style="color: navy">;</span>
+  src<span style="color: navy"><b> -&gt; </b></span>tgt.timestamp = <span style="color: navy">(</span>now()<span style="color: navy">)</span> <i>&quot;bundleTimestamp&quot;</i><span style="color: navy">;</span>
+  src<span style="color: navy"><b> -&gt; </b></span> <b>uuid</b><span style="color: navy">(</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">bid</span><span style="color: navy">, </span> <b>uuid</b><span style="color: navy">(</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">cid</span><span style="color: navy">, </span> <b>uuid</b><span style="color: navy">(</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">pid</span><b> then</b><span style="color: navy"> {
+</span>    src<span style="color: navy"><b> -&gt; </b></span> tgt.identifier<b> as </b><span style="color: maroon">id</span><span style="color: navy">, </span> id.system = <span style="color: blue">'urn:ietf:rfc:4122'</span><span style="color: navy">, </span> id.value = <span style="color: maroon">bid</span> <i>&quot;bundleIdentifier&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">Bundle.identifier (UUID identifier per RFC 4122)</span>
+    src<span style="color: navy"><b> -&gt; </b></span> tgt.entry<b> as </b><span style="color: maroon">ce</span><span style="color: navy">, </span> ce.fullUrl = <b>append</b><span style="color: navy">(</span><span style="color: blue">'urn:uuid:'</span><span style="color: navy">, </span><span style="color: maroon">cid</span><span style="color: navy">)</span><span style="color: navy">, </span> ce.resource = <b>create</b><span style="color: navy">(</span><span style="color: blue">'Composition'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">comp</span><b> then</b><span style="color: navy"> {
+</span>      src<b> then </b>MedicationOverviewLMToComposition<span style="color: navy">(</span><span style="color: maroon">src</span><span style="color: navy">, </span><span style="color: maroon">comp</span><span style="color: navy">, </span><span style="color: maroon">pid</span><span style="color: navy">)</span> <i>&quot;compositionContent&quot;</i><span style="color: navy">;</span>
+    <span style="color: navy">}</span> <i>&quot;compositionEntry&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">Composition entry</span>
+    src.patient<b> as </b><span style="color: maroon">pref</span><span style="color: navy"><b> -&gt; </b></span> tgt.entry<b> as </b><span style="color: maroon">pe</span><span style="color: navy">, </span> pe.fullUrl = <b>append</b><span style="color: navy">(</span><span style="color: blue">'urn:uuid:'</span><span style="color: navy">, </span><span style="color: maroon">pid</span><span style="color: navy">)</span><span style="color: navy">, </span> pe.resource = <b>create</b><span style="color: navy">(</span><span style="color: blue">'Patient'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">pat</span><b> then</b><span style="color: navy"> {
+</span>      pref<b> then </b>PatientLMToPatient<span style="color: navy">(</span><span style="color: maroon">pref</span><span style="color: navy">, </span><span style="color: maroon">pat</span><span style="color: navy">)</span> <i>&quot;patientContent&quot;</i><span style="color: navy">;</span>
+    <span style="color: navy">}</span> <i>&quot;patientEntry&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">Patient entry</span>
+    src.medicationTreatmentLine<b> as </b><span style="color: maroon">lref</span><span style="color: navy"><b> -&gt; </b></span><b>uuid</b><span style="color: navy">(</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">tid</span><b> then</b><span style="color: navy"> {
+</span>      lref<span style="color: navy"><b> -&gt; </b></span> tgt.entry<b> as </b><span style="color: maroon">te</span><span style="color: navy">, </span> te.fullUrl = <b>append</b><span style="color: navy">(</span><span style="color: blue">'urn:uuid:'</span><span style="color: navy">, </span><span style="color: maroon">tid</span><span style="color: navy">)</span><span style="color: navy">, </span> te.resource = <b>create</b><span style="color: navy">(</span><span style="color: blue">'MedicationStatement'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">ms</span><b> then</b><span style="color: navy"> {
+</span>        lref<b> then </b>MedicationTreatmentLineLMToMedicationStatement<span style="color: navy">(</span><span style="color: maroon">lref</span><span style="color: navy">, </span><span style="color: maroon">ms</span><span style="color: navy">, </span><span style="color: maroon">pid</span><span style="color: navy">)</span> <i>&quot;lineContent&quot;</i><span style="color: navy">;</span>
+      <span style="color: navy">}</span> <i>&quot;lineEntry&quot;</i><span style="color: navy">;</span>
+    <span style="color: navy">}</span> <i>&quot;treatmentLines&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">Treatment line entries — UUID generated per iteration (variable count)</span>
+  <span style="color: navy">}</span> <i>&quot;setEntries&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">Generate fixed UUIDs once; reuse them across entries and Reference targets.</span>
+<span style="color: navy">}
+
+</span><span style="color: navy">// </span><span style="color: green">---------------------------------------------------------------------------</span>
+<span style="color: navy">// </span><span style="color: green">MedicationOverviewLM -&gt; MedicationOverviewComposition</span>
+<span style="color: navy">// </span><span style="color: green">Receives the Patient entry's UUID (pid) so subject can reference it.</span>
+<span style="color: navy">// </span><span style="color: green">---------------------------------------------------------------------------</span>
+<b>group </b>MedicationOverviewLMToComposition<span style="color: navy">(</span><b>source</b> <span style="color: maroon">src</span><span style="color: navy"> : </span>MedicationOverviewLM, <b>target</b> <span style="color: maroon">tgt</span><span style="color: navy"> : </span>MedicationOverviewComposition, <b>source</b> <span style="color: maroon">pid</span><span style="color: navy">)</span><span style="color: navy"> {
+</span>  src<span style="color: navy"><b> -&gt; </b></span>tgt.status = <span style="color: blue">'final'</span> <i>&quot;compStatus&quot;</i><span style="color: navy">;</span>
+  src<span style="color: navy"><b> -&gt; </b></span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'Coding'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">cc</span><span style="color: navy">, </span> cc.system = <span style="color: blue">'http://loinc.org'</span><span style="color: navy">, </span> cc.code = <span style="color: blue">'56445-0'</span><span style="color: navy">, </span> cc.display = <span style="color: blue">'Medication summary Document'</span><span style="color: navy">, </span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'CodeableConcept'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">ct</span><span style="color: navy">, </span> ct.coding = <span style="color: maroon">cc</span><span style="color: navy">, </span> tgt.type = <span style="color: maroon">ct</span> <i>&quot;compType&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">Composition.type — LOINC 56445-0 &quot;Medication summary Document&quot;</span>
+  src<span style="color: navy"><b> -&gt; </b></span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'Reference'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">subj</span><span style="color: navy">, </span> subj.reference = <b>append</b><span style="color: navy">(</span><span style="color: blue">'urn:uuid:'</span><span style="color: navy">, </span><span style="color: maroon">pid</span><span style="color: navy">)</span><span style="color: navy">, </span> tgt.subject = <span style="color: maroon">subj</span> <i>&quot;compSubject&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">Composition.subject -&gt; Patient entry by uuid</span>
+  src<span style="color: navy"><b> -&gt; </b></span>tgt.date = <span style="color: navy">(</span>now()<span style="color: navy">)</span> <i>&quot;compDate&quot;</i><span style="color: navy">;</span>
+  src<span style="color: navy"><b> -&gt; </b></span>tgt.title = <span style="color: blue">'Medication Overview'</span> <i>&quot;compTitle&quot;</i><span style="color: navy">;</span>
+  src<span style="color: navy"><b> -&gt; </b></span>tgt.section<b> as </b><span style="color: maroon">sect</span><b> then</b><span style="color: navy"> {
+</span>    src<span style="color: navy"><b> -&gt; </b></span>sect.title = <span style="color: blue">'Medication Treatment Lines'</span> <i>&quot;sectTitle&quot;</i><span style="color: navy">;</span>
+    src<span style="color: navy"><b> -&gt; </b></span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'Coding'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">scc</span><span style="color: navy">, </span> scc.system = <span style="color: blue">'http://loinc.org'</span><span style="color: navy">, </span> scc.code = <span style="color: blue">'10160-0'</span><span style="color: navy">, </span> scc.display = <span style="color: blue">'History of Medication use Narrative'</span><span style="color: navy">, </span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'CodeableConcept'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">sc</span><span style="color: navy">, </span> sc.coding = <span style="color: maroon">scc</span><span style="color: navy">, </span> sect.code = <span style="color: maroon">sc</span> <i>&quot;sectCode&quot;</i><span style="color: navy">;</span>
+    src.medicationTreatmentLine<b> as </b><span style="color: maroon">lref</span><span style="color: navy"><b> -&gt; </b></span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'Reference'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">ref</span><span style="color: navy">, </span> ref.display = <span style="color: blue">'Medication Treatment Line'</span><span style="color: navy">, </span> sect.entry = <span style="color: maroon">ref</span> <i>&quot;sectEntry&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">Display-only Reference per line — cross-linking to bundle entry would</span>
+  <span style="color: navy">}</span> <i>&quot;sectionTreatmentLines&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">Section: MedRecordTreatmentLine</span>
+  src.verification<b> as </b><span style="color: maroon">v</span><span style="color: navy"><b> -&gt; </b></span>tgt.attester<b> as </b><span style="color: maroon">att</span><b> then</b><span style="color: navy"> {
+</span>    v<span style="color: navy"><b> -&gt; </b></span>att.mode = <span style="color: blue">'professional'</span> <i>&quot;attMode&quot;</i><span style="color: navy">;</span>
+    v.verificationTime<b> as </b><span style="color: maroon">vt</span><span style="color: navy"><b> -&gt; </b></span>att.time = <span style="color: maroon">vt</span> <i>&quot;attTime&quot;</i><span style="color: navy">;</span>
+    v.practicioner<b> as </b><span style="color: maroon">pr</span><span style="color: navy"><b> -&gt; </b></span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'Reference'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">party</span><span style="color: navy">, </span> party.display = <span style="color: navy">(</span>pr.name.text<span style="color: navy">)</span><span style="color: navy">, </span> att.party = <span style="color: maroon">party</span> <i>&quot;attParty&quot;</i><span style="color: navy">;</span>
+  <span style="color: navy">}</span> <i>&quot;attester&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">Attester from verification BackboneElement</span>
+  src.comment<b> as </b><span style="color: maroon">cm</span><span style="color: navy"><b> -&gt; </b></span><b>create</b><span style="color: navy">(</span><span style="color: blue">'Annotation'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">nt</span><b> then</b><span style="color: navy"> {
+</span>    cm.commentText<b> as </b><span style="color: maroon">ctxt</span><span style="color: navy"><b> -&gt; </b></span>nt.text = <span style="color: maroon">ctxt</span> <i>&quot;noteText&quot;</i><span style="color: navy">;</span>
+    cm.date<b> as </b><span style="color: maroon">d</span><span style="color: navy"><b> -&gt; </b></span>nt.time = <span style="color: maroon">d</span> <i>&quot;noteTime&quot;</i><span style="color: navy">;</span>
+    cm.author<b> as </b><span style="color: maroon">a</span><span style="color: navy"><b> -&gt; </b></span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'Reference'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">ar</span><span style="color: navy">, </span> ar.display = <span style="color: navy">(</span>a.name.text<span style="color: navy">)</span><span style="color: navy">, </span> nt.authorReference = <span style="color: maroon">ar</span> <i>&quot;noteAuthor&quot;</i><span style="color: navy">;</span>
+    cm<span style="color: navy"><b> -&gt; </b></span>tgt.note = <span style="color: maroon">nt</span> <i>&quot;noteAssign&quot;</i><span style="color: navy">;</span>
+  <span style="color: navy">}</span> <i>&quot;noteFromComment&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">Composition.note from comment BackboneElement</span>
+<span style="color: navy">}
+
+</span><span style="color: navy">// </span><span style="color: green">---------------------------------------------------------------------------</span>
+<span style="color: navy">// </span><span style="color: green">PatientLM -&gt; FHIR Patient</span>
+<span style="color: navy">// </span><span style="color: green">---------------------------------------------------------------------------</span>
+<b>group </b>PatientLMToPatient<span style="color: navy">(</span><b>source</b> <span style="color: maroon">src</span><span style="color: navy"> : </span>PatientLM, <b>target</b> <span style="color: maroon">tgt</span><span style="color: navy"> : </span>Patient<span style="color: navy">)</span><span style="color: navy"> {
+</span>  src.identifier<b> as </b><span style="color: maroon">id</span><span style="color: navy"><b> -&gt; </b></span>tgt.identifier = <span style="color: maroon">id</span> <i>&quot;patIdentifier&quot;</i><span style="color: navy">;</span>
+  src.name<b> as </b><span style="color: maroon">n</span><span style="color: navy"><b> -&gt; </b></span>tgt.name = <span style="color: maroon">n</span> <i>&quot;patName&quot;</i><span style="color: navy">;</span>
+  src.gender<b> as </b><span style="color: maroon">g</span><span style="color: navy"><b> -&gt; </b></span>tgt.gender = <span style="color: navy">(</span>g.coding.code<span style="color: navy">)</span> <i>&quot;patGender&quot;</i><span style="color: navy">;</span>
+  src.dateOfBirth<b> as </b><span style="color: maroon">d</span><span style="color: navy"><b> -&gt; </b></span>tgt.birthDate = <span style="color: maroon">d</span> <i>&quot;patBirthDate&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">dateOfBirth is dateTime in LM; birthDate is date — silent truncation expected.</span>
+<span style="color: navy">}
+
+</span><span style="color: navy">// </span><span style="color: green">---------------------------------------------------------------------------</span>
+<span style="color: navy">// </span><span style="color: green">MedicationTreatmentLineLM -&gt; MedicationTreatmentLine (profile on MedicationStatement, R5)</span>
+<span style="color: navy">// </span><span style="color: green">Receives the Patient entry's UUID (pid) so MS.subject can reference it.</span>
+<span style="color: navy">// </span><span style="color: green">---------------------------------------------------------------------------</span>
+<b>group </b>MedicationTreatmentLineLMToMedicationStatement<span style="color: navy">(</span><b>source</b> <span style="color: maroon">src</span><span style="color: navy"> : </span>MedicationTreatmentLineLM, <b>target</b> <span style="color: maroon">tgt</span><span style="color: navy"> : </span>MedicationTreatmentLine, <b>source</b> <span style="color: maroon">pid</span><span style="color: navy">)</span><span style="color: navy"> {
+</span>  src.identifier<b> as </b><span style="color: maroon">id</span><span style="color: navy"><b> -&gt; </b></span>tgt.identifier = <span style="color: maroon">id</span><span style="color: navy">;</span>
+  src<span style="color: navy"><b> -&gt; </b></span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'Reference'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">subj</span><span style="color: navy">, </span> subj.reference = <b>append</b><span style="color: navy">(</span><span style="color: blue">'urn:uuid:'</span><span style="color: navy">, </span><span style="color: maroon">pid</span><span style="color: navy">)</span><span style="color: navy">, </span> tgt.subject = <span style="color: maroon">subj</span> <i>&quot;subject&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">subject -&gt; Patient entry by uuid (R5 MS.subject is 1..1)</span>
+  src.status<b> as </b><span style="color: maroon">st</span><span style="color: navy"><b> -&gt; </b></span>tgt.status = <span style="color: maroon">st</span><span style="color: navy">;</span>
+  src.medicationReference<b> as </b><span style="color: maroon">mr</span><span style="color: navy"><b> -&gt; </b></span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'CodeableReference'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">m</span><span style="color: navy">, </span> m.reference = <span style="color: maroon">mr</span><span style="color: navy">, </span> tgt.medication = <span style="color: maroon">m</span> <i>&quot;medicationRef&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">medication[x] choice -&gt; R5 CodeableReference</span>
+  src.medicationCodeableConcept<b> as </b><span style="color: maroon">mc</span><span style="color: navy"><b> -&gt; </b></span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'CodeableReference'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">m</span><span style="color: navy">, </span> m.concept = <span style="color: maroon">mc</span><span style="color: navy">, </span> tgt.medication = <span style="color: maroon">m</span> <i>&quot;medicationCC&quot;</i><span style="color: navy">;</span>
+  src.effectivePeriod<b> as </b><span style="color: maroon">ep</span><span style="color: navy"><b> -&gt; </b></span>tgt.effectivePeriod = <span style="color: maroon">ep</span><span style="color: navy">;</span>
+  src.recordingMetadata<b> as </b><span style="color: maroon">rm</span><b> then</b><span style="color: navy"> {
+</span>    rm.recordedTime<b> as </b><span style="color: maroon">rt</span><span style="color: navy"><b> -&gt; </b></span>tgt.dateAsserted = <span style="color: maroon">rt</span> <i>&quot;dateAsserted&quot;</i><span style="color: navy">;</span>
+    rm.recorder<b> as </b><span style="color: maroon">rc</span><span style="color: navy"><b> -&gt; </b></span>tgt.informationSource = <span style="color: maroon">rc</span> <i>&quot;informationSource&quot;</i><span style="color: navy">;</span>
+  <span style="color: navy">}</span><span style="color: navy">;</span>
+  src.indication<b> as </b><span style="color: maroon">ind</span><span style="color: navy"><b> -&gt; </b></span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'CodeableReference'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">r</span><span style="color: navy">, </span> r.concept = <span style="color: maroon">ind</span><span style="color: navy">, </span> tgt.reason = <span style="color: maroon">r</span> <i>&quot;reasonIndication&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">reason = indication + indicationText + intendedUse</span>
+  src.indicationText<b> as </b><span style="color: maroon">it</span><span style="color: navy"><b> -&gt; </b></span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'CodeableConcept'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">cc</span><span style="color: navy">, </span> cc.text = <span style="color: maroon">it</span><span style="color: navy">, </span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'CodeableReference'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">r</span><span style="color: navy">, </span> r.concept = <span style="color: maroon">cc</span><span style="color: navy">, </span> tgt.reason = <span style="color: maroon">r</span> <i>&quot;reasonIndicationText&quot;</i><span style="color: navy">;</span>
+  src.intendedUse<b> as </b><span style="color: maroon">iu</span><span style="color: navy"><b> -&gt; </b></span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'CodeableReference'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">r</span><span style="color: navy">, </span> r.concept = <span style="color: maroon">iu</span><span style="color: navy">, </span> tgt.reason = <span style="color: maroon">r</span> <i>&quot;reasonIntendedUse&quot;</i><span style="color: navy">;</span>
+  src.usageInstructions<b> as </b><span style="color: maroon">ui</span><span style="color: navy"><b> -&gt; </b></span>tgt.dosage = <span style="color: maroon">ui</span> <i>&quot;dosage&quot;</i><span style="color: navy">;</span>
+  src.preparationInstructions<b> as </b><span style="color: maroon">pi</span><span style="color: navy"><b> -&gt; </b></span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'Dosage'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">dos</span><span style="color: navy">, </span> dos.text = <span style="color: maroon">pi</span><span style="color: navy">, </span> tgt.dosage = <span style="color: maroon">dos</span> <i>&quot;prepInstructions&quot;</i><span style="color: navy">;</span>
+  src.comment<b> as </b><span style="color: maroon">cm</span><span style="color: navy"><b> -&gt; </b></span><b>create</b><span style="color: navy">(</span><span style="color: blue">'Annotation'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">nt</span><b> then</b><span style="color: navy"> {
+</span>    cm.commentText<b> as </b><span style="color: maroon">ct</span><span style="color: navy"><b> -&gt; </b></span>nt.text = <span style="color: maroon">ct</span> <i>&quot;lineNoteText&quot;</i><span style="color: navy">;</span>
+    cm.date<b> as </b><span style="color: maroon">d</span><span style="color: navy"><b> -&gt; </b></span>nt.time = <span style="color: maroon">d</span> <i>&quot;lineNoteTime&quot;</i><span style="color: navy">;</span>
+    cm.author<b> as </b><span style="color: maroon">a</span><span style="color: navy"><b> -&gt; </b></span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'Reference'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">ar</span><span style="color: navy">, </span> ar.display = <span style="color: navy">(</span>a.name.text<span style="color: navy">)</span><span style="color: navy">, </span> nt.authorReference = <span style="color: maroon">ar</span> <i>&quot;lineNoteAuthor&quot;</i><span style="color: navy">;</span>
+    cm<span style="color: navy"><b> -&gt; </b></span>tgt.note = <span style="color: maroon">nt</span> <i>&quot;lineNoteAssign&quot;</i><span style="color: navy">;</span>
+  <span style="color: navy">}</span> <i>&quot;lineNote&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">note = comment</span>
+  src.treatmentStatus<b> as </b><span style="color: maroon">ts</span><span style="color: navy"><b> -&gt; </b></span>tgt.adherence<b> as </b><span style="color: maroon">adh</span><b> then</b><span style="color: navy"> {
+</span>    ts<span style="color: navy"><b> -&gt; </b></span>adh.code = <span style="color: maroon">ts</span> <i>&quot;adherenceCode&quot;</i><span style="color: navy">;</span>
+  <span style="color: navy">}</span> <i>&quot;adherence&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">adherence — BackboneElement; navigate.</span>
+  src.category<b> as </b><span style="color: maroon">cat</span><span style="color: navy"><b> -&gt; </b></span>tgt.category = <span style="color: maroon">cat</span><span style="color: navy">;</span>
+  src.derivedFrom<b> as </b><span style="color: maroon">df</span><b> then</b><span style="color: navy"> {
+</span>    df.request<b> as </b><span style="color: maroon">rq</span><span style="color: navy"><b> -&gt; </b></span>tgt.derivedFrom = <span style="color: maroon">rq</span> <i>&quot;derivedFromRequest&quot;</i><span style="color: navy">;</span>
+    df.statement<b> as </b><span style="color: maroon">stm</span><span style="color: navy"><b> -&gt; </b></span>tgt.derivedFrom = <span style="color: maroon">stm</span> <i>&quot;derivedFromStatement&quot;</i><span style="color: navy">;</span>
+    df.dispensation<b> as </b><span style="color: maroon">dsp</span><span style="color: navy"><b> -&gt; </b></span>tgt.derivedFrom = <span style="color: maroon">dsp</span> <i>&quot;derivedFromDispensation&quot;</i><span style="color: navy">;</span>
+    df.administration<b> as </b><span style="color: maroon">adm</span><span style="color: navy"><b> -&gt; </b></span>tgt.derivedFrom = <span style="color: maroon">adm</span> <i>&quot;derivedFromAdministration&quot;</i><span style="color: navy">;</span>
+    df.other<b> as </b><span style="color: maroon">oth</span><span style="color: navy"><b> -&gt; </b></span>tgt.derivedFrom = <span style="color: maroon">oth</span> <i>&quot;derivedFromOther&quot;</i><span style="color: navy">;</span>
+  <span style="color: navy">}</span><span style="color: navy">;</span>
+  src.version<b> as </b><span style="color: maroon">v</span><span style="color: navy"><b> -&gt; </b></span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'Extension'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">ext</span><span style="color: navy">, </span> ext.url = <span style="color: blue">'http://hl7.org/fhir/StructureDefinition/artifact-version'</span><span style="color: navy">, </span> ext.value = <span style="color: maroon">v</span><span style="color: navy">, </span> tgt.extension = <span style="color: maroon">ext</span> <i>&quot;extVersion&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">Extension: artifact-version</span>
+  src.verificationInformation<b> as </b><span style="color: maroon">vi</span><span style="color: navy"><b> -&gt; </b></span><b>create</b><span style="color: navy">(</span><span style="color: blue">'Extension'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">ext</span><b> then</b><span style="color: navy"> {
+</span>    vi<span style="color: navy"><b> -&gt; </b></span>ext.url = <span style="color: blue">'http://smart.who.int/ph4h/StructureDefinition/VerificationInformation'</span> <i>&quot;viUrl&quot;</i><span style="color: navy">;</span>
+    vi.verifier<b> as </b><span style="color: maroon">vr</span><span style="color: navy"><b> -&gt; </b></span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'Extension'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">e1</span><span style="color: navy">, </span> e1.url = <span style="color: blue">'verifier'</span><span style="color: navy">, </span> e1.value = <span style="color: maroon">vr</span><span style="color: navy">, </span> ext.extension = <span style="color: maroon">e1</span> <i>&quot;viVerifier&quot;</i><span style="color: navy">;</span>
+    vi.verificationTime<b> as </b><span style="color: maroon">vt</span><span style="color: navy"><b> -&gt; </b></span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'Extension'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">e2</span><span style="color: navy">, </span> e2.url = <span style="color: blue">'verificationTime'</span><span style="color: navy">, </span> e2.value = <span style="color: maroon">vt</span><span style="color: navy">, </span> ext.extension = <span style="color: maroon">e2</span> <i>&quot;viTime&quot;</i><span style="color: navy">;</span>
+    vi<span style="color: navy"><b> -&gt; </b></span>tgt.extension = <span style="color: maroon">ext</span> <i>&quot;viAssign&quot;</i><span style="color: navy">;</span>
+  <span style="color: navy">}</span> <i>&quot;extVerification&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">Extension: VerificationInformation</span>
+  src.substitution<b> as </b><span style="color: maroon">sub</span><span style="color: navy"><b> -&gt; </b></span><b>create</b><span style="color: navy">(</span><span style="color: blue">'Extension'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">ext</span><b> then</b><span style="color: navy"> {
+</span>    sub<span style="color: navy"><b> -&gt; </b></span>ext.url = <span style="color: blue">'http://smart.who.int/ph4h/StructureDefinition/Substitution'</span> <i>&quot;subUrl&quot;</i><span style="color: navy">;</span>
+    sub.substitutionType<b> as </b><span style="color: maroon">t</span><span style="color: navy"><b> -&gt; </b></span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'Extension'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">e1</span><span style="color: navy">, </span> e1.url = <span style="color: blue">'substitutionType'</span><span style="color: navy">, </span> e1.value = <span style="color: maroon">t</span><span style="color: navy">, </span> ext.extension = <span style="color: maroon">e1</span> <i>&quot;subType&quot;</i><span style="color: navy">;</span>
+    sub.substitutionTypeReason<b> as </b><span style="color: maroon">r</span><span style="color: navy"><b> -&gt; </b></span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'Extension'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">e2</span><span style="color: navy">, </span> e2.url = <span style="color: blue">'substitutionTypeReason'</span><span style="color: navy">, </span> e2.value = <span style="color: maroon">r</span><span style="color: navy">, </span> ext.extension = <span style="color: maroon">e2</span> <i>&quot;subReason&quot;</i><span style="color: navy">;</span>
+    sub.substitutionTypeReasonText<b> as </b><span style="color: maroon">rt</span><span style="color: navy"><b> -&gt; </b></span> <b>create</b><span style="color: navy">(</span><span style="color: blue">'Extension'</span><span style="color: navy">)</span><b> as </b><span style="color: maroon">e3</span><span style="color: navy">, </span> e3.url = <span style="color: blue">'substitutionTypeReasonText'</span><span style="color: navy">, </span> e3.value = <span style="color: maroon">rt</span><span style="color: navy">, </span> ext.extension = <span style="color: maroon">e3</span> <i>&quot;subReasonText&quot;</i><span style="color: navy">;</span>
+    sub<span style="color: navy"><b> -&gt; </b></span>tgt.extension = <span style="color: maroon">ext</span> <i>&quot;subAssign&quot;</i><span style="color: navy">;</span>
+  <span style="color: navy">}</span> <i>&quot;extSubstitution&quot;</i><span style="color: navy">;</span> <span style="color: navy">// </span><span style="color: green">Extension: Substitution</span>
+<span style="color: navy">}
+
+</span><span style="color: navy">// </span><span style="color: green">---------------------------------------------------------------------------</span>
+<span style="color: navy">// </span><span style="color: green">PractitionerLM -&gt; FHIR Practitioner</span>
+<span style="color: navy">// </span><span style="color: green">---------------------------------------------------------------------------</span>
+<b>group </b>PractitionerLMToPractitioner<span style="color: navy">(</span><b>source</b> <span style="color: maroon">src</span><span style="color: navy"> : </span>PractitionerLM, <b>target</b> <span style="color: maroon">tgt</span><span style="color: navy"> : </span>Practitioner<span style="color: navy">)</span><span style="color: navy"> {
+</span>  src.identifier<b> as </b><span style="color: maroon">id</span><span style="color: navy"><b> -&gt; </b></span>tgt.identifier = <span style="color: maroon">id</span> <i>&quot;practIdentifier&quot;</i><span style="color: navy">;</span>
+  src.name<b> as </b><span style="color: maroon">n</span><span style="color: navy"><b> -&gt; </b></span>tgt.name = <span style="color: maroon">n</span> <i>&quot;practName&quot;</i><span style="color: navy">;</span>
+<span style="color: navy">}
+
+</span></pre></div>
+  </text>
+  <url value="MedicationOverviewLMToMedicationOverviewBundle"/>
+  <version value="0.9.9"/>
+  <name value="http://smart.who.int/ph4h/StructureMap/MedicationOverviewLMToMedicationOverviewBundle"/>
+  <status value="draft"/>
+  <date value="2026-06-18T13:21:56+00:00"/>
+  <publisher value="WHO"/>
+  <contact>
+    <name value="WHO"/>
+    <telecom>
+      <system value="url"/>
+      <value value="http://who.int"/>
+    </telecom>
+  </contact>
+  <structure>
+    <url value="http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewLM"/>
+    <mode value="source"/>
+    <alias value="MedicationOverviewLM"/>
+  </structure>
+  <structure>
+    <url value="http://smart.who.int/ph4h/StructureDefinition/PatientLM"/>
+    <mode value="source"/>
+    <alias value="PatientLM"/>
+  </structure>
+  <structure>
+    <url value="http://smart.who.int/ph4h/StructureDefinition/MedicationTreatmentLineLM"/>
+    <mode value="source"/>
+    <alias value="MedicationTreatmentLineLM"/>
+  </structure>
+  <structure>
+    <url value="http://smart.who.int/ph4h/StructureDefinition/PractitionerLM"/>
+    <mode value="source"/>
+    <alias value="PractitionerLM"/>
+  </structure>
+  <structure>
+    <url value="http://smart.who.int/ph4h/StructureDefinition/MedicationOverview"/>
+    <mode value="target"/>
+    <alias value="MedicationOverviewBundle"/>
+  </structure>
+  <structure>
+    <url value="http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewComposition"/>
+    <mode value="target"/>
+    <alias value="MedicationOverviewComposition"/>
+  </structure>
+  <structure>
+    <url value="http://smart.who.int/ph4h/StructureDefinition/MedicationTreatmentLine"/>
+    <mode value="target"/>
+    <alias value="MedicationTreatmentLine"/>
+  </structure>
+  <structure>
+    <url value="http://hl7.org/fhir/StructureDefinition/Patient"/>
+    <mode value="target"/>
+    <alias value="Patient"/>
+  </structure>
+  <structure>
+    <url value="http://hl7.org/fhir/StructureDefinition/Practitioner"/>
+    <mode value="target"/>
+    <alias value="Practitioner"/>
+    <documentation value="---------------------------------------------------------------------------"/>
+  </structure>
+  <group>
+    <name value="MedicationOverviewLMToMedicationOverviewBundle"/>
+    <documentation value="Top-level group: assemble MedicationOverview Bundle (document)&#xD;&#xA;---------------------------------------------------------------------------"/>
+    <input>
+      <name value="src"/>
+      <type value="MedicationOverviewLM"/>
+      <mode value="source"/>
+    </input>
+    <input>
+      <name value="tgt"/>
+      <type value="MedicationOverviewBundle"/>
+      <mode value="target"/>
+    </input>
+    <rule>
+      <name value="bundleType"/>
+      <source>
+        <context value="src"/>
+      </source>
+      <target>
+        <context value="tgt"/>
+        <element value="type"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueString value="document"/>
+        </parameter>
+      </target>
+    </rule>
+    <rule>
+      <name value="bundleTimestamp"/>
+      <source>
+        <context value="src"/>
+      </source>
+      <target>
+        <context value="tgt"/>
+        <element value="timestamp"/>
+        <transform value="evaluate"/>
+        <parameter>
+          <valueString value="now()"/>
+        </parameter>
+      </target>
+    </rule>
+    <rule>
+      <name value="setEntries"/>
+      <source>
+        <context value="src"/>
+      </source>
+      <target>
+        <variable value="bid"/>
+        <transform value="uuid"/>
+      </target>
+      <target>
+        <variable value="cid"/>
+        <transform value="uuid"/>
+      </target>
+      <target>
+        <variable value="pid"/>
+        <transform value="uuid"/>
+      </target>
+      <rule>
+        <name value="bundleIdentifier"/>
+        <source>
+          <context value="src"/>
+        </source>
+        <target>
+          <context value="tgt"/>
+          <element value="identifier"/>
+          <variable value="id"/>
+        </target>
+        <target>
+          <context value="id"/>
+          <element value="system"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueString value="urn:ietf:rfc:4122"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="id"/>
+          <element value="value"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="bid"/>
+          </parameter>
+        </target>
+        <documentation value="Bundle.identifier (UUID identifier per RFC 4122)"/>
+      </rule>
+      <rule>
+        <name value="compositionEntry"/>
+        <source>
+          <context value="src"/>
+        </source>
+        <target>
+          <context value="tgt"/>
+          <element value="entry"/>
+          <variable value="ce"/>
+        </target>
+        <target>
+          <context value="ce"/>
+          <element value="fullUrl"/>
+          <transform value="append"/>
+          <parameter>
+            <valueString value="urn:uuid:"/>
+          </parameter>
+          <parameter>
+            <valueId value="cid"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="ce"/>
+          <element value="resource"/>
+          <variable value="comp"/>
+          <transform value="create"/>
+          <parameter>
+            <valueString value="Composition"/>
+          </parameter>
+        </target>
+        <rule>
+          <name value="compositionContent"/>
+          <source>
+            <context value="src"/>
+          </source>
+          <dependent>
+            <name value="MedicationOverviewLMToComposition"/>
+            <parameter>
+              <valueId value="src"/>
+            </parameter>
+            <parameter>
+              <valueId value="comp"/>
+            </parameter>
+            <parameter>
+              <valueId value="pid"/>
+            </parameter>
+          </dependent>
+        </rule>
+        <documentation value="Composition entry"/>
+      </rule>
+      <rule>
+        <name value="patientEntry"/>
+        <source>
+          <context value="src"/>
+          <element value="patient"/>
+          <variable value="pref"/>
+        </source>
+        <target>
+          <context value="tgt"/>
+          <element value="entry"/>
+          <variable value="pe"/>
+        </target>
+        <target>
+          <context value="pe"/>
+          <element value="fullUrl"/>
+          <transform value="append"/>
+          <parameter>
+            <valueString value="urn:uuid:"/>
+          </parameter>
+          <parameter>
+            <valueId value="pid"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="pe"/>
+          <element value="resource"/>
+          <variable value="pat"/>
+          <transform value="create"/>
+          <parameter>
+            <valueString value="Patient"/>
+          </parameter>
+        </target>
+        <rule>
+          <name value="patientContent"/>
+          <source>
+            <context value="pref"/>
+          </source>
+          <dependent>
+            <name value="PatientLMToPatient"/>
+            <parameter>
+              <valueId value="pref"/>
+            </parameter>
+            <parameter>
+              <valueId value="pat"/>
+            </parameter>
+          </dependent>
+        </rule>
+        <documentation value="Patient entry"/>
+      </rule>
+      <rule>
+        <name value="treatmentLines"/>
+        <source>
+          <context value="src"/>
+          <element value="medicationTreatmentLine"/>
+          <variable value="lref"/>
+        </source>
+        <target>
+          <variable value="tid"/>
+          <transform value="uuid"/>
+        </target>
+        <rule>
+          <name value="lineEntry"/>
+          <source>
+            <context value="lref"/>
+          </source>
+          <target>
+            <context value="tgt"/>
+            <element value="entry"/>
+            <variable value="te"/>
+          </target>
+          <target>
+            <context value="te"/>
+            <element value="fullUrl"/>
+            <transform value="append"/>
+            <parameter>
+              <valueString value="urn:uuid:"/>
+            </parameter>
+            <parameter>
+              <valueId value="tid"/>
+            </parameter>
+          </target>
+          <target>
+            <context value="te"/>
+            <element value="resource"/>
+            <variable value="ms"/>
+            <transform value="create"/>
+            <parameter>
+              <valueString value="MedicationStatement"/>
+            </parameter>
+          </target>
+          <rule>
+            <name value="lineContent"/>
+            <source>
+              <context value="lref"/>
+            </source>
+            <dependent>
+              <name value="MedicationTreatmentLineLMToMedicationStatement"/>
+              <parameter>
+                <valueId value="lref"/>
+              </parameter>
+              <parameter>
+                <valueId value="ms"/>
+              </parameter>
+              <parameter>
+                <valueId value="pid"/>
+              </parameter>
+            </dependent>
+          </rule>
+        </rule>
+        <documentation value="Treatment line entries — UUID generated per iteration (variable count)"/>
+      </rule>
+      <documentation value="Generate fixed UUIDs once; reuse them across entries and Reference targets."/>
+    </rule>
+  </group>
+  <group>
+    <name value="MedicationOverviewLMToComposition"/>
+    <documentation value="---------------------------------------------------------------------------&#xD;&#xA;MedicationOverviewLM -&gt; MedicationOverviewComposition&#xD;&#xA;Receives the Patient entry's UUID (pid) so subject can reference it.&#xD;&#xA;---------------------------------------------------------------------------"/>
+    <input>
+      <name value="src"/>
+      <type value="MedicationOverviewLM"/>
+      <mode value="source"/>
+    </input>
+    <input>
+      <name value="tgt"/>
+      <type value="MedicationOverviewComposition"/>
+      <mode value="target"/>
+    </input>
+    <input>
+      <name value="pid"/>
+      <mode value="source"/>
+    </input>
+    <rule>
+      <name value="compStatus"/>
+      <source>
+        <context value="src"/>
+      </source>
+      <target>
+        <context value="tgt"/>
+        <element value="status"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueString value="final"/>
+        </parameter>
+      </target>
+    </rule>
+    <rule>
+      <name value="compType"/>
+      <source>
+        <context value="src"/>
+      </source>
+      <target>
+        <variable value="cc"/>
+        <transform value="create"/>
+        <parameter>
+          <valueString value="Coding"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="cc"/>
+        <element value="system"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueString value="http://loinc.org"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="cc"/>
+        <element value="code"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueString value="56445-0"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="cc"/>
+        <element value="display"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueString value="Medication summary Document"/>
+        </parameter>
+      </target>
+      <target>
+        <variable value="ct"/>
+        <transform value="create"/>
+        <parameter>
+          <valueString value="CodeableConcept"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="ct"/>
+        <element value="coding"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="cc"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="tgt"/>
+        <element value="type"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="ct"/>
+        </parameter>
+      </target>
+      <documentation value="Composition.type — LOINC 56445-0 &quot;Medication summary Document&quot;"/>
+    </rule>
+    <rule>
+      <name value="compSubject"/>
+      <source>
+        <context value="src"/>
+      </source>
+      <target>
+        <variable value="subj"/>
+        <transform value="create"/>
+        <parameter>
+          <valueString value="Reference"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="subj"/>
+        <element value="reference"/>
+        <transform value="append"/>
+        <parameter>
+          <valueString value="urn:uuid:"/>
+        </parameter>
+        <parameter>
+          <valueId value="pid"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="tgt"/>
+        <element value="subject"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="subj"/>
+        </parameter>
+      </target>
+      <documentation value="Composition.subject -&gt; Patient entry by uuid"/>
+    </rule>
+    <rule>
+      <name value="compDate"/>
+      <source>
+        <context value="src"/>
+      </source>
+      <target>
+        <context value="tgt"/>
+        <element value="date"/>
+        <transform value="evaluate"/>
+        <parameter>
+          <valueString value="now()"/>
+        </parameter>
+      </target>
+    </rule>
+    <rule>
+      <name value="compTitle"/>
+      <source>
+        <context value="src"/>
+      </source>
+      <target>
+        <context value="tgt"/>
+        <element value="title"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueString value="Medication Overview"/>
+        </parameter>
+      </target>
+    </rule>
+    <rule>
+      <name value="sectionTreatmentLines"/>
+      <source>
+        <context value="src"/>
+      </source>
+      <target>
+        <context value="tgt"/>
+        <element value="section"/>
+        <variable value="sect"/>
+      </target>
+      <rule>
+        <name value="sectTitle"/>
+        <source>
+          <context value="src"/>
+        </source>
+        <target>
+          <context value="sect"/>
+          <element value="title"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueString value="Medication Treatment Lines"/>
+          </parameter>
+        </target>
+      </rule>
+      <rule>
+        <name value="sectCode"/>
+        <source>
+          <context value="src"/>
+        </source>
+        <target>
+          <variable value="scc"/>
+          <transform value="create"/>
+          <parameter>
+            <valueString value="Coding"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="scc"/>
+          <element value="system"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueString value="http://loinc.org"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="scc"/>
+          <element value="code"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueString value="10160-0"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="scc"/>
+          <element value="display"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueString value="History of Medication use Narrative"/>
+          </parameter>
+        </target>
+        <target>
+          <variable value="sc"/>
+          <transform value="create"/>
+          <parameter>
+            <valueString value="CodeableConcept"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="sc"/>
+          <element value="coding"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="scc"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="sect"/>
+          <element value="code"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="sc"/>
+          </parameter>
+        </target>
+      </rule>
+      <rule>
+        <name value="sectEntry"/>
+        <source>
+          <context value="src"/>
+          <element value="medicationTreatmentLine"/>
+          <variable value="lref"/>
+        </source>
+        <target>
+          <variable value="ref"/>
+          <transform value="create"/>
+          <parameter>
+            <valueString value="Reference"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="ref"/>
+          <element value="display"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueString value="Medication Treatment Line"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="sect"/>
+          <element value="entry"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="ref"/>
+          </parameter>
+        </target>
+        <documentation value="Display-only Reference per line — cross-linking to bundle entry would"/>
+      </rule>
+      <documentation value="Section: MedRecordTreatmentLine"/>
+    </rule>
+    <rule>
+      <name value="attester"/>
+      <source>
+        <context value="src"/>
+        <element value="verification"/>
+        <variable value="v"/>
+      </source>
+      <target>
+        <context value="tgt"/>
+        <element value="attester"/>
+        <variable value="att"/>
+      </target>
+      <rule>
+        <name value="attMode"/>
+        <source>
+          <context value="v"/>
+        </source>
+        <target>
+          <context value="att"/>
+          <element value="mode"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueString value="professional"/>
+          </parameter>
+        </target>
+      </rule>
+      <rule>
+        <name value="attTime"/>
+        <source>
+          <context value="v"/>
+          <element value="verificationTime"/>
+          <variable value="vt"/>
+        </source>
+        <target>
+          <context value="att"/>
+          <element value="time"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="vt"/>
+          </parameter>
+        </target>
+      </rule>
+      <rule>
+        <name value="attParty"/>
+        <source>
+          <context value="v"/>
+          <element value="practicioner"/>
+          <variable value="pr"/>
+        </source>
+        <target>
+          <variable value="party"/>
+          <transform value="create"/>
+          <parameter>
+            <valueString value="Reference"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="party"/>
+          <element value="display"/>
+          <transform value="evaluate"/>
+          <parameter>
+            <valueString value="pr.name.text"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="att"/>
+          <element value="party"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="party"/>
+          </parameter>
+        </target>
+      </rule>
+      <documentation value="Attester from verification BackboneElement"/>
+    </rule>
+    <rule>
+      <name value="noteFromComment"/>
+      <source>
+        <context value="src"/>
+        <element value="comment"/>
+        <variable value="cm"/>
+      </source>
+      <target>
+        <variable value="nt"/>
+        <transform value="create"/>
+        <parameter>
+          <valueString value="Annotation"/>
+        </parameter>
+      </target>
+      <rule>
+        <name value="noteText"/>
+        <source>
+          <context value="cm"/>
+          <element value="commentText"/>
+          <variable value="ctxt"/>
+        </source>
+        <target>
+          <context value="nt"/>
+          <element value="text"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="ctxt"/>
+          </parameter>
+        </target>
+      </rule>
+      <rule>
+        <name value="noteTime"/>
+        <source>
+          <context value="cm"/>
+          <element value="date"/>
+          <variable value="d"/>
+        </source>
+        <target>
+          <context value="nt"/>
+          <element value="time"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="d"/>
+          </parameter>
+        </target>
+      </rule>
+      <rule>
+        <name value="noteAuthor"/>
+        <source>
+          <context value="cm"/>
+          <element value="author"/>
+          <variable value="a"/>
+        </source>
+        <target>
+          <variable value="ar"/>
+          <transform value="create"/>
+          <parameter>
+            <valueString value="Reference"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="ar"/>
+          <element value="display"/>
+          <transform value="evaluate"/>
+          <parameter>
+            <valueString value="a.name.text"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="nt"/>
+          <element value="authorReference"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="ar"/>
+          </parameter>
+        </target>
+      </rule>
+      <rule>
+        <name value="noteAssign"/>
+        <source>
+          <context value="cm"/>
+        </source>
+        <target>
+          <context value="tgt"/>
+          <element value="note"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="nt"/>
+          </parameter>
+        </target>
+      </rule>
+      <documentation value="Composition.note from comment BackboneElement"/>
+    </rule>
+  </group>
+  <group>
+    <name value="PatientLMToPatient"/>
+    <documentation value="---------------------------------------------------------------------------&#xD;&#xA;PatientLM -&gt; FHIR Patient&#xD;&#xA;---------------------------------------------------------------------------"/>
+    <input>
+      <name value="src"/>
+      <type value="PatientLM"/>
+      <mode value="source"/>
+    </input>
+    <input>
+      <name value="tgt"/>
+      <type value="Patient"/>
+      <mode value="target"/>
+    </input>
+    <rule>
+      <name value="patIdentifier"/>
+      <source>
+        <context value="src"/>
+        <element value="identifier"/>
+        <variable value="id"/>
+      </source>
+      <target>
+        <context value="tgt"/>
+        <element value="identifier"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="id"/>
+        </parameter>
+      </target>
+    </rule>
+    <rule>
+      <name value="patName"/>
+      <source>
+        <context value="src"/>
+        <element value="name"/>
+        <variable value="n"/>
+      </source>
+      <target>
+        <context value="tgt"/>
+        <element value="name"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="n"/>
+        </parameter>
+      </target>
+    </rule>
+    <rule>
+      <name value="patGender"/>
+      <source>
+        <context value="src"/>
+        <element value="gender"/>
+        <variable value="g"/>
+      </source>
+      <target>
+        <context value="tgt"/>
+        <element value="gender"/>
+        <transform value="evaluate"/>
+        <parameter>
+          <valueString value="g.coding.code"/>
+        </parameter>
+      </target>
+    </rule>
+    <rule>
+      <name value="patBirthDate"/>
+      <source>
+        <context value="src"/>
+        <element value="dateOfBirth"/>
+        <variable value="d"/>
+      </source>
+      <target>
+        <context value="tgt"/>
+        <element value="birthDate"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="d"/>
+        </parameter>
+      </target>
+      <documentation value="dateOfBirth is dateTime in LM; birthDate is date — silent truncation expected."/>
+    </rule>
+  </group>
+  <group>
+    <name value="MedicationTreatmentLineLMToMedicationStatement"/>
+    <documentation value="---------------------------------------------------------------------------&#xD;&#xA;MedicationTreatmentLineLM -&gt; MedicationTreatmentLine (profile on MedicationStatement, R5)&#xD;&#xA;Receives the Patient entry's UUID (pid) so MS.subject can reference it.&#xD;&#xA;---------------------------------------------------------------------------"/>
+    <input>
+      <name value="src"/>
+      <type value="MedicationTreatmentLineLM"/>
+      <mode value="source"/>
+    </input>
+    <input>
+      <name value="tgt"/>
+      <type value="MedicationTreatmentLine"/>
+      <mode value="target"/>
+    </input>
+    <input>
+      <name value="pid"/>
+      <mode value="source"/>
+    </input>
+    <rule>
+      <name value="identifier"/>
+      <source>
+        <context value="src"/>
+        <element value="identifier"/>
+        <variable value="id"/>
+      </source>
+      <target>
+        <context value="tgt"/>
+        <element value="identifier"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="id"/>
+        </parameter>
+      </target>
+    </rule>
+    <rule>
+      <name value="subject"/>
+      <source>
+        <context value="src"/>
+      </source>
+      <target>
+        <variable value="subj"/>
+        <transform value="create"/>
+        <parameter>
+          <valueString value="Reference"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="subj"/>
+        <element value="reference"/>
+        <transform value="append"/>
+        <parameter>
+          <valueString value="urn:uuid:"/>
+        </parameter>
+        <parameter>
+          <valueId value="pid"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="tgt"/>
+        <element value="subject"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="subj"/>
+        </parameter>
+      </target>
+      <documentation value="subject -&gt; Patient entry by uuid (R5 MS.subject is 1..1)"/>
+    </rule>
+    <rule>
+      <name value="status"/>
+      <source>
+        <context value="src"/>
+        <element value="status"/>
+        <variable value="st"/>
+      </source>
+      <target>
+        <context value="tgt"/>
+        <element value="status"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="st"/>
+        </parameter>
+      </target>
+    </rule>
+    <rule>
+      <name value="medicationRef"/>
+      <source>
+        <context value="src"/>
+        <element value="medicationReference"/>
+        <variable value="mr"/>
+      </source>
+      <target>
+        <variable value="m"/>
+        <transform value="create"/>
+        <parameter>
+          <valueString value="CodeableReference"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="m"/>
+        <element value="reference"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="mr"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="tgt"/>
+        <element value="medication"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="m"/>
+        </parameter>
+      </target>
+      <documentation value="medication[x] choice -&gt; R5 CodeableReference"/>
+    </rule>
+    <rule>
+      <name value="medicationCC"/>
+      <source>
+        <context value="src"/>
+        <element value="medicationCodeableConcept"/>
+        <variable value="mc"/>
+      </source>
+      <target>
+        <variable value="m"/>
+        <transform value="create"/>
+        <parameter>
+          <valueString value="CodeableReference"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="m"/>
+        <element value="concept"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="mc"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="tgt"/>
+        <element value="medication"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="m"/>
+        </parameter>
+      </target>
+    </rule>
+    <rule>
+      <name value="effectivePeriod"/>
+      <source>
+        <context value="src"/>
+        <element value="effectivePeriod"/>
+        <variable value="ep"/>
+      </source>
+      <target>
+        <context value="tgt"/>
+        <element value="effectivePeriod"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="ep"/>
+        </parameter>
+      </target>
+    </rule>
+    <rule>
+      <name value="recordingMetadata"/>
+      <source>
+        <context value="src"/>
+        <element value="recordingMetadata"/>
+        <variable value="rm"/>
+      </source>
+      <rule>
+        <name value="dateAsserted"/>
+        <source>
+          <context value="rm"/>
+          <element value="recordedTime"/>
+          <variable value="rt"/>
+        </source>
+        <target>
+          <context value="tgt"/>
+          <element value="dateAsserted"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="rt"/>
+          </parameter>
+        </target>
+      </rule>
+      <rule>
+        <name value="informationSource"/>
+        <source>
+          <context value="rm"/>
+          <element value="recorder"/>
+          <variable value="rc"/>
+        </source>
+        <target>
+          <context value="tgt"/>
+          <element value="informationSource"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="rc"/>
+          </parameter>
+        </target>
+      </rule>
+    </rule>
+    <rule>
+      <name value="reasonIndication"/>
+      <source>
+        <context value="src"/>
+        <element value="indication"/>
+        <variable value="ind"/>
+      </source>
+      <target>
+        <variable value="r"/>
+        <transform value="create"/>
+        <parameter>
+          <valueString value="CodeableReference"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="r"/>
+        <element value="concept"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="ind"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="tgt"/>
+        <element value="reason"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="r"/>
+        </parameter>
+      </target>
+      <documentation value="reason = indication + indicationText + intendedUse"/>
+    </rule>
+    <rule>
+      <name value="reasonIndicationText"/>
+      <source>
+        <context value="src"/>
+        <element value="indicationText"/>
+        <variable value="it"/>
+      </source>
+      <target>
+        <variable value="cc"/>
+        <transform value="create"/>
+        <parameter>
+          <valueString value="CodeableConcept"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="cc"/>
+        <element value="text"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="it"/>
+        </parameter>
+      </target>
+      <target>
+        <variable value="r"/>
+        <transform value="create"/>
+        <parameter>
+          <valueString value="CodeableReference"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="r"/>
+        <element value="concept"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="cc"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="tgt"/>
+        <element value="reason"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="r"/>
+        </parameter>
+      </target>
+    </rule>
+    <rule>
+      <name value="reasonIntendedUse"/>
+      <source>
+        <context value="src"/>
+        <element value="intendedUse"/>
+        <variable value="iu"/>
+      </source>
+      <target>
+        <variable value="r"/>
+        <transform value="create"/>
+        <parameter>
+          <valueString value="CodeableReference"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="r"/>
+        <element value="concept"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="iu"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="tgt"/>
+        <element value="reason"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="r"/>
+        </parameter>
+      </target>
+    </rule>
+    <rule>
+      <name value="dosage"/>
+      <source>
+        <context value="src"/>
+        <element value="usageInstructions"/>
+        <variable value="ui"/>
+      </source>
+      <target>
+        <context value="tgt"/>
+        <element value="dosage"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="ui"/>
+        </parameter>
+      </target>
+    </rule>
+    <rule>
+      <name value="prepInstructions"/>
+      <source>
+        <context value="src"/>
+        <element value="preparationInstructions"/>
+        <variable value="pi"/>
+      </source>
+      <target>
+        <variable value="dos"/>
+        <transform value="create"/>
+        <parameter>
+          <valueString value="Dosage"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="dos"/>
+        <element value="text"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="pi"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="tgt"/>
+        <element value="dosage"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="dos"/>
+        </parameter>
+      </target>
+    </rule>
+    <rule>
+      <name value="lineNote"/>
+      <source>
+        <context value="src"/>
+        <element value="comment"/>
+        <variable value="cm"/>
+      </source>
+      <target>
+        <variable value="nt"/>
+        <transform value="create"/>
+        <parameter>
+          <valueString value="Annotation"/>
+        </parameter>
+      </target>
+      <rule>
+        <name value="lineNoteText"/>
+        <source>
+          <context value="cm"/>
+          <element value="commentText"/>
+          <variable value="ct"/>
+        </source>
+        <target>
+          <context value="nt"/>
+          <element value="text"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="ct"/>
+          </parameter>
+        </target>
+      </rule>
+      <rule>
+        <name value="lineNoteTime"/>
+        <source>
+          <context value="cm"/>
+          <element value="date"/>
+          <variable value="d"/>
+        </source>
+        <target>
+          <context value="nt"/>
+          <element value="time"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="d"/>
+          </parameter>
+        </target>
+      </rule>
+      <rule>
+        <name value="lineNoteAuthor"/>
+        <source>
+          <context value="cm"/>
+          <element value="author"/>
+          <variable value="a"/>
+        </source>
+        <target>
+          <variable value="ar"/>
+          <transform value="create"/>
+          <parameter>
+            <valueString value="Reference"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="ar"/>
+          <element value="display"/>
+          <transform value="evaluate"/>
+          <parameter>
+            <valueString value="a.name.text"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="nt"/>
+          <element value="authorReference"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="ar"/>
+          </parameter>
+        </target>
+      </rule>
+      <rule>
+        <name value="lineNoteAssign"/>
+        <source>
+          <context value="cm"/>
+        </source>
+        <target>
+          <context value="tgt"/>
+          <element value="note"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="nt"/>
+          </parameter>
+        </target>
+      </rule>
+      <documentation value="note = comment"/>
+    </rule>
+    <rule>
+      <name value="adherence"/>
+      <source>
+        <context value="src"/>
+        <element value="treatmentStatus"/>
+        <variable value="ts"/>
+      </source>
+      <target>
+        <context value="tgt"/>
+        <element value="adherence"/>
+        <variable value="adh"/>
+      </target>
+      <rule>
+        <name value="adherenceCode"/>
+        <source>
+          <context value="ts"/>
+        </source>
+        <target>
+          <context value="adh"/>
+          <element value="code"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="ts"/>
+          </parameter>
+        </target>
+      </rule>
+      <documentation value="adherence — BackboneElement; navigate."/>
+    </rule>
+    <rule>
+      <name value="category"/>
+      <source>
+        <context value="src"/>
+        <element value="category"/>
+        <variable value="cat"/>
+      </source>
+      <target>
+        <context value="tgt"/>
+        <element value="category"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="cat"/>
+        </parameter>
+      </target>
+    </rule>
+    <rule>
+      <name value="derivedFrom"/>
+      <source>
+        <context value="src"/>
+        <element value="derivedFrom"/>
+        <variable value="df"/>
+      </source>
+      <rule>
+        <name value="derivedFromRequest"/>
+        <source>
+          <context value="df"/>
+          <element value="request"/>
+          <variable value="rq"/>
+        </source>
+        <target>
+          <context value="tgt"/>
+          <element value="derivedFrom"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="rq"/>
+          </parameter>
+        </target>
+      </rule>
+      <rule>
+        <name value="derivedFromStatement"/>
+        <source>
+          <context value="df"/>
+          <element value="statement"/>
+          <variable value="stm"/>
+        </source>
+        <target>
+          <context value="tgt"/>
+          <element value="derivedFrom"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="stm"/>
+          </parameter>
+        </target>
+      </rule>
+      <rule>
+        <name value="derivedFromDispensation"/>
+        <source>
+          <context value="df"/>
+          <element value="dispensation"/>
+          <variable value="dsp"/>
+        </source>
+        <target>
+          <context value="tgt"/>
+          <element value="derivedFrom"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="dsp"/>
+          </parameter>
+        </target>
+      </rule>
+      <rule>
+        <name value="derivedFromAdministration"/>
+        <source>
+          <context value="df"/>
+          <element value="administration"/>
+          <variable value="adm"/>
+        </source>
+        <target>
+          <context value="tgt"/>
+          <element value="derivedFrom"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="adm"/>
+          </parameter>
+        </target>
+      </rule>
+      <rule>
+        <name value="derivedFromOther"/>
+        <source>
+          <context value="df"/>
+          <element value="other"/>
+          <variable value="oth"/>
+        </source>
+        <target>
+          <context value="tgt"/>
+          <element value="derivedFrom"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="oth"/>
+          </parameter>
+        </target>
+      </rule>
+    </rule>
+    <rule>
+      <name value="extVersion"/>
+      <source>
+        <context value="src"/>
+        <element value="version"/>
+        <variable value="v"/>
+      </source>
+      <target>
+        <variable value="ext"/>
+        <transform value="create"/>
+        <parameter>
+          <valueString value="Extension"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="ext"/>
+        <element value="url"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueString value="http://hl7.org/fhir/StructureDefinition/artifact-version"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="ext"/>
+        <element value="value"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="v"/>
+        </parameter>
+      </target>
+      <target>
+        <context value="tgt"/>
+        <element value="extension"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="ext"/>
+        </parameter>
+      </target>
+      <documentation value="Extension: artifact-version"/>
+    </rule>
+    <rule>
+      <name value="extVerification"/>
+      <source>
+        <context value="src"/>
+        <element value="verificationInformation"/>
+        <variable value="vi"/>
+      </source>
+      <target>
+        <variable value="ext"/>
+        <transform value="create"/>
+        <parameter>
+          <valueString value="Extension"/>
+        </parameter>
+      </target>
+      <rule>
+        <name value="viUrl"/>
+        <source>
+          <context value="vi"/>
+        </source>
+        <target>
+          <context value="ext"/>
+          <element value="url"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueString value="http://smart.who.int/ph4h/StructureDefinition/VerificationInformation"/>
+          </parameter>
+        </target>
+      </rule>
+      <rule>
+        <name value="viVerifier"/>
+        <source>
+          <context value="vi"/>
+          <element value="verifier"/>
+          <variable value="vr"/>
+        </source>
+        <target>
+          <variable value="e1"/>
+          <transform value="create"/>
+          <parameter>
+            <valueString value="Extension"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="e1"/>
+          <element value="url"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueString value="verifier"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="e1"/>
+          <element value="value"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="vr"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="ext"/>
+          <element value="extension"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="e1"/>
+          </parameter>
+        </target>
+      </rule>
+      <rule>
+        <name value="viTime"/>
+        <source>
+          <context value="vi"/>
+          <element value="verificationTime"/>
+          <variable value="vt"/>
+        </source>
+        <target>
+          <variable value="e2"/>
+          <transform value="create"/>
+          <parameter>
+            <valueString value="Extension"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="e2"/>
+          <element value="url"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueString value="verificationTime"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="e2"/>
+          <element value="value"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="vt"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="ext"/>
+          <element value="extension"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="e2"/>
+          </parameter>
+        </target>
+      </rule>
+      <rule>
+        <name value="viAssign"/>
+        <source>
+          <context value="vi"/>
+        </source>
+        <target>
+          <context value="tgt"/>
+          <element value="extension"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="ext"/>
+          </parameter>
+        </target>
+      </rule>
+      <documentation value="Extension: VerificationInformation"/>
+    </rule>
+    <rule>
+      <name value="extSubstitution"/>
+      <source>
+        <context value="src"/>
+        <element value="substitution"/>
+        <variable value="sub"/>
+      </source>
+      <target>
+        <variable value="ext"/>
+        <transform value="create"/>
+        <parameter>
+          <valueString value="Extension"/>
+        </parameter>
+      </target>
+      <rule>
+        <name value="subUrl"/>
+        <source>
+          <context value="sub"/>
+        </source>
+        <target>
+          <context value="ext"/>
+          <element value="url"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueString value="http://smart.who.int/ph4h/StructureDefinition/Substitution"/>
+          </parameter>
+        </target>
+      </rule>
+      <rule>
+        <name value="subType"/>
+        <source>
+          <context value="sub"/>
+          <element value="substitutionType"/>
+          <variable value="t"/>
+        </source>
+        <target>
+          <variable value="e1"/>
+          <transform value="create"/>
+          <parameter>
+            <valueString value="Extension"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="e1"/>
+          <element value="url"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueString value="substitutionType"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="e1"/>
+          <element value="value"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="t"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="ext"/>
+          <element value="extension"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="e1"/>
+          </parameter>
+        </target>
+      </rule>
+      <rule>
+        <name value="subReason"/>
+        <source>
+          <context value="sub"/>
+          <element value="substitutionTypeReason"/>
+          <variable value="r"/>
+        </source>
+        <target>
+          <variable value="e2"/>
+          <transform value="create"/>
+          <parameter>
+            <valueString value="Extension"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="e2"/>
+          <element value="url"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueString value="substitutionTypeReason"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="e2"/>
+          <element value="value"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="r"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="ext"/>
+          <element value="extension"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="e2"/>
+          </parameter>
+        </target>
+      </rule>
+      <rule>
+        <name value="subReasonText"/>
+        <source>
+          <context value="sub"/>
+          <element value="substitutionTypeReasonText"/>
+          <variable value="rt"/>
+        </source>
+        <target>
+          <variable value="e3"/>
+          <transform value="create"/>
+          <parameter>
+            <valueString value="Extension"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="e3"/>
+          <element value="url"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueString value="substitutionTypeReasonText"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="e3"/>
+          <element value="value"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="rt"/>
+          </parameter>
+        </target>
+        <target>
+          <context value="ext"/>
+          <element value="extension"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="e3"/>
+          </parameter>
+        </target>
+      </rule>
+      <rule>
+        <name value="subAssign"/>
+        <source>
+          <context value="sub"/>
+        </source>
+        <target>
+          <context value="tgt"/>
+          <element value="extension"/>
+          <transform value="copy"/>
+          <parameter>
+            <valueId value="ext"/>
+          </parameter>
+        </target>
+      </rule>
+      <documentation value="Extension: Substitution"/>
+    </rule>
+  </group>
+  <group>
+    <name value="PractitionerLMToPractitioner"/>
+    <documentation value="---------------------------------------------------------------------------&#xD;&#xA;PractitionerLM -&gt; FHIR Practitioner&#xD;&#xA;---------------------------------------------------------------------------"/>
+    <input>
+      <name value="src"/>
+      <type value="PractitionerLM"/>
+      <mode value="source"/>
+    </input>
+    <input>
+      <name value="tgt"/>
+      <type value="Practitioner"/>
+      <mode value="target"/>
+    </input>
+    <rule>
+      <name value="practIdentifier"/>
+      <source>
+        <context value="src"/>
+        <element value="identifier"/>
+        <variable value="id"/>
+      </source>
+      <target>
+        <context value="tgt"/>
+        <element value="identifier"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="id"/>
+        </parameter>
+      </target>
+    </rule>
+    <rule>
+      <name value="practName"/>
+      <source>
+        <context value="src"/>
+        <element value="name"/>
+        <variable value="n"/>
+      </source>
+      <target>
+        <context value="tgt"/>
+        <element value="name"/>
+        <transform value="copy"/>
+        <parameter>
+          <valueId value="n"/>
+        </parameter>
+      </target>
+    </rule>
+  </group>
+</StructureMap>

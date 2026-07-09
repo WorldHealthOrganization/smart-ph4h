@@ -1,0 +1,98 @@
+@prefix fhir: <http://hl7.org/fhir/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# - resource -------------------------------------------------------------------
+
+<http://smart.who.int/ph4h/StructureMap/httpsmart.who.intph4hStructureMapMedicationOverviewMinToMedicationOverviewBundle> a fhir:StructureMap ;
+  fhir:nodeRole fhir:treeRoot ;
+  fhir:id [ fhir:v "httpsmart.who.intph4hStructureMapMedicationOverviewMinToMedicationOverviewBundle"] ; # 
+  fhir:text [
+     fhir:status [ fhir:v "generated" ] ;
+     fhir:div [ fhir:v "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: StructureMap httpsmart.who.intph4hStructureMapMedicationOverviewMinToMedicationOverviewBundle</b></p><a name=\"httpsmart.who.intph4hStructureMapMedicationOverviewMinToMedicationOverviewBundle\"> </a><a name=\"hchttpsmart.who.intph4hStructureMapMedicationOverviewMinToMedicationOverviewBundle\"> </a><pre class=\"fml\">#xD;\n<b>map</b><span style=\"color: navy\"> \"</span>MedicationOverviewMinToMedicationOverviewBundle<span style=\"color: navy\">\" = \"</span>http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewBundle<span style=\"color: navy\">\"#xD;\n#xD;\n</span><b>uses</b><span style=\"color: navy\"> \"</span><a href=\"StructureDefinition-MedicationOverviewMin.html\" title=\"Medication Overview (Minimal)\">http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin</a><span style=\"color: navy\">\" </span><b>alias </b>MedicationOverviewMin <b>as </b><b>source</b>#xD;\n<b>uses</b><span style=\"color: navy\"> \"</span><a href=\"https://build.fhir.org/ig/IHE/pharm-meow/StructureDefinition-MedicationOverviewLM.html\" title=\"Medication Overview (model)\">http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewLM</a><span style=\"color: navy\">\" </span><b>alias </b>MedicationOverviewLM <b>as </b><b>target</b>#xD;\n<b>uses</b><span style=\"color: navy\"> \"</span><a href=\"https://build.fhir.org/ig/IHE/pharm-meow/StructureDefinition-MedicationOverview.html\" title=\"Medication Overview Bundle\">http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverview</a><span style=\"color: navy\">\" </span><b>alias </b>MedicationOverviewBundle <b>as </b><b>target</b>#xD;\n#xD;\n<b>imports</b><span style=\"color: navy\"> \"</span>http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewLM<span style=\"color: navy\">\"#xD;\n</span><b>imports</b><span style=\"color: navy\"> \"</span>http://smart.who.int/ph4h/StructureMap/MedicationOverviewLMToMedicationOverviewBundle<span style=\"color: navy\">\"#xD;\n</span>#xD;\n<span style=\"color: navy\">// </span><span style=\"color: green\">---------------------------------------------------------------------------</span>#xD;\n<span style=\"color: navy\">// </span><span style=\"color: green\">Top-level group: chain Min -&gt; IHE LM -&gt; IHE Bundle</span>#xD;\n<span style=\"color: navy\">// </span><span style=\"color: green\">---------------------------------------------------------------------------</span>#xD;\n<b>group </b>MedicationOverviewMinToMedicationOverviewBundle<span style=\"color: navy\">(</span><b>source</b> <span style=\"color: maroon\">src</span><span style=\"color: navy\"> : </span>MedicationOverviewMin, <b>target</b> <span style=\"color: maroon\">tgt</span><span style=\"color: navy\"> : </span>MedicationOverviewBundle<span style=\"color: navy\">)</span><span style=\"color: navy\"> {#xD;\n</span>  src<span style=\"color: navy\"><b> -&gt; </b></span><b>create</b><span style=\"color: navy\">(</span><span style=\"color: blue\">'MedicationOverviewLM'</span><span style=\"color: navy\">)</span><b> as </b><span style=\"color: maroon\">lm</span><b> then </b>MedicationOverviewMinToMedicationOverviewLM<span style=\"color: navy\">(</span><span style=\"color: maroon\">src</span><span style=\"color: navy\">, </span><span style=\"color: maroon\">lm</span><span style=\"color: navy\">)</span><span style=\"color: navy\">, </span>MedicationOverviewLMToMedicationOverviewBundle<span style=\"color: navy\">(</span><span style=\"color: maroon\">lm</span><span style=\"color: navy\">, </span><span style=\"color: maroon\">tgt</span><span style=\"color: navy\">)</span> <i>\"chainMinToBundle\"</i><span style=\"color: navy\">;</span>#xD;\n<span style=\"color: navy\">}#xD;\n#xD;\n</span></pre></div>"^^rdf:XMLLiteral ]
+  ] ; # 
+  fhir:url [ fhir:v "MedicationOverviewMinToMedicationOverviewBundle"^^xsd:anyURI] ; # 
+  fhir:version [ fhir:v "0.9.9"] ; # 
+  fhir:name [ fhir:v "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewBundle"] ; # 
+  fhir:status [ fhir:v "draft"] ; # 
+  fhir:date [ fhir:v "2026-06-24T12:43:15+00:00"^^xsd:dateTime] ; # 
+  fhir:publisher [ fhir:v "WHO"] ; # 
+  fhir:contact ( [
+     fhir:name [ fhir:v "WHO" ] ;
+     fhir:telecom ( [
+       fhir:system [ fhir:v "url" ] ;
+       fhir:value [ fhir:v "http://who.int" ]
+     ] )
+  ] ) ; # 
+  fhir:structure ( [
+     fhir:url [
+       fhir:v "http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin"^^xsd:anyURI ;
+       fhir:link <http://smart.who.int/ph4h/StructureDefinition/MedicationOverviewMin>
+     ] ;
+     fhir:mode [ fhir:v "source" ] ;
+     fhir:alias [ fhir:v "MedicationOverviewMin" ]
+  ] [
+     fhir:url [
+       fhir:v "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewLM"^^xsd:anyURI ;
+       fhir:link <http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverviewLM>
+     ] ;
+     fhir:mode [ fhir:v "target" ] ;
+     fhir:alias [ fhir:v "MedicationOverviewLM" ]
+  ] [
+     fhir:url [
+       fhir:v "http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverview"^^xsd:anyURI ;
+       fhir:link <http://profiles.ihe.net/PHARM/MEOW/StructureDefinition/MedicationOverview>
+     ] ;
+     fhir:mode [ fhir:v "target" ] ;
+     fhir:alias [ fhir:v "MedicationOverviewBundle" ]
+  ] ) ; # 
+  fhir:import ( [
+     fhir:v "http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewLM"^^xsd:anyURI ;
+     fhir:link <http://smart.who.int/ph4h/StructureMap/MedicationOverviewMinToMedicationOverviewLM>
+  ] [
+     fhir:v "http://smart.who.int/ph4h/StructureMap/MedicationOverviewLMToMedicationOverviewBundle"^^xsd:anyURI ;
+     fhir:link <http://smart.who.int/ph4h/StructureMap/MedicationOverviewLMToMedicationOverviewBundle>
+  ] ) ; # 
+  fhir:group ( [
+     fhir:name [ fhir:v "MedicationOverviewMinToMedicationOverviewBundle" ] ;
+     fhir:typeMode [ fhir:v "none" ] ;
+     fhir:documentation [ fhir:v "---------------------------------------------------------------------------\r\nTop-level group: chain Min -> IHE LM -> IHE Bundle\r\n---------------------------------------------------------------------------" ] ;
+     fhir:input ( [
+       fhir:name [ fhir:v "src" ] ;
+       fhir:type [ fhir:v "MedicationOverviewMin" ] ;
+       fhir:mode [ fhir:v "source" ]
+     ] [
+       fhir:name [ fhir:v "tgt" ] ;
+       fhir:type [ fhir:v "MedicationOverviewBundle" ] ;
+       fhir:mode [ fhir:v "target" ]
+     ] ) ;
+     fhir:rule ( [
+       fhir:name [ fhir:v "chainMinToBundle" ] ;
+       fhir:source ( [
+         fhir:context [ fhir:v "src" ]
+       ] ) ;
+       fhir:target ( [
+         fhir:contextType [ fhir:v "variable" ] ;
+         fhir:variable [ fhir:v "lm" ] ;
+         fhir:transform [ fhir:v "create" ] ;
+         fhir:parameter ( [
+           fhir:value [
+             a fhir:string ;
+             fhir:v "MedicationOverviewLM"
+           ]
+         ] )
+       ] ) ;
+       fhir:dependent ( [
+         fhir:name [ fhir:v "MedicationOverviewMinToMedicationOverviewLM" ] ;
+         fhir:variable ( [ fhir:v "src" ] [ fhir:v "lm" ] )
+       ] [
+         fhir:name [ fhir:v "MedicationOverviewLMToMedicationOverviewBundle" ] ;
+         fhir:variable ( [ fhir:v "lm" ] [ fhir:v "tgt" ] )
+       ] )
+     ] )
+  ] ) . # 
+
+# -------------------------------------------------------------------------------------
+

@@ -1,0 +1,157 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "LogicalModels Enumeration API",
+    "description": "API endpoint providing an enumeration of all available Logical Model schemas",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/LogicalModels.schema.json": {
+      "get": {
+        "summary": "Get enumeration of all Logical Model schemas",
+        "description": "Returns a list of all available Logical Model schemas with metadata",
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved logical_model enumeration",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnumerationResponse"
+                },
+                "example": {
+                  "type": "logical_model",
+                  "count": 3,
+                  "schemas": [
+                    {
+                      "filename": "StructureDefinition-MedicationOverviewMin.schema.json",
+                      "id": "http://smart.who.int/base/StructureDefinition-MedicationOverviewMin.schema.json",
+                      "title": "Medication Overview (Minimal)",
+                      "description": "Minimal medication overview payload for use within a QR code payload. Based on the IHE Pharmacy Medication Overview logical model, with short element labels (one or two letters) and simple data",
+                      "url": "./StructureDefinition-MedicationOverviewMin.schema.json",
+                      "propertyCount": 10
+                    },
+                    {
+                      "filename": "LogicalModels.schema.json",
+                      "id": "#/LogicalModels.schema.json",
+                      "title": "Logical Model Enumeration Schema",
+                      "description": "JSON Schema defining the structure of the Logical Model enumeration endpoint response",
+                      "url": "./LogicalModels.schema.json",
+                      "propertyCount": 3
+                    },
+                    {
+                      "filename": "StructureDefinition-MedicationTreatmentLineMin.schema.json",
+                      "id": "http://smart.who.int/base/StructureDefinition-MedicationTreatmentLineMin.schema.json",
+                      "title": "Medication Treatment Line (Minimal)",
+                      "description": "Minimal medication treatment line payload for use within a QR code payload. Based on the IHE Pharmacy Medication Treatment Line logical model, with short element labels (one or two letters) and simple data types suitable for encoding in a compact QR code payload.",
+                      "url": "./StructureDefinition-MedicationTreatmentLineMin.schema.json",
+                      "propertyCount": 10
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "EnumerationResponse": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "#/LogicalModels.schema.json",
+        "title": "Logical Model Enumeration Schema",
+        "description": "JSON Schema defining the structure of the Logical Model enumeration endpoint response",
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "logical_model",
+            "description": "The type of schemas enumerated (logical_model)"
+          },
+          "count": {
+            "type": "integer",
+            "description": "Total number of schemas available"
+          },
+          "schemas": {
+            "type": "array",
+            "description": "Array of available schemas",
+            "items": {
+              "type": "object",
+              "properties": {
+                "filename": {
+                  "type": "string",
+                  "description": "Schema filename"
+                },
+                "id": {
+                  "type": "string",
+                  "description": "Schema $id"
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Schema title"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Schema description"
+                },
+                "url": {
+                  "type": "string",
+                  "description": "Relative URL to the schema file"
+                },
+                "logicalModelUrl": {
+                  "type": "string",
+                  "description": "FHIR canonical URL of the Logical Model"
+                },
+                "propertyCount": {
+                  "type": "integer",
+                  "description": "Number of properties in the Logical Model"
+                }
+              },
+              "required": [
+                "filename",
+                "title",
+                "url"
+              ]
+            }
+          }
+        },
+        "required": [
+          "type",
+          "count",
+          "schemas"
+        ],
+        "example": {
+          "type": "logical_model",
+          "count": 3,
+          "schemas": [
+            {
+              "filename": "StructureDefinition-MedicationOverviewMin.schema.json",
+              "id": "http://smart.who.int/base/StructureDefinition-MedicationOverviewMin.schema.json",
+              "title": "Medication Overview (Minimal)",
+              "description": "Minimal medication overview payload for use within a QR code payload. Based on the IHE Pharmacy Medication Overview logical model, with short element labels (one or two letters) and simple data",
+              "url": "./StructureDefinition-MedicationOverviewMin.schema.json",
+              "propertyCount": 10
+            },
+            {
+              "filename": "LogicalModels.schema.json",
+              "id": "#/LogicalModels.schema.json",
+              "title": "Logical Model Enumeration Schema",
+              "description": "JSON Schema defining the structure of the Logical Model enumeration endpoint response",
+              "url": "./LogicalModels.schema.json",
+              "propertyCount": 3
+            },
+            {
+              "filename": "StructureDefinition-MedicationTreatmentLineMin.schema.json",
+              "id": "http://smart.who.int/base/StructureDefinition-MedicationTreatmentLineMin.schema.json",
+              "title": "Medication Treatment Line (Minimal)",
+              "description": "Minimal medication treatment line payload for use within a QR code payload. Based on the IHE Pharmacy Medication Treatment Line logical model, with short element labels (one or two letters) and simple data types suitable for encoding in a compact QR code payload.",
+              "url": "./StructureDefinition-MedicationTreatmentLineMin.schema.json",
+              "propertyCount": 10
+            }
+          ]
+        }
+      }
+    }
+  }
+}
