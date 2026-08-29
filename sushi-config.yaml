@@ -16,9 +16,9 @@ publisher:
   # email: test@example.org
 
 
-#meta:
- # profile:
-  #  - SMARTImplementationGuide
+meta:
+  profile:
+    - http://smart.who.int/base/StructureDefinition/SGImplementationGuide
 
 pages:
   index.md:
